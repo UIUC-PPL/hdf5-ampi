@@ -1,8 +1,8 @@
-# Assumption: the charm folder is located on the the same level as hdf5-ampi
+# Assumption: the charm/ folder is located on the the same level as hdf5-ampi/
 AMPICC=$(abspath ../charm/bin/ampicc)
 
 all: $(AMPICC)
 	@echo "Building HDF5"
-	./configure --enable-parallel CFLAGS=-w CC='$(AMPICC)' --enable-symbols=yes --enable-shared=no --enable-hl=no
+	./configure --enable-parallel CFLAGS=-w CC='$(AMPICC)' RUNSERIAL='./charmrun ++quiet' --enable-symbols=yes --enable-shared=no --enable-hl=no
 	$(MAKE)
 	@echo "HDF5 built successfully"
