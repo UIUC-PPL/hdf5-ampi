@@ -126,9 +126,9 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
     void                *vp = NULL;
     FILE                *out = H5_debug_g.trace;
     H5_timer_t          event_time;
-    static H5_timer_t   first_time = {0.0F, 0.0F, 0.0F};
-    static int          current_depth = 0;
-    static int          last_call_depth = 0;
+    static __thread H5_timer_t   first_time = {0.0F, 0.0F, 0.0F};
+    static __thread int          current_depth = 0;
+    static __thread int          last_call_depth = 0;
 
     /* FUNC_ENTER() should not be called */
 

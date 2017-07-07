@@ -49,7 +49,7 @@ typedef struct options_t {
 } options_t;
 
 /* global variables declarations */
-extern options_t UC_opts;	/* Use Case Options */
+extern __thread options_t UC_opts;	/* Use Case Options */
 extern const char *progname_g;	/* Program name */
 
 /* prototype declarations */

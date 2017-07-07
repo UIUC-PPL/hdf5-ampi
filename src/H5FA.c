@@ -71,7 +71,7 @@ static H5FA_t *H5FA__new(H5F_t *f, hid_t dxpl_id, haddr_t fa_addr,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Fixed array client ID to class mapping */
 

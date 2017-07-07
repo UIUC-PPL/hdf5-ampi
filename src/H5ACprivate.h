@@ -234,17 +234,17 @@ typedef struct H5AC_proxy_entry_t {
 #define H5AC_RING_NAME  "H5AC_ring_type"
 
 /* Dataset transfer property lists for metadata calls */
-H5_DLLVAR hid_t H5AC_ind_read_dxpl_id;
+H5_DLLVAR __thread hid_t H5AC_ind_read_dxpl_id;
 #ifdef H5_HAVE_PARALLEL
-H5_DLLVAR hid_t H5AC_coll_read_dxpl_id;
+H5_DLLVAR __thread hid_t H5AC_coll_read_dxpl_id;
 #endif /* H5_HAVE_PARALLEL */
 
 /* DXPL to be used in operations that will not result in I/O calls */
-H5_DLLVAR hid_t H5AC_noio_dxpl_id;
+H5_DLLVAR __thread hid_t H5AC_noio_dxpl_id;
 
 /* DXPL to be used for raw data I/O operations when one is not
    provided by the user (fill values in H5Dcreate) */
-H5_DLLVAR hid_t H5AC_rawdata_dxpl_id;
+H5_DLLVAR __thread hid_t H5AC_rawdata_dxpl_id;
 
 /* Default cache configuration. */
 

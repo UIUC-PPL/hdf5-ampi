@@ -149,7 +149,7 @@ static herr_t H5PL__close(H5PL_HANDLE handle);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -162,17 +162,17 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /*******************/
 
 /* Table for opened plugin libraries */
-static size_t           H5PL_table_alloc_g = 0;
-static size_t           H5PL_table_used_g = 0;
-static H5PL_table_t     *H5PL_table_g = NULL;
+static __thread size_t           H5PL_table_alloc_g = 0;
+static __thread size_t           H5PL_table_used_g = 0;
+static __thread H5PL_table_t     *H5PL_table_g = NULL;
 
 /* Table of location paths for plugin libraries */
-static char             *H5PL_path_table_g[H5PL_MAX_PATH_NUM];
-static size_t           H5PL_num_paths_g = 0;
-static hbool_t          H5PL_path_found_g = FALSE;
+static __thread char             *H5PL_path_table_g[H5PL_MAX_PATH_NUM];
+static __thread size_t           H5PL_num_paths_g = 0;
+static __thread hbool_t          H5PL_path_found_g = FALSE;
 
 /* Enable all plugin libraries */
-static unsigned int     H5PL_plugin_g = H5PL_ALL_PLUGIN;
+static __thread unsigned int     H5PL_plugin_g = H5PL_ALL_PLUGIN;
 
 
 

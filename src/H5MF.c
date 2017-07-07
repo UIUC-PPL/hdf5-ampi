@@ -103,7 +103,7 @@ static herr_t H5MF__close_delete_fstype(H5F_t *f, hid_t dxpl_id, H5F_mem_page_t 
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/

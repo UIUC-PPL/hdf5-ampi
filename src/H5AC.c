@@ -75,29 +75,29 @@ static herr_t H5AC__verify_tag(hid_t dxpl_id, const H5AC_class_t * type);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /*****************************/
 /* Library Private Variables */
 /*****************************/
 
 /* Default dataset transfer property list for metadata I/O calls (coll write, ind read) */
-hid_t H5AC_ind_read_dxpl_id = (-1);
+__thread hid_t H5AC_ind_read_dxpl_id = (-1);
 #ifdef H5_HAVE_PARALLEL
 /* collective metadata read property */
-hid_t H5AC_coll_read_dxpl_id = (-1);
+__thread hid_t H5AC_coll_read_dxpl_id = (-1);
 #endif /* H5_HAVE_PARALLEL */
 
 /* DXPL to be used in operations that will not result in I/O calls */
-hid_t H5AC_noio_dxpl_id = (-1);
+__thread hid_t H5AC_noio_dxpl_id = (-1);
 
 /* Default DXPL to be used for raw data I/O operations when one is not
    provided by the user (fill values in H5Dcreate) */
-hid_t H5AC_rawdata_dxpl_id = (-1);
+__thread hid_t H5AC_rawdata_dxpl_id = (-1);
 
 #ifdef H5_HAVE_PARALLEL
 /* Environment variable for collective API sanity checks */
-hbool_t H5_coll_api_sanity_check_g = false;
+__thread hbool_t H5_coll_api_sanity_check_g = false;
 #endif /* H5_HAVE_PARALLEL */
 
 

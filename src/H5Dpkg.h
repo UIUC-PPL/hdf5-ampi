@@ -540,7 +540,7 @@ typedef struct {
 /*****************************/
 /* Package Private Variables */
 /*****************************/
-extern H5D_dxpl_cache_t H5D_def_dxpl_cache;
+extern __thread H5D_dxpl_cache_t H5D_def_dxpl_cache;
 
 /* Storage layout class I/O operations */
 H5_DLLVAR const H5D_layout_ops_t H5D_LOPS_CONTIG[1];

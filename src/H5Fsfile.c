@@ -36,7 +36,7 @@ typedef struct H5F_sfile_node_t {
 H5FL_DEFINE_STATIC(H5F_sfile_node_t);
 
 /* Declare a local variable to track the shared file information */
-H5F_sfile_node_t *H5F_sfile_head_g = NULL;
+__thread H5F_sfile_node_t *H5F_sfile_head_g = NULL;
 
 
 /*-------------------------------------------------------------------------

@@ -132,7 +132,7 @@ static herr_t H5PB__write_entry(const H5F_io_info2_t *fio_info, H5PB_entry_t *pa
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/

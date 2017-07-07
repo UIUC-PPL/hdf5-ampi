@@ -59,7 +59,7 @@ static ssize_t H5R_get_name(H5F_t *file, hid_t lapl_id, hid_t dxpl_id, hid_t id,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -80,7 +80,7 @@ static const H5I_class_t H5I_REFERENCE_CLS[1] = {{
 }};
 
 /* Flag indicating "top" of interface has been initialized */
-static hbool_t H5R_top_package_initialize_s = FALSE;
+static __thread hbool_t H5R_top_package_initialize_s = FALSE;
 
 
 

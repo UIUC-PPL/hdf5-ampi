@@ -109,13 +109,13 @@ typedef struct H5FL_reg_head_t {
 #define H5FL_REG_NAME(t)        H5_##t##_reg_free_list
 #ifndef H5_NO_REG_FREE_LISTS
 /* Common macros for H5FL_DEFINE & H5FL_DEFINE_STATIC */
-#define H5FL_DEFINE_COMMON(t) H5FL_reg_head_t H5FL_REG_NAME(t)={0,0,0,#t,sizeof(t),NULL}
+#define H5FL_DEFINE_COMMON(t) __thread H5FL_reg_head_t H5FL_REG_NAME(t)={0,0,0,#t,sizeof(t),NULL}
 
 /* Declare a free list to manage objects of type 't' */
 #define H5FL_DEFINE(t) H5_DLL H5FL_DEFINE_COMMON(t)
 
 /* Reference a free list for type 't' defined in another file */
-#define H5FL_EXTERN(t)  H5_DLLVAR H5FL_reg_head_t H5FL_REG_NAME(t)
+#define H5FL_EXTERN(t)  H5_DLLVAR __thread H5FL_reg_head_t H5FL_REG_NAME(t)
 
 /* Declare a static free list to manage objects of type 't' */
 #define H5FL_DEFINE_STATIC(t)  static H5FL_DEFINE_COMMON(t)
@@ -136,7 +136,7 @@ typedef struct H5FL_reg_head_t {
 #else /* H5_NO_REG_FREE_LISTS */
 #include "H5MMprivate.h"
 /* Common macro for H5FL_DEFINE & H5FL_DEFINE_STATIC */
-#define H5FL_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_REG_NAME(t)
+#define H5FL_DEFINE_COMMON(t) __thread int H5_ATTR_UNUSED H5FL_REG_NAME(t)
 
 #define H5FL_DEFINE(t)  H5_DLL H5FL_DEFINE_COMMON(t)
 #define H5FL_EXTERN(t)  H5_DLLVAR H5FL_DEFINE_COMMON(t)
@@ -178,13 +178,13 @@ typedef struct H5FL_blk_head_t {
 #define H5FL_BLK_NAME(t)        H5_##t##_blk_free_list
 #ifndef H5_NO_BLK_FREE_LISTS
 /* Common macro for H5FL_BLK_DEFINE & H5FL_BLK_DEFINE_STATIC */
-#define H5FL_BLK_DEFINE_COMMON(t) H5FL_blk_head_t H5FL_BLK_NAME(t)={0,0,0,0,#t"_blk",NULL}
+#define H5FL_BLK_DEFINE_COMMON(t) __thread H5FL_blk_head_t H5FL_BLK_NAME(t)={0,0,0,0,#t"_blk",NULL}
 
 /* Declare a free list to manage objects of type 't' */
 #define H5FL_BLK_DEFINE(t)  H5_DLL H5FL_BLK_DEFINE_COMMON(t)
 
 /* Reference a free list for type 't' defined in another file */
-#define H5FL_BLK_EXTERN(t)  H5_DLLVAR H5FL_blk_head_t H5FL_BLK_NAME(t)
+#define H5FL_BLK_EXTERN(t)  H5_DLLVAR __thread H5FL_blk_head_t H5FL_BLK_NAME(t)
 
 /* Declare a static free list to manage objects of type 't' */
 #define H5FL_BLK_DEFINE_STATIC(t)  static H5FL_BLK_DEFINE_COMMON(t)
@@ -206,7 +206,7 @@ typedef struct H5FL_blk_head_t {
 
 #else /* H5_NO_BLK_FREE_LISTS */
 /* Common macro for H5FL_BLK_DEFINE & H5FL_BLK_DEFINE_STATIC */
-#define H5FL_BLK_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_BLK_NAME(t)
+#define H5FL_BLK_DEFINE_COMMON(t) __thread int H5_ATTR_UNUSED H5FL_BLK_NAME(t)
 
 #define H5FL_BLK_DEFINE(t)      H5_DLL H5FL_BLK_DEFINE_COMMON(t)
 #define H5FL_BLK_EXTERN(t)      H5_DLLVAR H5FL_BLK_DEFINE_COMMON(t)
@@ -251,7 +251,7 @@ typedef struct H5FL_arr_head_t {
 #define H5FL_ARR_NAME(t)        H5_##t##_arr_free_list
 #ifndef H5_NO_ARR_FREE_LISTS
 /* Common macro for H5FL_ARR_DEFINE & H5FL_ARR_DEFINE_STATIC (and H5FL_BARR variants) */
-#define H5FL_ARR_DEFINE_COMMON(b,t,m) H5FL_arr_head_t H5FL_ARR_NAME(t)={0,0,0,#t"_arr",m+1,b,sizeof(t),NULL}
+#define H5FL_ARR_DEFINE_COMMON(b,t,m) __thread H5FL_arr_head_t H5FL_ARR_NAME(t)={0,0,0,#t"_arr",m+1,b,sizeof(t),NULL}
 
 /* Declare a free list to manage arrays of type 't' */
 #define H5FL_ARR_DEFINE(t,m)  H5_DLL H5FL_ARR_DEFINE_COMMON(0,t,m)
@@ -260,7 +260,7 @@ typedef struct H5FL_arr_head_t {
 #define H5FL_BARR_DEFINE(b,t,m)  H5_DLL H5FL_ARR_DEFINE_COMMON(sizeof(b),t,m)
 
 /* Reference a free list for arrays of type 't' defined in another file */
-#define H5FL_ARR_EXTERN(t)  H5_DLLVAR H5FL_arr_head_t H5FL_ARR_NAME(t)
+#define H5FL_ARR_EXTERN(t)  H5_DLLVAR __thread H5FL_arr_head_t H5FL_ARR_NAME(t)
 
 /* Declare a static free list to manage arrays of type 't' */
 #define H5FL_ARR_DEFINE_STATIC(t,m)  static H5FL_ARR_DEFINE_COMMON(0,t,m)
@@ -282,7 +282,7 @@ typedef struct H5FL_arr_head_t {
 
 #else /* H5_NO_ARR_FREE_LISTS */
 /* Common macro for H5FL_ARR_DEFINE & H5FL_ARR_DEFINE_STATIC (and H5FL_BARR variants) */
-#define H5FL_ARR_DEFINE_COMMON(t,m) size_t H5FL_ARR_NAME(t)
+#define H5FL_ARR_DEFINE_COMMON(t,m) __thread size_t H5FL_ARR_NAME(t)
 
 #define H5FL_ARR_DEFINE(t,m)    H5_DLL H5FL_ARR_DEFINE_COMMON(t,m) = 0
 #define H5FL_BARR_DEFINE(b,t,m) H5_DLL H5FL_ARR_DEFINE_COMMON(t,m) = sizeof(b)
@@ -310,13 +310,13 @@ typedef struct H5FL_seq_head_t {
 #define H5FL_SEQ_NAME(t)        H5_##t##_seq_free_list
 #ifndef H5_NO_SEQ_FREE_LISTS
 /* Common macro for H5FL_SEQ_DEFINE & H5FL_SEQ_DEFINE_STATIC */
-#define H5FL_SEQ_DEFINE_COMMON(t) H5FL_seq_head_t H5FL_SEQ_NAME(t)={{0,0,0,0,#t"_seq",NULL},sizeof(t)}
+#define H5FL_SEQ_DEFINE_COMMON(t) __thread H5FL_seq_head_t H5FL_SEQ_NAME(t)={{0,0,0,0,#t"_seq",NULL},sizeof(t)}
 
 /* Declare a free list to manage sequences of type 't' */
 #define H5FL_SEQ_DEFINE(t)  H5_DLL H5FL_SEQ_DEFINE_COMMON(t)
 
 /* Reference a free list for sequences of type 't' defined in another file */
-#define H5FL_SEQ_EXTERN(t)  H5_DLLVAR H5FL_seq_head_t H5FL_SEQ_NAME(t)
+#define H5FL_SEQ_EXTERN(t)  H5_DLLVAR __thread H5FL_seq_head_t H5FL_SEQ_NAME(t)
 
 /* Declare a static free list to manage sequences of type 't' */
 #define H5FL_SEQ_DEFINE_STATIC(t)  static H5FL_SEQ_DEFINE_COMMON(t)
@@ -335,7 +335,7 @@ typedef struct H5FL_seq_head_t {
 
 #else /* H5_NO_SEQ_FREE_LISTS */
 /* Common macro for H5FL_SEQ_DEFINE & H5FL_SEQ_DEFINE_STATIC */
-#define H5FL_SEQ_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_SEQ_NAME(t)
+#define H5FL_SEQ_DEFINE_COMMON(t) __thread int H5_ATTR_UNUSED H5FL_SEQ_NAME(t)
 
 #define H5FL_SEQ_DEFINE(t)      H5_DLL H5FL_SEQ_DEFINE_COMMON(t)
 #define H5FL_SEQ_EXTERN(t)      H5_DLLVAR H5FL_SEQ_DEFINE_COMMON(t)

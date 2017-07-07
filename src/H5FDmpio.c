@@ -39,16 +39,16 @@
  * is defined. This allows applications to still have the H5FD_MPIO
  * "constants" in their source code.
  */
-static hid_t H5FD_MPIO_g = 0;
+static __thread hid_t H5FD_MPIO_g = 0;
 
 /* Whether to allow collective I/O operations */
 /* (Value can be set from environment variable also) */
-hbool_t H5FD_mpi_opt_types_g = TRUE;
+__thread hbool_t H5FD_mpi_opt_types_g = TRUE;
 
 /*
  * The view is set to this value
  */
-static char H5FD_mpi_native_g[] = "native";
+static __thread char H5FD_mpi_native_g[] = "native";
 
 /*
  * The description of a file belonging to this driver.
@@ -96,7 +96,7 @@ static MPI_Comm H5FD_mpio_communicator(const H5FD_t *_file);
 static herr_t  H5FD_mpio_get_info(H5FD_t *_file, void** mpi_info);
 
 /* The MPIO file driver information */
-static const H5FD_class_mpi_t H5FD_mpio_g = {
+static __thread const H5FD_class_mpi_t H5FD_mpio_g = {
     {   /* Start of superclass information */
     "mpio",					/*name			*/
     HADDR_MAX,					/*maxaddr		*/
@@ -146,7 +146,7 @@ static const H5FD_class_mpi_t H5FD_mpio_g = {
  * 't' trace function entry and exit
  * 'w' show write offset and size
  */
-static int H5FD_mpio_Debug[256] =
+static __thread int H5FD_mpio_Debug[256] =
         { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
           0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
           0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -203,7 +203,7 @@ hid_t
 H5FD_mpio_init(void)
 {
 #ifdef H5FDmpio_DEBUG
-    static int H5FD_mpio_Debug_inited = 0;
+    static __thread int H5FD_mpio_Debug_inited = 0;
 #endif /* H5FDmpio_DEBUG */
     const char *s;              /* String for environment variables */
     hid_t ret_value;        	/* Return value */

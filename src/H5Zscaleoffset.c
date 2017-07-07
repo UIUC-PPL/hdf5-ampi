@@ -76,7 +76,7 @@ static void H5Z_scaleoffset_compress(unsigned char *data, unsigned d_nelmts, uns
     size_t buffer_size, parms_atomic p);
 
 /* This message derives from H5Z */
-H5Z_class2_t H5Z_SCALEOFFSET[1] = {{
+__thread H5Z_class2_t H5Z_SCALEOFFSET[1] = {{
     H5Z_CLASS_T_VERS,       /* H5Z_class_t version */
     H5Z_FILTER_SCALEOFFSET, /* Filter id number		*/
     1,              /* Assume encoder present: check before registering */

@@ -73,7 +73,7 @@ static herr_t H5D__append_flush_setup(H5D_t *dset, hid_t dapl_id);
 /*********************/
 
 /* Define a "default" dataset transfer property list cache structure to use for default DXPLs */
-H5D_dxpl_cache_t H5D_def_dxpl_cache;
+__thread H5D_dxpl_cache_t H5D_def_dxpl_cache;
 
 /* Declare a free list to manage blocks of VL data */
 H5FL_BLK_DEFINE(vlen_vl_buf);
@@ -116,7 +116,7 @@ static const H5I_class_t H5I_DATASET_CLS[1] = {{
 }};
 
 /* Flag indicating "top" of interface has been initialized */
-static hbool_t H5D_top_package_initialize_s = FALSE;
+static __thread hbool_t H5D_top_package_initialize_s = FALSE;
 
 
 

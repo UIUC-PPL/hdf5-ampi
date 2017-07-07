@@ -175,7 +175,7 @@ const H5D_chunk_ops_t H5D_COPS_BTREE[1] = {{
 /*****************************/
 
 /* inherits B-tree like properties from H5B */
-H5B_class_t H5B_BTREE[1] = {{
+__thread H5B_class_t H5B_BTREE[1] = {{
     H5B_CHUNK_ID,		/*id			*/
     sizeof(H5D_btree_key_t),	/*sizeof_nkey		*/
     H5D__btree_get_shared,	/*get_shared		*/

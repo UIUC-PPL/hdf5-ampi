@@ -231,9 +231,9 @@
 #define eventa(func_name)   h5_mpe_eventa
 #define eventb(func_name)   h5_mpe_eventb
 #define MPE_LOG_VARS                                                    \
-    static int eventa(FUNC) = -1;                                       \
-    static int eventb(FUNC) = -1;                                       \
-    char p_event_start[128];
+    static __thread int eventa(FUNC) = -1;                                       \
+    static __thread int eventb(FUNC) = -1;                                       \
+    __thread char p_event_start[128];
 
 /* Hardwire the color to "red", since that's what all the routines are using
  * now.  In the future, if we want to change that color for a given routine,
@@ -1721,13 +1721,13 @@ typedef struct H5_debug_t {
 } H5_debug_t;
 
 #ifdef H5_HAVE_PARALLEL
-extern hbool_t H5_coll_api_sanity_check_g;
+extern __thread hbool_t H5_coll_api_sanity_check_g;
 #endif /* H5_HAVE_PARALLEL */
 
-extern H5_debug_t    H5_debug_g;
+extern __thread H5_debug_t    H5_debug_g;
 #define H5DEBUG(X)    (H5_debug_g.pkg[H5_PKG_##X].stream)
 /* Do not use const else AIX strings does not show it. */
-extern char H5libhdf5_settings[]; /* embedded library information */
+extern __thread char H5libhdf5_settings[]; /* embedded library information */
 
 /*-------------------------------------------------------------------------
  * Purpose:  These macros are inserted automatically just after the
@@ -1862,7 +1862,7 @@ H5_DLL double H5_trace(const double *calltime, const char *func, const char *typ
     ((HDisdigit(S[3]) || HDisupper(S[3])) && '_' == S[4] && '_' == S[5] && HDislower(S[6])))
 
 /* global library version information string */
-extern char  H5_lib_vers_info_g[];
+extern __thread char  H5_lib_vers_info_g[];
 
 /* Lock headers */
 #ifdef H5_HAVE_THREADSAFE
@@ -1917,8 +1917,8 @@ extern H5_api_t H5_g;
 #define H5_API_SET_CANCEL
 
 /* extern global variables */
-extern hbool_t H5_libinit_g;    /* Has the library been initialized? */
-extern hbool_t H5_libterm_g;    /* Is the library being shutdown? */
+extern __thread hbool_t H5_libinit_g;    /* Has the library been initialized? */
+extern __thread hbool_t H5_libterm_g;    /* Is the library being shutdown? */
 
 /* Macros for accessing the global variables */
 #define H5_INIT_GLOBAL (H5_libinit_g)
@@ -2334,9 +2334,9 @@ extern hbool_t H5_MPEinit_g;   /* Has the MPE Library been initialized? */
 
 /* Declare package initialization symbols (if in a package) */
 #ifdef H5_PKG_SINGLE_SOURCE
-#define H5_PKG_DECLARE_VAR(pkg)         static hbool_t H5_PACKAGE_INIT_VAR(pkg);
+#define H5_PKG_DECLARE_VAR(pkg)         static __thread hbool_t H5_PACKAGE_INIT_VAR(pkg);
 #else  /* H5_PKG_SINGLE_SOURCE */
-#define H5_PKG_DECLARE_VAR(pkg)         extern hbool_t H5_PACKAGE_INIT_VAR(pkg);
+#define H5_PKG_DECLARE_VAR(pkg)         extern __thread hbool_t H5_PACKAGE_INIT_VAR(pkg);
 #endif  /* H5_PKG_SINGLE_SOURCE */
 #define H5_PKG_DECLARE_FUNC(pkg_init, pkg) H5_GLUE3(H5_PKG_DECLARE_, pkg_init, _FUNC)(pkg)
 #ifdef H5_MY_PKG
@@ -2345,7 +2345,7 @@ H5_PKG_DECLARE_FUNC(H5_MY_PKG_INIT, H5_MY_PKG)
 #endif /* H5_MY_PKG */
 
 /* API re-entrance variable */
-extern hbool_t H5_api_entered_g;    /* Has library already been entered through API? */
+extern __thread hbool_t H5_api_entered_g;    /* Has library already been entered through API? */
 
 /* Macros for entering different scopes of routines */
 #define H5_PACKAGE_ENTER(pkg, pkg_init, init)                                 \

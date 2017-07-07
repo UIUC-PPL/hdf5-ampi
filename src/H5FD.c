@@ -69,7 +69,7 @@ static int H5FD_driver_query(const H5FD_class_t *driver, unsigned long *flags/*o
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/

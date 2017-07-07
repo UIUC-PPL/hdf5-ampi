@@ -93,9 +93,9 @@ int parse_option(int argc, char * const argv[]);
 
 /* Global Variable definitions */
 const char *progname_g="twriteorder";	/* program name */
-int	write_fd_g;
-int	blocksize_g, part_size_g, nlinkedblock_g;
-part_t  launch_g;
+__thread int	write_fd_g;
+__thread int	blocksize_g, part_size_g, nlinkedblock_g;
+__thread part_t  launch_g;
 
 /* Function definitions */
 

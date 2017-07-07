@@ -202,7 +202,7 @@ static herr_t H5L_get_name_by_idx_cb(H5G_loc_t *grp_loc/*in*/,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -215,9 +215,9 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /*******************/
 
 /* Information about user-defined links */
-static size_t           H5L_table_alloc_g = 0;
-static size_t           H5L_table_used_g = 0;
-static H5L_class_t      *H5L_table_g = NULL;
+static __thread size_t           H5L_table_alloc_g = 0;
+static __thread size_t           H5L_table_used_g = 0;
+static __thread H5L_class_t      *H5L_table_g = NULL;
 
 
 /*-------------------------------------------------------------------------

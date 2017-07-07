@@ -67,9 +67,9 @@
 #ifndef HDF5_PARAPREFIX
 #define HDF5_PARAPREFIX ""
 #endif
-char  *paraprefix = NULL;  /* for command line option para-prefix */
+__thread char  *paraprefix = NULL;  /* for command line option para-prefix */
 #ifdef H5_HAVE_PARALLEL
-MPI_Info    h5_io_info_g=MPI_INFO_NULL;/* MPI INFO object for IO */
+__thread MPI_Info    h5_io_info_g=MPI_INFO_NULL;/* MPI INFO object for IO */
 #endif
 
 #define READ_BUF_SIZE           65536
@@ -98,7 +98,7 @@ static const char *multi_letters = "msbrglo";
 #define MESSAGE_TIMEOUT         300             /* Timeout in seconds */
 
 /* Previous error reporting function */
-static H5E_auto2_t err_func = NULL;
+static __thread H5E_auto2_t err_func = NULL;
 
 static herr_t h5_errors(hid_t estack, void *client_data);
 static char * h5_fixname_real(const char *base_name, hid_t fapl, const char *suffix, 

@@ -115,7 +115,7 @@ struct H5FL_fac_node_t {
 };
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* The head of the list of factory things to garbage collect */
 static H5FL_fac_gc_list_t H5FL_fac_gc_head={0,NULL};
@@ -126,7 +126,7 @@ static H5FL_fac_gc_list_t H5FL_fac_gc_head={0,NULL};
 #include "H5CSprivate.h"	/* Function stack			*/
 
 /* Head of "outstanding allocations" list */
-static H5FL_track_t *H5FL_out_head_g = NULL;
+static __thread H5FL_track_t *H5FL_out_head_g = NULL;
 #endif /* H5FL_TRACK */
 
 /* Forward declarations of local static functions */

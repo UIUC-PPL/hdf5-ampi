@@ -166,10 +166,10 @@ const char *FILENAME[] = {
 };
 
 /* Filename to use for all tests */
-char filename_g[EARRAY_FILENAME_LEN];
+__thread char filename_g[EARRAY_FILENAME_LEN];
 
 /* Empty file size */
-h5_stat_size_t empty_size_g;
+__thread h5_stat_size_t empty_size_g;
 
 
 /*-------------------------------------------------------------------------

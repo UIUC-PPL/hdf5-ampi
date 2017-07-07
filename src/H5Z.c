@@ -53,14 +53,14 @@ typedef enum {
 } H5Z_prelude_type_t;
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Local variables */
-static size_t		H5Z_table_alloc_g = 0;
-static size_t		H5Z_table_used_g = 0;
-static H5Z_class2_t	*H5Z_table_g = NULL;
+static __thread size_t		H5Z_table_alloc_g = 0;
+static __thread size_t		H5Z_table_used_g = 0;
+static __thread H5Z_class2_t	*H5Z_table_g = NULL;
 #ifdef H5Z_DEBUG
-static H5Z_stats_t	*H5Z_stat_table_g = NULL;
+static __thread H5Z_stats_t	*H5Z_stat_table_g = NULL;
 #endif /* H5Z_DEBUG */
 
 /* Local functions */

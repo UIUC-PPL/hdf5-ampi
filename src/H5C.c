@@ -186,7 +186,7 @@ static void H5C__assert_flush_dep_nocycle(const H5C_cache_entry_t * entry,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Declare a free list to manage the tag info struct */
 H5FL_DEFINE(H5C_tag_info_t);

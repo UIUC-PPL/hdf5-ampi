@@ -132,17 +132,17 @@ static void detect_C99_integers16(void);
 static void detect_C99_integers32(void);
 static void detect_C99_integers64(void);
 static void detect_alignments(void);
-static unsigned int align_g[] = {1, 2, 4, 8, 16};
-static int align_status_g = 0;		/* ALIGNMENT Signal Status */
-static int sigbus_handler_called_g = 0;	/* how many times called */
-static int sigsegv_handler_called_g = 0;/* how many times called */
-static int sigill_handler_called_g = 0;	/* how many times called */
-static int signal_handler_tested_g = 0;	/* how many times tested */
+static __thread unsigned int align_g[] = {1, 2, 4, 8, 16};
+static __thread int align_status_g = 0;		/* ALIGNMENT Signal Status */
+static __thread int sigbus_handler_called_g = 0;	/* how many times called */
+static __thread int sigsegv_handler_called_g = 0;/* how many times called */
+static __thread int sigill_handler_called_g = 0;	/* how many times called */
+static __thread int signal_handler_tested_g = 0;	/* how many times tested */
 #if defined(H5SETJMP) && defined(H5_HAVE_SIGNAL)
 static int verify_signal_handlers(int signum, void (*handler)(int));
 #endif
 #ifdef H5JMP_BUF
-static H5JMP_BUF jbuf_g;
+static __thread H5JMP_BUF jbuf_g;
 #endif
 
 

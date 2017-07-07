@@ -64,24 +64,24 @@ static int H5_mpi_delete_cb(MPI_Comm comm, int keyval, void *attr_val, int *flag
 
 /* HDF5 API Entered variable */
 /* (move to H5.c when new FUNC_ENTER macros in actual use -QAK) */
-hbool_t H5_api_entered_g = FALSE;
+__thread hbool_t H5_api_entered_g = FALSE;
 
 /* statically initialize block for pthread_once call used in initializing */
 /* the first global mutex                                                 */
 #ifdef H5_HAVE_THREADSAFE
-H5_api_t H5_g;
+__thread H5_api_t H5_g;
 #else
-hbool_t H5_libinit_g = FALSE;   /* Library hasn't been initialized */
-hbool_t H5_libterm_g = FALSE;   /* Library isn't being shutdown */
+__thread hbool_t H5_libinit_g = FALSE;   /* Library hasn't been initialized */
+__thread hbool_t H5_libterm_g = FALSE;   /* Library isn't being shutdown */
 #endif
 
 #ifdef H5_HAVE_MPE
-hbool_t H5_MPEinit_g = FALSE;	/* MPE Library hasn't been initialized */
+__thread hbool_t H5_MPEinit_g = FALSE;	/* MPE Library hasn't been initialized */
 #endif
 
-char			H5_lib_vers_info_g[] = H5_VERS_INFO;
-static hbool_t          H5_dont_atexit_g = FALSE;
-H5_debug_t		H5_debug_g;		/*debugging info	*/
+__thread char			H5_lib_vers_info_g[] = H5_VERS_INFO;
+static __thread hbool_t          H5_dont_atexit_g = FALSE;
+__thread H5_debug_t		H5_debug_g;		/*debugging info	*/
 
 
 /*******************/

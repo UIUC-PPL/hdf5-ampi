@@ -183,7 +183,7 @@ static herr_t H5HF_sect_indirect_term_cls(H5FS_section_class_t *cls);
 /*********************/
 
 /* Class info for "single" free space sections */
-H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1] = {{
+__thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1] = {{
     /* Class variables */
     H5HF_FSPACE_SECT_SINGLE,		/* Section type                 */
     0,					/* Extra serialized size        */
@@ -212,7 +212,7 @@ H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1] = {{
 /* (Same as "normal" row sections, except they also act as a proxy for the
  *      underlying indirect section
  */
-H5FS_section_class_t H5HF_FSPACE_SECT_CLS_FIRST_ROW[1] = {{
+__thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_FIRST_ROW[1] = {{
     /* Class variables */
     H5HF_FSPACE_SECT_FIRST_ROW,		/* Section type                 */
     0,					/* Extra serialized size        */
@@ -238,7 +238,7 @@ H5FS_section_class_t H5HF_FSPACE_SECT_CLS_FIRST_ROW[1] = {{
 }};
 
 /* Class info for "normal row" free space sections */
-H5FS_section_class_t H5HF_FSPACE_SECT_CLS_NORMAL_ROW[1] = {{
+__thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_NORMAL_ROW[1] = {{
     /* Class variables */
     H5HF_FSPACE_SECT_NORMAL_ROW,	/* Section type                 */
     0,					/* Extra serialized size        */
@@ -267,7 +267,7 @@ H5FS_section_class_t H5HF_FSPACE_SECT_CLS_NORMAL_ROW[1] = {{
 /* (No object callbacks necessary - objects of this class should never be in
  *      section manager)
  */
-H5FS_section_class_t H5HF_FSPACE_SECT_CLS_INDIRECT[1] = {{
+__thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_INDIRECT[1] = {{
     /* Class variables */
     H5HF_FSPACE_SECT_INDIRECT,		/* Section type                 */
     0,					/* Extra serialized size        */
