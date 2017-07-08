@@ -10,8 +10,7 @@ all: $(AMPICC)
 		RUNPARALLEL='./charmrun ++quiet ++local +p $$$${NPROCS:=6}' \
 		--enable-parallel \
 		--enable-symbols=yes \
-		--enable-shared=no \
-		--enable-hl=no
+		--enable-shared=no
 	$(MAKE)
 	$(MAKE) install
 	@echo "HDF5 built successfully on top of AMPI."

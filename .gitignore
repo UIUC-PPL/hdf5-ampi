@@ -292,6 +292,23 @@ accum_swmr_big.h5
 tbogus.h5.copy
 MPItest.h5
 ParaTest.h5
+hl/test/test_ds
+hl/test/test_dset_append
+hl/test/test_dset_opt
+hl/test/test_file_image
+hl/test/test_image
+hl/test/test_ld
+hl/test/test_lite
+hl/test/test_packet
+hl/test/test_table
+hl/tools/gif2h5/gif2h5
+hl/tools/gif2h5/h52gif
+hl/tools/gif2h5/h52gifgentst
+hl/tools/h5watch/extend_dset
+hl/tools/h5watch/h5watch
+hl/tools/h5watch/h5watchgentest
+hl/tools/h5watch/swmr_check_compat_vfd
+
 
 
 # Installed files
