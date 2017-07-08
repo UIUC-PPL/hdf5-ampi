@@ -282,3 +282,8 @@ tools/test/perform/overhead
 tools/test/perform/perf
 tools/test/perform/perf_meta
 tools/test/perform/zip_perf
+
+# Test logs
+
+*.chklog
+*.chkexe
