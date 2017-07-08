@@ -115,174 +115,94 @@ static herr_t H5P__do_prop(H5P_genplist_t *plist, const char *name, H5P_do_plist
  * Predefined property list classes. These are initialized at runtime by
  * H5P__init_package() in this source file.
  */
-hid_t H5P_CLS_ROOT_ID_g                         = FAIL;
-H5P_genclass_t *H5P_CLS_ROOT_g                  = NULL;
-hid_t H5P_CLS_OBJECT_CREATE_ID_g                = FAIL;
-H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g         = NULL;
-hid_t H5P_CLS_FILE_CREATE_ID_g                  = FAIL;
-H5P_genclass_t *H5P_CLS_FILE_CREATE_g           = NULL;
-hid_t H5P_CLS_FILE_ACCESS_ID_g                  = FAIL;
-H5P_genclass_t *H5P_CLS_FILE_ACCESS_g           = NULL;
-hid_t H5P_CLS_DATASET_CREATE_ID_g               = FAIL;
-H5P_genclass_t *H5P_CLS_DATASET_CREATE_g        = NULL;
-hid_t H5P_CLS_DATASET_ACCESS_ID_g               = FAIL;
-H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g        = NULL;
-hid_t H5P_CLS_DATASET_XFER_ID_g                 = FAIL;
-H5P_genclass_t *H5P_CLS_DATASET_XFER_g          = NULL;
-hid_t H5P_CLS_FILE_MOUNT_ID_g                   = FAIL;
-H5P_genclass_t *H5P_CLS_FILE_MOUNT_g            = NULL;
-hid_t H5P_CLS_GROUP_CREATE_ID_g                 = FAIL;
-H5P_genclass_t *H5P_CLS_GROUP_CREATE_g          = NULL;
-hid_t H5P_CLS_GROUP_ACCESS_ID_g                 = FAIL;
-H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g          = NULL;
-hid_t H5P_CLS_DATATYPE_CREATE_ID_g              = FAIL;
-H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g       = NULL;
-hid_t H5P_CLS_DATATYPE_ACCESS_ID_g              = FAIL;
-H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g       = NULL;
-hid_t H5P_CLS_ATTRIBUTE_CREATE_ID_g             = FAIL;
-H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g      = NULL;
-hid_t H5P_CLS_ATTRIBUTE_ACCESS_ID_g             = FAIL;
-H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g      = NULL;
-hid_t H5P_CLS_OBJECT_COPY_ID_g                  = FAIL;
-H5P_genclass_t *H5P_CLS_OBJECT_COPY_g           = NULL;
-hid_t H5P_CLS_LINK_CREATE_ID_g                  = FAIL;
-H5P_genclass_t *H5P_CLS_LINK_CREATE_g           = NULL;
-hid_t H5P_CLS_LINK_ACCESS_ID_g                  = FAIL;
-H5P_genclass_t *H5P_CLS_LINK_ACCESS_g           = NULL;
-hid_t H5P_CLS_STRING_CREATE_ID_g                = FAIL;
-H5P_genclass_t *H5P_CLS_STRING_CREATE_g         = NULL;
+__thread hid_t H5P_CLS_ROOT_ID_g                         = FAIL;
+__thread H5P_genclass_t *H5P_CLS_ROOT_g                  = NULL;
+__thread hid_t H5P_CLS_OBJECT_CREATE_ID_g                = FAIL;
+__thread H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g         = NULL;
+__thread hid_t H5P_CLS_FILE_CREATE_ID_g                  = FAIL;
+__thread H5P_genclass_t *H5P_CLS_FILE_CREATE_g           = NULL;
+__thread hid_t H5P_CLS_FILE_ACCESS_ID_g                  = FAIL;
+__thread H5P_genclass_t *H5P_CLS_FILE_ACCESS_g           = NULL;
+__thread hid_t H5P_CLS_DATASET_CREATE_ID_g               = FAIL;
+__thread H5P_genclass_t *H5P_CLS_DATASET_CREATE_g        = NULL;
+__thread hid_t H5P_CLS_DATASET_ACCESS_ID_g               = FAIL;
+__thread H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g        = NULL;
+__thread hid_t H5P_CLS_DATASET_XFER_ID_g                 = FAIL;
+__thread H5P_genclass_t *H5P_CLS_DATASET_XFER_g          = NULL;
+__thread hid_t H5P_CLS_FILE_MOUNT_ID_g                   = FAIL;
+__thread H5P_genclass_t *H5P_CLS_FILE_MOUNT_g            = NULL;
+__thread hid_t H5P_CLS_GROUP_CREATE_ID_g                 = FAIL;
+__thread H5P_genclass_t *H5P_CLS_GROUP_CREATE_g          = NULL;
+__thread hid_t H5P_CLS_GROUP_ACCESS_ID_g                 = FAIL;
+__thread H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g          = NULL;
+__thread hid_t H5P_CLS_DATATYPE_CREATE_ID_g              = FAIL;
+__thread H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g       = NULL;
+__thread hid_t H5P_CLS_DATATYPE_ACCESS_ID_g              = FAIL;
+__thread H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g       = NULL;
+__thread hid_t H5P_CLS_ATTRIBUTE_CREATE_ID_g             = FAIL;
+__thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g      = NULL;
+__thread hid_t H5P_CLS_ATTRIBUTE_ACCESS_ID_g             = FAIL;
+__thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g      = NULL;
+__thread hid_t H5P_CLS_OBJECT_COPY_ID_g                  = FAIL;
+__thread H5P_genclass_t *H5P_CLS_OBJECT_COPY_g           = NULL;
+__thread hid_t H5P_CLS_LINK_CREATE_ID_g                  = FAIL;
+__thread H5P_genclass_t *H5P_CLS_LINK_CREATE_g           = NULL;
+__thread hid_t H5P_CLS_LINK_ACCESS_ID_g                  = FAIL;
+__thread H5P_genclass_t *H5P_CLS_LINK_ACCESS_g           = NULL;
+__thread hid_t H5P_CLS_STRING_CREATE_ID_g                = FAIL;
+__thread H5P_genclass_t *H5P_CLS_STRING_CREATE_g         = NULL;
 
 /*
  * Predefined property lists for each predefined class. These are initialized
  * at runtime by H5P__init_package() in this source file.
  */
-hid_t H5P_LST_FILE_CREATE_ID_g          = FAIL;
-hid_t H5P_LST_FILE_ACCESS_ID_g          = FAIL;
-hid_t H5P_LST_DATASET_CREATE_ID_g       = FAIL;
-hid_t H5P_LST_DATASET_ACCESS_ID_g       = FAIL;
-hid_t H5P_LST_DATASET_XFER_ID_g         = FAIL;
-hid_t H5P_LST_FILE_MOUNT_ID_g           = FAIL;
-hid_t H5P_LST_GROUP_CREATE_ID_g         = FAIL;
-hid_t H5P_LST_GROUP_ACCESS_ID_g         = FAIL;
-hid_t H5P_LST_DATATYPE_CREATE_ID_g      = FAIL;
-hid_t H5P_LST_DATATYPE_ACCESS_ID_g      = FAIL;
-hid_t H5P_LST_ATTRIBUTE_CREATE_ID_g     = FAIL;
-hid_t H5P_LST_ATTRIBUTE_ACCESS_ID_g     = FAIL;
-hid_t H5P_LST_OBJECT_COPY_ID_g          = FAIL;
-hid_t H5P_LST_LINK_CREATE_ID_g          = FAIL;
-hid_t H5P_LST_LINK_ACCESS_ID_g          = FAIL;
+__thread hid_t H5P_LST_FILE_CREATE_ID_g          = FAIL;
+__thread hid_t H5P_LST_FILE_ACCESS_ID_g          = FAIL;
+__thread hid_t H5P_LST_DATASET_CREATE_ID_g       = FAIL;
+__thread hid_t H5P_LST_DATASET_ACCESS_ID_g       = FAIL;
+__thread hid_t H5P_LST_DATASET_XFER_ID_g         = FAIL;
+__thread hid_t H5P_LST_FILE_MOUNT_ID_g           = FAIL;
+__thread hid_t H5P_LST_GROUP_CREATE_ID_g         = FAIL;
+__thread hid_t H5P_LST_GROUP_ACCESS_ID_g         = FAIL;
+__thread hid_t H5P_LST_DATATYPE_CREATE_ID_g      = FAIL;
+__thread hid_t H5P_LST_DATATYPE_ACCESS_ID_g      = FAIL;
+__thread hid_t H5P_LST_ATTRIBUTE_CREATE_ID_g     = FAIL;
+__thread hid_t H5P_LST_ATTRIBUTE_ACCESS_ID_g     = FAIL;
+__thread hid_t H5P_LST_OBJECT_COPY_ID_g          = FAIL;
+__thread hid_t H5P_LST_LINK_CREATE_ID_g          = FAIL;
+__thread hid_t H5P_LST_LINK_ACCESS_ID_g          = FAIL;
 
 /* Root property list class library initialization object */
-const H5P_libclass_t H5P_CLS_ROOT[1] = {{
-    "root",			/* Class name for debugging     */
-    H5P_TYPE_ROOT,              /* Class type                   */
-
-    NULL,			/* Parent class                 */
-    &H5P_CLS_ROOT_g,		/* Pointer to class             */
-    &H5P_CLS_ROOT_ID_g,		/* Pointer to class ID          */
-    NULL,			/* Pointer to default property list ID */
-    NULL,			/* Default property registration routine */
-
-    NULL,		        /* Class creation callback      */
-    NULL,		        /* Class creation callback info */
-    NULL,			/* Class copy callback          */
-    NULL,		        /* Class copy callback info     */
-    NULL,			/* Class close callback         */
-    NULL 		        /* Class close callback info    */
-}};
+__thread H5P_libclass_t H5P_CLS_ROOT[1];
 
 /* Attribute access property list class library initialization object */
 /* (move to proper source code file when used for real) */
-const H5P_libclass_t H5P_CLS_AACC[1] = {{
-    "attribute access",		/* Class name for debugging     */
-    H5P_TYPE_ATTRIBUTE_ACCESS,  /* Class type                   */
-
-    &H5P_CLS_LINK_ACCESS_g,	/* Parent class                 */
-    &H5P_CLS_ATTRIBUTE_ACCESS_g,	/* Pointer to class             */
-    &H5P_CLS_ATTRIBUTE_ACCESS_ID_g,	/* Pointer to class ID          */
-    &H5P_LST_ATTRIBUTE_ACCESS_ID_g,	/* Pointer to default property list ID */
-    NULL,			/* Default property registration routine */
-
-    NULL,		        /* Class creation callback      */
-    NULL,		        /* Class creation callback info */
-    NULL,			/* Class copy callback          */
-    NULL,		        /* Class copy callback info     */
-    NULL,			/* Class close callback         */
-    NULL 		        /* Class close callback info    */
-}};
+__thread H5P_libclass_t H5P_CLS_AACC[1];
 
 /* Group access property list class library initialization object */
 /* (move to proper source code file when used for real) */
-const H5P_libclass_t H5P_CLS_GACC[1] = {{
-    "group access",		/* Class name for debugging     */
-    H5P_TYPE_GROUP_ACCESS,      /* Class type                   */
-
-    &H5P_CLS_LINK_ACCESS_g,	/* Parent class                 */
-    &H5P_CLS_GROUP_ACCESS_g,	/* Pointer to class             */
-    &H5P_CLS_GROUP_ACCESS_ID_g,	/* Pointer to class ID          */
-    &H5P_LST_GROUP_ACCESS_ID_g,	/* Pointer to default property list ID */
-    NULL,			/* Default property registration routine */
-
-    NULL,		        /* Class creation callback      */
-    NULL,		        /* Class creation callback info */
-    NULL,			/* Class copy callback          */
-    NULL,		        /* Class copy callback info     */
-    NULL,			/* Class close callback         */
-    NULL 		        /* Class close callback info    */
-}};
+__thread H5P_libclass_t H5P_CLS_GACC[1];
 
 /* Datatype creation property list class library initialization object */
 /* (move to proper source code file when used for real) */
-const H5P_libclass_t H5P_CLS_TCRT[1] = {{
-    "datatype create",		/* Class name for debugging     */
-    H5P_TYPE_DATATYPE_CREATE,   /* Class type                   */
-
-    &H5P_CLS_OBJECT_CREATE_g,	/* Parent class                 */
-    &H5P_CLS_DATATYPE_CREATE_g,	/* Pointer to class             */
-    &H5P_CLS_DATATYPE_CREATE_ID_g,	/* Pointer to class ID          */
-    &H5P_LST_DATATYPE_CREATE_ID_g,	/* Pointer to default property list ID */
-    NULL,			/* Default property registration routine */
-
-    NULL,		        /* Class creation callback      */
-    NULL,		        /* Class creation callback info */
-    NULL,			/* Class copy callback          */
-    NULL,		        /* Class copy callback info     */
-    NULL,			/* Class close callback         */
-    NULL 		        /* Class close callback info    */
-}};
+__thread H5P_libclass_t H5P_CLS_TCRT[1];
 
 /* Datatype access property list class library initialization object */
 /* (move to proper source code file when used for real) */
-const H5P_libclass_t H5P_CLS_TACC[1] = {{
-    "datatype access",		/* Class name for debugging     */
-    H5P_TYPE_DATATYPE_ACCESS,   /* Class type                   */
-
-    &H5P_CLS_LINK_ACCESS_g,	/* Parent class                 */
-    &H5P_CLS_DATATYPE_ACCESS_g,	/* Pointer to class             */
-    &H5P_CLS_DATATYPE_ACCESS_ID_g,	/* Pointer to class ID          */
-    &H5P_LST_DATATYPE_ACCESS_ID_g,	/* Pointer to default property list ID */
-    NULL,			/* Default property registration routine */
-
-    NULL,		        /* Class creation callback      */
-    NULL,		        /* Class creation callback info */
-    NULL,			/* Class copy callback          */
-    NULL,		        /* Class copy callback info     */
-    NULL,			/* Class close callback         */
-    NULL 		        /* Class close callback info    */
-}};
+__thread H5P_libclass_t H5P_CLS_TACC[1];
 
 
 /* Library property list classes defined in other code modules */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_OCRT[1];         /* Object creation */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_STRCRT[1];       /* String create */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_GCRT[1];         /* Group create */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_OCPY[1];         /* Object copy */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_FCRT[1];         /* File creation */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_DCRT[1];         /* Dataset creation */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_DXFR[1];         /* Data transfer */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_FMNT[1];         /* File mount */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_ACRT[1];         /* Attribute creation */
-H5_DLLVAR const H5P_libclass_t H5P_CLS_LCRT[1];         /* Link creation */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_OCRT[1];         /* Object creation */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_STRCRT[1];       /* String create */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_GCRT[1];         /* Group create */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_OCPY[1];         /* Object copy */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_FCRT[1];         /* File creation */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_DCRT[1];         /* Dataset creation */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_DXFR[1];         /* Data transfer */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_FMNT[1];         /* File mount */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_ACRT[1];         /* Attribute creation */
+H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_LCRT[1];         /* Link creation */
 
 
 /*****************************/
@@ -302,26 +222,7 @@ static unsigned H5P_next_rev = 0;
 /* (order here is not important, they will be initialized in the proper
  *      order according to their parent class dependencies)
  */
-static H5P_libclass_t const * const init_class[] = {
-    H5P_CLS_ROOT,       /* Root */
-    H5P_CLS_OCRT,       /* Object create */
-    H5P_CLS_STRCRT,     /* String create */
-    H5P_CLS_LACC,       /* Link access */
-    H5P_CLS_GCRT,       /* Group create */
-    H5P_CLS_OCPY,       /* Object copy */
-    H5P_CLS_GACC,       /* Group access */
-    H5P_CLS_FCRT,       /* File creation */
-    H5P_CLS_FACC,       /* File access */
-    H5P_CLS_DCRT,       /* Dataset creation */
-    H5P_CLS_DACC,       /* Dataset access */
-    H5P_CLS_DXFR,       /* Data transfer */
-    H5P_CLS_FMNT,       /* File mount */
-    H5P_CLS_TCRT,       /* Datatype creation */
-    H5P_CLS_TACC,       /* Datatype access */
-    H5P_CLS_ACRT,       /* Attribute creation */
-    H5P_CLS_AACC,       /* Attribute access */
-    H5P_CLS_LCRT        /* Link creation */
-};
+static __thread H5P_libclass_t * init_class[18];
 
 /* Declare a free list to manage the H5P_genclass_t struct */
 H5FL_DEFINE_STATIC(H5P_genclass_t);
@@ -386,6 +287,20 @@ RETURNS
 DESCRIPTION
     Initializes any interface-specific data or routines.
 --------------------------------------------------------------------------*/
+extern void H5Pacpl_init(void);
+extern void H5Pdapl_init(void);
+extern void H5Pdcpl_init(void);
+extern void H5Pdxpl_init(void);
+extern void H5Pfapl_init(void);
+extern void H5Pfcpl_init(void);
+extern void H5Pfmpl_init(void);
+extern void H5Pgcpl_init(void);
+extern void H5Plapl_init(void);
+extern void H5Plcpl_init(void);
+extern void H5Pocpl_init(void);
+extern void H5Pocpypl_init(void);
+extern void H5Pstrcpl_init(void);
+
 herr_t
 H5P__init_package(void)
 {
@@ -394,6 +309,130 @@ H5P__init_package(void)
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_PACKAGE
+
+    H5Pacpl_init();
+    H5Pdapl_init();
+    H5Pdcpl_init();
+    H5Pdxpl_init();
+    H5Pfapl_init();
+    H5Pfcpl_init();
+    H5Pfmpl_init();
+    H5Pgcpl_init();
+    H5Plapl_init();
+    H5Plcpl_init();
+    H5Pocpl_init();
+    H5Pocpypl_init();
+    H5Pstrcpl_init();
+
+H5P_CLS_ROOT[0] = (H5P_libclass_t) {
+    "root",          /* Class name for debugging     */
+    H5P_TYPE_ROOT,              /* Class type                   */
+
+    NULL,            /* Parent class                 */
+    &H5P_CLS_ROOT_g,     /* Pointer to class             */
+    &H5P_CLS_ROOT_ID_g,      /* Pointer to class ID          */
+    NULL,            /* Pointer to default property list ID */
+    NULL,            /* Default property registration routine */
+
+    NULL,                /* Class creation callback      */
+    NULL,                /* Class creation callback info */
+    NULL,            /* Class copy callback          */
+    NULL,                /* Class copy callback info     */
+    NULL,            /* Class close callback         */
+    NULL                 /* Class close callback info    */
+};
+
+H5P_CLS_AACC[0] = (H5P_libclass_t) {
+    "attribute access",      /* Class name for debugging     */
+    H5P_TYPE_ATTRIBUTE_ACCESS,  /* Class type                   */
+
+    &H5P_CLS_LINK_ACCESS_g, /* Parent class                 */
+    &H5P_CLS_ATTRIBUTE_ACCESS_g,    /* Pointer to class             */
+    &H5P_CLS_ATTRIBUTE_ACCESS_ID_g, /* Pointer to class ID          */
+    &H5P_LST_ATTRIBUTE_ACCESS_ID_g, /* Pointer to default property list ID */
+    NULL,            /* Default property registration routine */
+
+    NULL,                /* Class creation callback      */
+    NULL,                /* Class creation callback info */
+    NULL,            /* Class copy callback          */
+    NULL,                /* Class copy callback info     */
+    NULL,            /* Class close callback         */
+    NULL                 /* Class close callback info    */
+};
+
+H5P_CLS_GACC[0] = (H5P_libclass_t) {
+    "group access",      /* Class name for debugging     */
+    H5P_TYPE_GROUP_ACCESS,      /* Class type                   */
+
+    &H5P_CLS_LINK_ACCESS_g,  /* Parent class                 */
+    &H5P_CLS_GROUP_ACCESS_g, /* Pointer to class             */
+    &H5P_CLS_GROUP_ACCESS_ID_g,  /* Pointer to class ID          */
+    &H5P_LST_GROUP_ACCESS_ID_g,  /* Pointer to default property list ID */
+    NULL,            /* Default property registration routine */
+
+    NULL,                /* Class creation callback      */
+    NULL,                /* Class creation callback info */
+    NULL,            /* Class copy callback          */
+    NULL,                /* Class copy callback info     */
+    NULL,            /* Class close callback         */
+    NULL                 /* Class close callback info    */
+};
+
+H5P_CLS_TCRT[0] = (H5P_libclass_t) {
+    "datatype create",      /* Class name for debugging     */
+    H5P_TYPE_DATATYPE_CREATE,   /* Class type                   */
+
+    &H5P_CLS_OBJECT_CREATE_g,   /* Parent class                 */
+    &H5P_CLS_DATATYPE_CREATE_g, /* Pointer to class             */
+    &H5P_CLS_DATATYPE_CREATE_ID_g,  /* Pointer to class ID          */
+    &H5P_LST_DATATYPE_CREATE_ID_g,  /* Pointer to default property list ID */
+    NULL,           /* Default property registration routine */
+
+    NULL,               /* Class creation callback      */
+    NULL,               /* Class creation callback info */
+    NULL,           /* Class copy callback          */
+    NULL,               /* Class copy callback info     */
+    NULL,           /* Class close callback         */
+    NULL                /* Class close callback info    */
+};
+
+H5P_CLS_TACC[0] = (H5P_libclass_t) {
+    "datatype access",       /* Class name for debugging     */
+    H5P_TYPE_DATATYPE_ACCESS,   /* Class type                   */
+
+    &H5P_CLS_LINK_ACCESS_g,  /* Parent class                 */
+    &H5P_CLS_DATATYPE_ACCESS_g,  /* Pointer to class             */
+    &H5P_CLS_DATATYPE_ACCESS_ID_g,   /* Pointer to class ID          */
+    &H5P_LST_DATATYPE_ACCESS_ID_g,   /* Pointer to default property list ID */
+    NULL,            /* Default property registration routine */
+
+    NULL,                /* Class creation callback      */
+    NULL,                /* Class creation callback info */
+    NULL,            /* Class copy callback          */
+    NULL,                /* Class copy callback info     */
+    NULL,            /* Class close callback         */
+    NULL                 /* Class close callback info    */
+};
+
+    init_class[0] = H5P_CLS_ROOT;       /* Root */
+    init_class[1] = H5P_CLS_OCRT;       /* Object create */
+    init_class[2] = H5P_CLS_STRCRT;     /* String create */
+    init_class[3] = H5P_CLS_LACC;       /* Link access */
+    init_class[4] = H5P_CLS_GCRT;       /* Group create */
+    init_class[5] = H5P_CLS_OCPY;       /* Object copy */
+    init_class[6] = H5P_CLS_GACC;       /* Group access */
+    init_class[7] = H5P_CLS_FCRT;       /* File creation */
+    init_class[8] = H5P_CLS_FACC;       /* File access */
+    init_class[9] = H5P_CLS_DCRT;       /* Dataset creation */
+    init_class[10] = H5P_CLS_DACC;       /* Dataset access */
+    init_class[11] = H5P_CLS_DXFR;       /* Data transfer */
+    init_class[12] = H5P_CLS_FMNT;       /* File mount */
+    init_class[13] = H5P_CLS_TCRT;       /* Datatype creation */
+    init_class[14] = H5P_CLS_TACC;       /* Datatype access */
+    init_class[15] = H5P_CLS_ACRT;       /* Attribute creation */
+    init_class[16] = H5P_CLS_AACC;       /* Attribute access */
+    init_class[17] = H5P_CLS_LCRT;        /* Link creation */
+
 
     /*
      * Initialize the Generic Property class & object groups.

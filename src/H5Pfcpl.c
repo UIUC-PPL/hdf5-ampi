@@ -147,7 +147,11 @@ static herr_t H5P__fcrt_fspace_strategy_dec(const void **_pp, void *_value);
 /*********************/
 
 /* File creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_FCRT[1] = {{
+/*const*/ __thread H5P_libclass_t H5P_CLS_FCRT[1];
+
+void H5Pfcpl_init(void)
+{
+    H5P_CLS_FCRT[0] = (H5P_libclass_t) {
     "file create",		/* Class name for debugging     */
     H5P_TYPE_FILE_CREATE,       /* Class type                   */
 
@@ -163,7 +167,8 @@ const H5P_libclass_t H5P_CLS_FCRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+};
+}
 
 
 /*****************************/

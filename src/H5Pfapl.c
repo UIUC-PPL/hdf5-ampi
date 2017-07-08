@@ -310,7 +310,11 @@ static herr_t H5P__facc_cache_image_config_dec(const void **_pp, void *_value);
 /*********************/
 
 /* File access property list class library initialization object */
-const H5P_libclass_t H5P_CLS_FACC[1] = {{
+/*const*/ __thread H5P_libclass_t H5P_CLS_FACC[1];
+
+void H5Pfapl_init(void)
+{
+    H5P_CLS_FACC[0] = (H5P_libclass_t) {
     "file access",		/* Class name for debugging     */
     H5P_TYPE_FILE_ACCESS,       /* Class type                   */
 
@@ -326,7 +330,8 @@ const H5P_libclass_t H5P_CLS_FACC[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+};
+}
 
 
 /*****************************/

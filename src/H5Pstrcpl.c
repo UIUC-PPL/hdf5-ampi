@@ -78,7 +78,11 @@ static herr_t H5P__strcrt_char_encoding_dec(const void **_pp, void *value);
 /*********************/
 
 /* String creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_STRCRT[1] = {{
+/*const*/ __thread H5P_libclass_t H5P_CLS_STRCRT[1];
+
+void H5Pstrcpl_init(void)
+{
+    H5P_CLS_STRCRT[0] = (H5P_libclass_t) {
     "string create",		/* Class name for debugging     */
     H5P_TYPE_STRING_CREATE,     /* Class type                   */
 
@@ -94,7 +98,8 @@ const H5P_libclass_t H5P_CLS_STRCRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+};
+}
 
 
 /*****************************/

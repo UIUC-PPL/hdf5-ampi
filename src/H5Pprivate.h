@@ -96,8 +96,8 @@ typedef struct H5P_libclass_t {
 
     H5P_genclass_t * * par_pclass;      /* Pointer to global parent class property list class */
     H5P_genclass_t * * pclass;          /* Pointer to global property list class */
-    hid_t * const class_id;             /* Pointer to global property list class ID */
-    hid_t * const def_plist_id;         /* Pointer to global default property list ID */
+    hid_t * /*const*/ class_id;             /* Pointer to global property list class ID */
+    hid_t * /*const*/ def_plist_id;         /* Pointer to global default property list ID */
     H5P_reg_prop_func_t reg_prop_func;  /* Register class's properties */
 
     /* Class callback function pointers & info */
@@ -114,32 +114,32 @@ typedef struct H5P_libclass_t {
 /*****************************/
 
 /* Predefined property list classes. */
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ROOT_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_XFER_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_MOUNT_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_GROUP_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_OBJECT_COPY_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_LINK_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ROOT_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_XFER_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_MOUNT_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_GROUP_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_OBJECT_COPY_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_LINK_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
 
 /* Internal property list classes */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LACC[1];  /* Link access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_AACC[1];  /* Attribute access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_DACC[1];  /* Dataset access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_GACC[1];  /* Group access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_TACC[1];  /* Named datatype access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_FACC[1];  /* File access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_LACC[1];  /* Link access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_AACC[1];  /* Attribute access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_DACC[1];  /* Dataset access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_GACC[1];  /* Group access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_TACC[1];  /* Named datatype access */
+H5_DLLVAR __thread struct H5P_libclass_t H5P_CLS_FACC[1];  /* File access */
 
 /******************************/
 /* Library Private Prototypes */

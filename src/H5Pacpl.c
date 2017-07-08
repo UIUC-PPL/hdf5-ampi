@@ -62,7 +62,11 @@
 /*********************/
 
 /* Attribute creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_ACRT[1] = {{
+/*const*/ __thread H5P_libclass_t H5P_CLS_ACRT[1];
+
+void H5Pacpl_init(void)
+{
+    H5P_CLS_ACRT[0] = (H5P_libclass_t) {
     "attribute create",		/* Class name for debugging     */
     H5P_TYPE_ATTRIBUTE_CREATE,  /* Class type                   */
 
@@ -78,7 +82,8 @@ const H5P_libclass_t H5P_CLS_ACRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+};
+}
 
 
 /*****************************/

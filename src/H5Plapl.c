@@ -135,7 +135,11 @@ static herr_t H5P__lacc_elink_fapl_close(const char* name, size_t size, void* va
 /*********************/
 
 /* Dataset creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_LACC[1] = {{
+/*const*/ __thread H5P_libclass_t H5P_CLS_LACC[1];
+
+void H5Plapl_init(void)
+{
+    H5P_CLS_LACC[0] = (H5P_libclass_t) {
     "link access",		/* Class name for debugging     */
     H5P_TYPE_LINK_ACCESS,       /* Class type                   */
 
@@ -151,8 +155,8 @@ const H5P_libclass_t H5P_CLS_LACC[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
-
+};
+}
 
 /*****************************/
 /* Library Private Variables */
