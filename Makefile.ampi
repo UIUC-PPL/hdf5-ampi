@@ -3,6 +3,14 @@ AMPICC=$(abspath ../charm/bin/ampicc)
 
 all: $(AMPICC)
 	@echo "Building HDF5"
-	./configure --enable-parallel CFLAGS=-w CC='$(AMPICC)' RUNSERIAL='./charmrun ++quiet' --enable-symbols=yes --enable-shared=no --enable-hl=no
+	./configure \
+		CFLAGS=-w \
+		CC='$(AMPICC)' \
+		RUNSERIAL='./charmrun ++quiet' \
+		RUNPARALLEL='./charmrun ++quiet +p $$$${NPROCS:=6}' \
+		--enable-parallel \
+		--enable-symbols=yes \
+		--enable-shared=no \
+		--enable-hl=no
 	$(MAKE)
 	@echo "HDF5 built successfully"
