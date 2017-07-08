@@ -2,15 +2,17 @@
 AMPICC=$(abspath ../charm/bin/ampicc)
 
 all: $(AMPICC)
-	@echo "Building HDF5"
+	@echo "Building HDF5 on top of AMPI."
 	./configure \
 		CFLAGS=-w \
 		CC='$(AMPICC)' \
-		RUNSERIAL='./charmrun ++quiet' \
-		RUNPARALLEL='./charmrun ++quiet +p $$$${NPROCS:=6}' \
+		RUNSERIAL='./charmrun ++quiet ++local' \
+		RUNPARALLEL='./charmrun ++quiet ++local +p $$$${NPROCS:=6}' \
 		--enable-parallel \
 		--enable-symbols=yes \
 		--enable-shared=no \
 		--enable-hl=no
 	$(MAKE)
-	@echo "HDF5 built successfully"
+	$(MAKE) install
+	@echo "HDF5 built successfully on top of AMPI."
+	@echo "Please use ./hdf5/bin/h5pcc to compile AMPI programs that use hdf5."

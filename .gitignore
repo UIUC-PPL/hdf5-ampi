@@ -283,6 +283,7 @@ tools/test/perform/perf
 tools/test/perform/perf_meta
 tools/test/perform/zip_perf
 
+
 # Test files and logs
 
 *.chklog
@@ -291,3 +292,8 @@ accum_swmr_big.h5
 tbogus.h5.copy
 MPItest.h5
 ParaTest.h5
+
+
+# Installed files
+
+hdf5/
