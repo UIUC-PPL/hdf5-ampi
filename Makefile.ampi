@@ -1,17 +1,31 @@
 # Assumption: the charm/ folder is located on the the same level as hdf5-ampi/
-AMPICC=$(abspath ../charm/bin/ampicc)
+CHARMPATH=$(shell cd ../charm && pwd)
+AMPICC=$(CHARMPATH)/bin/ampicc
+
+# Determine if AMPI supports shared libraries
+BUILD_SHARED=$(shell CHARMINC=$(CHARMPATH)/tmp ; . $(CHARMPATH)/tmp/conv-config.sh ; echo $$CMK_NO_BUILD_SHARED)
+
+ifeq ($(BUILD_SHARED), true)
+	BUILD_SHARED=no
+else
+	BUILD_SHARED=yes
+endif
+
 
 all: $(AMPICC)
 	@echo "Building HDF5 on top of AMPI."
+	@echo "Expecting AMPI to be located in $(CHARMPATH)"
+
 	./configure \
 		CFLAGS=-w \
+		LDFLAGS=-w \
 		CC='$(AMPICC)' \
 		RUNSERIAL='./charmrun ++quiet ++local' \
 		RUNPARALLEL='./charmrun ++quiet ++local +p $$$${NPROCS:=6}' \
 		--enable-parallel \
 		--enable-symbols=yes \
-		--enable-shared=no
-	$(MAKE)
+		--enable-shared=$(BUILD_SHARED)
+	$(MAKE) -j4
 	$(MAKE) install
 	@echo "HDF5 built successfully on top of AMPI."
 	@echo "Please use ./hdf5/bin/h5pcc to compile AMPI programs that use hdf5."
