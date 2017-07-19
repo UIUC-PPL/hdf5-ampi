@@ -251,6 +251,10 @@ H5_term_library(void)
     char	loop[1024];
     H5E_auto2_t func;
 
+    // This function crashes AMPI at application termination.
+    // Disable it for now.
+    return;
+
 #ifdef H5_HAVE_THREADSAFE
     /* explicit locking of the API */
     H5_FIRST_THREAD_INIT
