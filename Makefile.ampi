@@ -25,7 +25,7 @@ all: $(AMPICC)
 		--enable-parallel \
 		--enable-symbols=yes \
 		--enable-shared=$(BUILD_SHARED)
-	$(MAKE) -j4
+	$(MAKE)
 	$(MAKE) install
 	@echo "HDF5 built successfully on top of AMPI."
 	@echo "Please use ./hdf5/bin/h5pcc to compile AMPI programs that use hdf5."
