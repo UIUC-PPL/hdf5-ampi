@@ -15,6 +15,8 @@ endif
 all: $(AMPICC)
 	@echo "Building HDF5 on top of AMPI."
 	@echo "Expecting AMPI to be located in $(CHARMPATH)"
+	test -x $(AMPICC)
+	@sleep 2
 
 	./configure \
 		CFLAGS=-w \
