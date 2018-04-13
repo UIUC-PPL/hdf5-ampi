@@ -18,6 +18,7 @@ c++/src/h5c++
 c++/test/H5srcdir_str.h
 c++/test/Makefile
 charmrun
+ampirun
 config.log
 config.lt
 config.status
