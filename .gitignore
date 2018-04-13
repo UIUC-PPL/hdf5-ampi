@@ -6,6 +6,7 @@
 .deps/
 .libs/
 
+*.dSYM/
 
 # Misc generated files
 
