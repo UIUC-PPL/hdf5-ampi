@@ -22,8 +22,8 @@ all: $(AMPICC)
 		CFLAGS=-w \
 		LDFLAGS=-w \
 		CC='$(AMPICC)' \
-		RUNSERIAL='./charmrun ++quiet ++local' \
-		RUNPARALLEL='./charmrun ++quiet ++local +p $$$${NPROCS:=6}' \
+		RUNSERIAL='./charmrun ++quiet' \
+		RUNPARALLEL='./charmrun ++quiet +p $$$${NPROCS:=6}' \
 		--enable-parallel \
 		--enable-symbols=yes \
 		--enable-shared=$(BUILD_SHARED)
