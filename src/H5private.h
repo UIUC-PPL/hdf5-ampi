@@ -1901,7 +1901,7 @@ typedef struct H5_api_struct {
 #define H5_API_SET_CANCEL                                                     \
     H5TS_cancel_count_dec();
 
-extern H5_api_t H5_g;
+extern __thread H5_api_t H5_g;
 
 #else /* H5_HAVE_THREADSAFE */
 

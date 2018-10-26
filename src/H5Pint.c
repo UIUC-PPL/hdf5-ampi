@@ -215,7 +215,7 @@ H5_DLLVAR __thread const H5P_libclass_t H5P_CLS_LCRT[1];         /* Link creatio
 /*******************/
 
 /* Track the revision count of a class, to make comparisons faster */
-static unsigned H5P_next_rev = 0;
+static __thread unsigned H5P_next_rev = 0;
 #define H5P_GET_NEXT_REV        (H5P_next_rev++)
 
 /* List of all property list classes in the library */
