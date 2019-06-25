@@ -30,7 +30,7 @@ const char *FILENAME[] = {
     NULL
 };
 
-__thread static double	the_data[100][100];
+static __thread double	the_data[100][100];
 
 /*-------------------------------------------------------------------------
  * Function:	create_file

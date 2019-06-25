@@ -1143,7 +1143,7 @@ send_mssg(struct mssg_t *mssg_ptr,
     hbool_t success = TRUE;
     int mssg_tag = CACHE_TEST_TAG;
     int result;
-    __thread static long mssg_num = 0;
+    static __thread long mssg_num = 0;
 
     if ( ( mssg_ptr == NULL ) ||
          ( mssg_ptr->src != world_mpi_rank ) ||
