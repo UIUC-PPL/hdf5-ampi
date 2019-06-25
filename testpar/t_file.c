@@ -35,7 +35,7 @@
 
 #define NUM_DSETS               5
 
-int mpi_size, mpi_rank;
+__thread int mpi_size, mpi_rank;
 
 static int create_file(const char *filename, hid_t fcpl, hid_t fapl, int metadata_write_strategy);
 static int open_file(const char *filename, hid_t fapl, int metadata_write_strategy, 

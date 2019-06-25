@@ -30,7 +30,7 @@ const char *FILENAME[] = {
     NULL
 };
 
-static double	the_data[100][100];
+__thread static double	the_data[100][100];
 
 
 /*-------------------------------------------------------------------------

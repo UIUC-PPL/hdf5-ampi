@@ -33,9 +33,9 @@
 #define BASE_ADDR               (haddr_t)1024
 
 
-int     	nerrors = 0;
-int		failures = 0;
-hbool_t		verbose = TRUE; /* used to control error messages */
+__thread int     	nerrors = 0;
+__thread int		failures = 0;
+__thread hbool_t		verbose = TRUE; /* used to control error messages */
 
 #define NFILENAME 2
 #define PARATESTFILE filenames[0]
@@ -43,45 +43,45 @@ const char *FILENAME[NFILENAME]={"CacheTestDummy", NULL};
 #ifndef PATH_MAX
 #define PATH_MAX    512
 #endif  /* !PATH_MAX */
-char    filenames[NFILENAME][PATH_MAX];
-hid_t   fapl;                           /* file access property list */
-haddr_t max_addr = 0;			/* used to store the end of
+__thread char    filenames[NFILENAME][PATH_MAX];
+__thread hid_t   fapl;                           /* file access property list */
+__thread haddr_t max_addr = 0;			/* used to store the end of
 					 * the address space used by
 					 * the data array (see below).
 					 */
-hbool_t callbacks_verbose = FALSE;	/* flag used to control whether
+__thread hbool_t callbacks_verbose = FALSE;	/* flag used to control whether
 					 * the callback functions are in
 					 * verbose mode.
 					 */
 
 
-int		world_mpi_size = -1;
-int		world_mpi_rank = -1;
-int		world_server_mpi_rank = -1;
-MPI_Comm	world_mpi_comm = MPI_COMM_NULL;
-int		file_mpi_size = -1;
-int		file_mpi_rank = -1;
-MPI_Comm	file_mpi_comm = MPI_COMM_NULL;
+__thread int		world_mpi_size = -1;
+__thread int		world_mpi_rank = -1;
+__thread int		world_server_mpi_rank = -1;
+__thread MPI_Comm	world_mpi_comm = MPI_COMM_NULL;
+__thread int		file_mpi_size = -1;
+__thread int		file_mpi_rank = -1;
+__thread MPI_Comm	file_mpi_comm = MPI_COMM_NULL;
 
 
 /* the following globals are used to maintain rudementary statistics
  * to check the validity of the statistics maintained by H5C.c
  */
 
-long datum_clears          = 0;
-long datum_pinned_clears   = 0;
-long datum_destroys        = 0;
-long datum_flushes         = 0;
-long datum_pinned_flushes  = 0;
-long datum_loads           = 0;
-long global_pins	   = 0;
-long global_dirty_pins	   = 0;
-long local_pins		   = 0;
+__thread long datum_clears          = 0;
+__thread long datum_pinned_clears   = 0;
+__thread long datum_destroys        = 0;
+__thread long datum_flushes         = 0;
+__thread long datum_pinned_flushes  = 0;
+__thread long datum_loads           = 0;
+__thread long global_pins	   = 0;
+__thread long global_dirty_pins	   = 0;
+__thread long local_pins		   = 0;
 
 
 /* the following fields are used by the server process only */
-int total_reads		   = 0;
-int total_writes           = 0;
+__thread int total_reads		   = 0;
+__thread int total_writes           = 0;
 
 
 /*****************************************************************************
@@ -199,7 +199,7 @@ struct datum
 
 #define NUM_DATA_ENTRIES	100000
 
-struct datum data[NUM_DATA_ENTRIES];
+__thread struct datum data[NUM_DATA_ENTRIES];
 
 
 /* Many tests use the size of data array as the size of test loops.
@@ -221,7 +221,7 @@ struct datum data[NUM_DATA_ENTRIES];
 /* Use a smaller test size to avoid creating huge MPE logfiles. */
 #define MPE_VIRT_NUM_DATA_ENTIES	(NUM_DATA_ENTRIES / 100)
 
-int virt_num_data_entries = NUM_DATA_ENTRIES;
+__thread int virt_num_data_entries = NUM_DATA_ENTRIES;
 
 
 /*****************************************************************************
@@ -238,7 +238,7 @@ int virt_num_data_entries = NUM_DATA_ENTRIES;
  *
  *****************************************************************************/
 
-int data_index[NUM_DATA_ENTRIES];
+__thread int data_index[NUM_DATA_ENTRIES];
 
 
 /*****************************************************************************
@@ -335,7 +335,7 @@ struct mssg_t
     unsigned	magic;
 };
 
-MPI_Datatype mpi_mssg_t;	/* for MPI derived type created from mssg */
+__thread MPI_Datatype mpi_mssg_t;	/* for MPI derived type created from mssg */
 
 
 /*****************************************************************************/
@@ -1143,7 +1143,7 @@ send_mssg(struct mssg_t *mssg_ptr,
     hbool_t success = TRUE;
     int mssg_tag = CACHE_TEST_TAG;
     int result;
-    static long mssg_num = 0;
+    __thread static long mssg_num = 0;
 
     if ( ( mssg_ptr == NULL ) ||
          ( mssg_ptr->src != world_mpi_rank ) ||

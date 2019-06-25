@@ -26,7 +26,7 @@
 #   include "szlib.h"
 #endif
 
-static int mpi_size, mpi_rank;
+__thread static int mpi_size, mpi_rank;
 
 /* Chunk sizes */
 #define CHUNK_DIM1       7

@@ -31,9 +31,9 @@
 const char *FILENAME[2]={
 	    "MPItest",
 	    NULL};
-char	filenames[2][200];
-int	nerrors = 0;
-hid_t	fapl;				/* file access property list */
+__thread char	filenames[2][200];
+__thread int	nerrors = 0;
+__thread hid_t	fapl;				/* file access property list */
 
 /* protocols */
 static int errors_sum(int nerrs);

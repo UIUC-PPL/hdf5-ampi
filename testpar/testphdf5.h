@@ -225,13 +225,13 @@ typedef enum {
 } ShapeSameTestMethods;
 
 /* Shared global variables */
-extern int dim0, dim1;				/*Dataset dimensions */
-extern int chunkdim0, chunkdim1;		/*Chunk dimensions */
-extern int nerrors;				/*errors count */
-extern H5E_auto2_t old_func;			/* previous error handler */
-extern void *old_client_data;			/*previous error handler arg.*/
-extern int facc_type;				/*Test file access type */
-extern int dxfer_coll_type;
+extern __thread int dim0, dim1;				/*Dataset dimensions */
+extern __thread int chunkdim0, chunkdim1;		/*Chunk dimensions */
+extern __thread int nerrors;				/*errors count */
+extern __thread H5E_auto2_t old_func;			/* previous error handler */
+extern __thread void *old_client_data;			/*previous error handler arg.*/
+extern __thread int facc_type;				/*Test file access type */
+extern __thread int dxfer_coll_type;
 
 /* Test program prototypes */
 void test_plist_ed(void);

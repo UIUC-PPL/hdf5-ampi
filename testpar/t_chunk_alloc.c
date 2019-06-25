@@ -20,7 +20,7 @@
  */
 
 #include "testphdf5.h"
-static int	mpi_size, mpi_rank;
+__thread static int	mpi_size, mpi_rank;
 
 #define DSET_NAME "ExtendibleArray"
 #define CHUNK_SIZE	1000		/* #elements per chunk */
