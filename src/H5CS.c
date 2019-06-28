@@ -58,7 +58,7 @@ static H5CS_t *H5CS__get_stack(void);
  * The function stack.  Eventually we'll have some sort of global table so each
  * thread has it's own stack.  The stacks will be created on demand when the
  * thread first calls H5CS_push().  */
-__thread H5CS_t		H5CS_stack_g[1];
+H5CS_t		H5CS_stack_g[1];
 #define H5CS_get_my_stack()	(H5CS_stack_g+0)
 #endif /* H5_HAVE_THREADSAFE */
 

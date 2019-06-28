@@ -180,7 +180,7 @@ SIMPLE_TEST(struct tm tm; tm.tm_gmtoff=0);
 #include <time.h>
 SIMPLE_TEST(struct tm tm; tm.__tm_gmtoff=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_TM___GMTOFF */
 
 #ifdef HAVE_TIMEZONE
 
@@ -222,12 +222,26 @@ SIMPLE_TEST(struct stat sb; sb.st_blocks=0);
 #include <stdlib.h>
 #include <string.h>
 
+#if defined(_MSC_VER) && defined(_DEBUG)
+# include <crtdbg.h>
+int DebugReport(int reportType, char* message, int* returnValue)
+{
+  (void)reportType;
+  (void)message;
+  (void)returnValue;
+  return 1; /* no further handling required */
+}
+#endif
+
 int main(void)
 {
   char *llwidthArgs[] = { "I64", "l64", "l", "L", "q", "ll", NULL };
   char *s = malloc(128);
   char **currentArg = NULL;
   LL_TYPE x = (LL_TYPE)1048576 * (LL_TYPE)1048576;
+  #if defined(_MSC_VER) && defined(_DEBUG)
+    _CrtSetReportHook(DebugReport);
+  #endif
   for (currentArg = llwidthArgs; *currentArg != NULL; currentArg++)
     {
     char formatString[64];
@@ -422,13 +436,13 @@ int main ()
 
 SIMPLE_TEST(struct videoconfig w; w.numtextcols=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_STRUCT_VIDEOCONFIG */
 
 #ifdef HAVE_STRUCT_TEXT_INFO
 
 SIMPLE_TEST(struct text_info w; w.screenwidth=0);
 
-#endif /* HAVE_TM_GMTOFF */
+#endif /* HAVE_STRUCT_TEXT_INFO */
 
 #if defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE )
 #ifndef __cplusplus

@@ -1320,7 +1320,7 @@ print_type(h5tools_str_t *buffer, hid_t type, int ind)
     if(H5Tcommitted(type)) {
         H5O_info_t  oi;
 
-        if(H5Oget_info(type, &oi) >= 0)
+        if(H5Oget_info2(type, &oi, H5O_INFO_BASIC) >= 0)
             h5tools_str_append(buffer,"shared-%lu:"H5_PRINTF_HADDR_FMT" ",
                     oi.fileno, oi.addr);
         else
@@ -1617,38 +1617,39 @@ list_attr(hid_t obj, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *ain
 
         info = &outputformat;
 
-        if(hexdump_g)
-           p_type = H5Tcopy(type);
-        else
-           p_type = h5tools_get_native_type(type);
+        if(space_type != H5S_NULL && space_type != H5S_NO_CLASS) {
+            if(hexdump_g)
+                p_type = H5Tcopy(type);
+            else
+                p_type = H5Tget_native_type(type, H5T_DIR_DEFAULT);
 
-        if(p_type >= 0) {
-            /* VL data special information */
-            unsigned int        vl_data = 0; /* contains VL datatypes */
+            if(p_type >= 0) {
+                /* VL data special information */
+                unsigned int        vl_data = 0; /* contains VL datatypes */
 
-            /* Check if we have VL data in the dataset's datatype */
-            if (h5tools_detect_vlen(p_type) == TRUE)
-                vl_data = TRUE;
+                /* Check if we have VL data in the dataset's datatype */
+                if (h5tools_detect_vlen(p_type) == TRUE)
+                    vl_data = TRUE;
 
-            temp_need= nelmts * MAX(H5Tget_size(type), H5Tget_size(p_type));
-            HDassert(temp_need == (hsize_t)((size_t)temp_need));
-            need = (size_t)temp_need;
-            buf = HDmalloc(need);
-            HDassert(buf);
-            if(H5Aread(attr, p_type, buf) >= 0) {
-                ctx.need_prefix = TRUE;
-                ctx.indent_level = 2;
-                ctx.cur_column = (size_t)curr_pos;
-                h5tools_dump_mem(rawoutstream, info, &ctx, attr, p_type, space, buf);
-            }
+                temp_need = nelmts * MAX(H5Tget_size(type), H5Tget_size(p_type));
+                need = (size_t)temp_need;
+                if((buf = HDmalloc(need)) != NULL) {
+                    if(H5Aread(attr, p_type, buf) >= 0) {
+                        ctx.need_prefix = TRUE;
+                        ctx.indent_level = 2;
+                        ctx.cur_column = (size_t)curr_pos;
+                        h5tools_dump_mem(rawoutstream, info, &ctx, attr, p_type, space, buf);
+                    }
 
-            /* Reclaim any VL memory, if necessary */
-            if (vl_data)
-                H5Dvlen_reclaim(p_type, space, H5P_DEFAULT, buf);
+                    /* Reclaim any VL memory, if necessary */
+                    if (vl_data)
+                        H5Dvlen_reclaim(p_type, space, H5P_DEFAULT, buf);
 
-            HDfree(buf);
-            H5Tclose(p_type);
-        } /* end if */
+                    HDfree(buf);
+                }
+                H5Tclose(p_type);
+            } /* end if */
+        }
 
         H5Sclose(space);
         H5Tclose(type);
@@ -1873,7 +1874,7 @@ dataset_list2(hid_t dset, const char H5_ATTR_UNUSED *name)
             case H5D_LAYOUT_ERROR:
             case H5D_NLAYOUTS:
             default:
-                HDassert(0);
+                h5tools_str_append(&buffer, "layout information not available");
                 break;
         }
         /* Print total raw storage size */
@@ -2385,7 +2386,7 @@ visit_obj(hid_t file, const char *oname, iter_t *iter)
     h5tools_str_reset(&buffer);
 
     /* Retrieve info for object to list */
-    if(H5Oget_info_by_name(file, oname, &oi, H5P_DEFAULT) < 0) {
+    if(H5Oget_info_by_name2(file, oname, &oi, H5O_INFO_BASIC|H5O_INFO_TIME, H5P_DEFAULT) < 0) {
         if(iter->symlink_target) {
             h5tools_str_append(&buffer, "{**NOT FOUND**}\n");
             iter->symlink_target = FALSE;
@@ -2413,7 +2414,7 @@ visit_obj(hid_t file, const char *oname, iter_t *iter)
         iter->name_start = iter->base_len;
 
         /* Specified name is a group. List the complete contents of the group. */
-        h5trav_visit(file, oname, (hbool_t) (display_root_g || iter->symlink_target), recursive_g, list_obj, list_lnk, iter);
+        h5trav_visit(file, oname, (hbool_t) (display_root_g || iter->symlink_target), recursive_g, list_obj, list_lnk, iter, H5O_INFO_BASIC|H5O_INFO_TIME);
 
         /* Close group */
         if(!iter->symlink_target)
@@ -2708,6 +2709,7 @@ main(int argc, const char *argv[])
                     case 'h': /* --help */
                         usage();
                         leave(EXIT_SUCCESS);
+                        break;
 
                     case 'a': /* --address */
                         address_g = TRUE;
@@ -2758,6 +2760,7 @@ main(int argc, const char *argv[])
                     case 'V': /* --version */
                         print_version(h5tools_getprogname());
                         leave(EXIT_SUCCESS);
+                        break;
 
                     case 'x': /* --hexdump */
                         hexdump_g = TRUE;

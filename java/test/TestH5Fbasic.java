@@ -14,6 +14,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,8 +33,8 @@ import org.junit.rules.TestName;
 
 public class TestH5Fbasic {
     @Rule public TestName testname = new TestName();
-    private static final String H5_FILE = "test.h5";
-    private static final String TXT_FILE = "test.txt";
+    private static final String H5_FILE = "testFb.h5";
+    private static final String TXT_FILE = "testFb.txt";
     long H5fid = -1;
 
     private final void _deleteFile(String filename) {
@@ -313,6 +314,22 @@ public class TestH5Fbasic {
         }
         catch (Throwable err) {
             fail("H5.H5Freset_mdc_hit_rate_stats: " + err);
+        }
+    }
+
+    @Test
+    public void testH5F_dset_no_attrs_hint() {
+        boolean ret_val_id = true;
+        try {
+            ret_val_id = H5.H5Fget_dset_no_attrs_hint(H5fid);
+            assertFalse("H5F_dset_no_attrs_hint", ret_val_id);
+            H5.H5Fset_dset_no_attrs_hint(H5fid, true);
+            ret_val_id = H5.H5Fget_dset_no_attrs_hint(H5fid);
+            assertTrue("H5F_dset_no_attrs_hint", ret_val_id);
+        }
+        catch (Throwable err) {
+            err.printStackTrace();
+            fail("H5F_dset_no_attrs_hint: " + err);
         }
     }
 }

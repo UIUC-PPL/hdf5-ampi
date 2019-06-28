@@ -56,11 +56,6 @@ static struct long_options l_opts[] = {
  * Purpose:     Print the usage message
  *
  * Return:      void
- *
- * Programmer:
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -73,13 +68,13 @@ usage (const char *prog)
     HDfprintf (stdout,
     "Adds user block to front of an HDF5 file and creates a new concatenated file.\n");
     HDfprintf (stdout, "\n");
-    HDfprintf (stdout, 
+    HDfprintf (stdout,
     "OPTIONS\n");
-    HDfprintf (stdout, 
+    HDfprintf (stdout,
     "  -i in_file.h5    Specifies the input HDF5 file.\n");
-    HDfprintf (stdout, 
+    HDfprintf (stdout,
     "  -u in_user_file  Specifies the file to be inserted into the user block.\n");
-    HDfprintf (stdout, 
+    HDfprintf (stdout,
     "                   Can be any file format except an HDF5 format.\n");
     HDfprintf (stdout,
     "  -o out_file.h5   Specifies the output HDF5 file.\n");
@@ -120,7 +115,6 @@ usage (const char *prog)
  * Purpose:     Shutdown and call exit()
  *
  * Return:      Does not return
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -144,13 +138,7 @@ leave(int ret)
  * Purpose:     Parse the command line for the h5dumper.
  *
  * Return:      Success:
- *
  *              Failure:    Exits program with EXIT_FAILURE value.
- *
- * Programmer:
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 
@@ -179,9 +167,11 @@ parse_command_line (int argc, const char *argv[])
       case 'h':
           usage (h5tools_getprogname());
           leave (EXIT_SUCCESS);
+          break;
       case 'V':
           print_version (h5tools_getprogname());
           leave (EXIT_SUCCESS);
+          break;
       case '?':
       default:
           usage (h5tools_getprogname());
@@ -197,11 +187,6 @@ parse_command_line (int argc, const char *argv[])
  *
  * Return:      Success:    0
  *              Failure:    1
- *
- * Programmer:
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 int
@@ -236,11 +221,11 @@ main (int argc, const char *argv[])
     /* Initialize h5tools lib */
     h5tools_init();
 
-    parse_command_line (argc, argv);
+    parse_command_line(argc, argv);
 
     if (ub_file == NULL) {
         /* no user block */
-        error_msg("missing arguemnt for -u <user_file>.\n");
+        error_msg("missing argument for -u <user_file>.\n");
         help_ref_msg(stderr);
         leave (EXIT_FAILURE);
     }
@@ -254,7 +239,7 @@ main (int argc, const char *argv[])
     }
 
     if (input_file == NULL) {
-        error_msg("missing arguemnt for -i <HDF5 file>.\n");
+        error_msg("missing argument for -i <HDF5 file>.\n");
         help_ref_msg(stderr);
         leave (EXIT_FAILURE);
     }
@@ -267,21 +252,21 @@ main (int argc, const char *argv[])
         leave (EXIT_FAILURE);
     }
 
-    ifile = H5Fopen (input_file, H5F_ACC_RDONLY, H5P_DEFAULT);
+    ifile = H5Fopen(input_file, H5F_ACC_RDONLY, H5P_DEFAULT);
 
     if (ifile < 0) {
         error_msg("Can't open input HDF5 file \"%s\"\n", input_file);
         leave (EXIT_FAILURE);
     }
 
-    plist = H5Fget_create_plist (ifile);
+    plist = H5Fget_create_plist(ifile);
     if (plist < 0) {
         error_msg("Can't get file creation plist for file \"%s\"\n", input_file);
         H5Fclose(ifile);
         leave (EXIT_FAILURE);
     }
 
-    status = H5Pget_userblock (plist, &usize);
+    status = H5Pget_userblock(plist, &usize);
     if (status < 0) {
         error_msg("Can't get user block for file \"%s\"\n", input_file);
         H5Pclose(plist);
@@ -292,7 +277,7 @@ main (int argc, const char *argv[])
     H5Pclose(plist);
     H5Fclose(ifile);
 
-    ufid = HDopen(ub_file, O_RDONLY, 0);
+    ufid = HDopen(ub_file, O_RDONLY);
     if(ufid < 0) {
         error_msg("unable to open user block file \"%s\"\n", ub_file);
         leave (EXIT_FAILURE);
@@ -307,7 +292,7 @@ main (int argc, const char *argv[])
 
     fsize = (off_t)sbuf.st_size;
 
-    h5fid = HDopen(input_file, O_RDONLY, 0);
+    h5fid = HDopen(input_file, O_RDONLY);
     if(h5fid < 0) {
         error_msg("unable to open HDF5 file for read \"%s\"\n", input_file);
         HDclose (ufid);
@@ -325,7 +310,7 @@ main (int argc, const char *argv[])
     h5fsize = (hsize_t)sbuf2.st_size;
 
     if (output_file == NULL) {
-        ofid = HDopen (input_file, O_WRONLY, 0);
+        ofid = HDopen(input_file, O_WRONLY);
 
         if (ofid < 0) {
             error_msg("unable to open output file \"%s\"\n", output_file);
@@ -335,7 +320,7 @@ main (int argc, const char *argv[])
         }
     }
     else {
-        ofid = HDopen (output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        ofid = HDopen(output_file, O_WRONLY | O_CREAT | O_TRUNC, H5_POSIX_CREATE_MODE_RW);
 
         if (ofid < 0) {
             error_msg("unable to create output file \"%s\"\n", output_file);
@@ -345,7 +330,7 @@ main (int argc, const char *argv[])
         }
     }
 
-    newubsize = compute_user_block_size ((hsize_t) fsize);
+    newubsize = compute_user_block_size((hsize_t) fsize);
 
     startub = usize;
 
@@ -360,22 +345,22 @@ main (int argc, const char *argv[])
         else {
             /* add new ub to current ublock, pad to new offset */
             newubsize += usize;
-            newubsize = compute_user_block_size ((hsize_t) newubsize);
+            newubsize = compute_user_block_size((hsize_t) newubsize);
         }
     }
 
     /* copy the HDF5 from starting at usize to starting at newubsize:
      *  makes room at 'from' for new ub */
     /* if no current ub, usize is 0 */
-    copy_some_to_file (h5fid, ofid, usize, newubsize, (ssize_t) (h5fsize - usize));
+    copy_some_to_file(h5fid, ofid, usize, newubsize, (ssize_t) (h5fsize - usize));
 
     /* copy the old ub to the beginning of the new file */
     if (!do_clobber) {
-        where = copy_some_to_file (h5fid, ofid, (hsize_t) 0, (hsize_t) 0, (ssize_t) usize);
+        where = copy_some_to_file(h5fid, ofid, (hsize_t) 0, (hsize_t) 0, (ssize_t) usize);
     }
 
     /* copy the new ub to the end of the ub */
-    where = copy_some_to_file (ufid, ofid, (hsize_t) 0, startub, (ssize_t) - 1);
+    where = copy_some_to_file(ufid, ofid, (hsize_t) 0, startub, (ssize_t) - 1);
 
     /* pad the ub */
     if(write_pad(ofid, where, &where) < 0) {
@@ -387,18 +372,18 @@ main (int argc, const char *argv[])
     } /* end if */
 
     if(ub_file)
-        HDfree (ub_file);
+        HDfree(ub_file);
     if(input_file)
-        HDfree (input_file);
+        HDfree(input_file);
     if(output_file)
-        HDfree (output_file);
-    
+        HDfree(output_file);
+
     if(ufid >= 0)
-        HDclose (ufid);
+        HDclose(ufid);
     if(h5fid >= 0)
-        HDclose (h5fid);
+        HDclose(h5fid);
     if(ofid >= 0)
-        HDclose (ofid);
+        HDclose(ofid);
 
     return h5tools_getstatus();
 }
@@ -421,7 +406,6 @@ main (int argc, const char *argv[])
  *
  * Return:      Success:    last byte written in the output.
  *              Failure:    Exits program with EXIT_FAILURE value.
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -453,7 +437,8 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout,
         } /* end if */
 
         howmuch = (ssize_t)sbuf.st_size;
-    } else {
+    }
+    else {
         howmuch = limit;
     } /* end if */
 
@@ -466,7 +451,8 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout,
     if (howmuch > 512) {
         to = toend - 512;
         from = fromend - 512;
-    } else {
+    }
+    else {
         to = toend - howmuch;
         from = fromend - howmuch;
     } /* end if */
@@ -477,7 +463,8 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout,
 
         if (howmuch > 512) {
             nchars = HDread(infid, buf, (unsigned) 512);
-        } else {
+        }
+        else {
             nchars = HDread(infid, buf, (unsigned)howmuch);
         } /* end if */
 
@@ -496,7 +483,8 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout,
         if(howmuch > 512) {
             to -= nchars;
             from -= nchars;
-        } else {
+        }
+        else {
             to -= howmuch;
             from -= howmuch;
         } /* end if */
@@ -510,15 +498,11 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout,
  * Function:    compute_user_block_size
  *
  * Purpose:     Find the offset of the HDF5 header after the user block:
- *                 align at 0, 512, 1024, etc.
- *      ublock_size: the size of the user block (bytes).
+ *              align at 0, 512, 1024, etc.
+ *              ublock_size: the size of the user block (bytes).
  *
- * Return:      Success:    the location of the header == the size of the
- *        padded user block.
+ * Return:      Success:    the location of the header == the size of the padded user block.
  *              Failure:    none
- *
- * Return:      Success:    last byte written in the output.
- *              Failure:    Exits program with EXIT_FAILURE value.
  *-------------------------------------------------------------------------
  */
 H5_ATTR_CONST hsize_t
@@ -535,11 +519,12 @@ compute_user_block_size(hsize_t ublock_size)
     return where;
 } /* end compute_user_block_size() */
 
-/*
+/*-------------------------------------------------------------------------
  *  Write zeroes to fill the file from 'where' to 512, 1024, etc. bytes.
  *
  *  Sets new_where to the size of the padded file and
  *  returns SUCCEED/FAIL.
+ *-------------------------------------------------------------------------
  */
 herr_t
 write_pad(int ofile, hsize_t old_where, hsize_t *new_where)
@@ -548,7 +533,8 @@ write_pad(int ofile, hsize_t old_where, hsize_t *new_where)
     char buf[1];
     hsize_t psize;
 
-    HDassert(new_where);
+    if(new_where == NULL)
+        return FAIL;
 
     buf[0] = '\0';
 

@@ -56,11 +56,6 @@ static struct long_options l_opts[] = {
  * Purpose:     Print the usage message
  *
  * Return:      void
- *
- * Programmer:
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -124,37 +119,35 @@ usage(const char *prog)
  * Purpose:     Parse the command line for the h5dumper.
  *
  * Return:      Success:    EXIT_SUCCESS;
- *
  *              Failure:    Exits function with EXIT_FAILURE value.
- *
  *-------------------------------------------------------------------------
  */
 static int
 parse_command_line(int argc, const char *argv[])
 {
     int opt = FALSE;
-	
+
    /* parse command line options */
     while ((opt = get_option(argc, argv, s_opts, l_opts)) != EOF) {
         switch((char)opt) {
             case 'o':
                 output_file = HDstrdup(opt_arg);
-				if (output_file)
-				    h5tools_set_data_output_file(output_file, 1);
-	            break;
+                if (output_file)
+                    h5tools_set_data_output_file(output_file, 1);
+                break;
 
             case 'i':
                 input_file = HDstrdup(opt_arg);
-				if (input_file)
-   				    h5tools_set_input_file(input_file, 1);
-	            break;;
+                if (input_file)
+                    h5tools_set_input_file(input_file, 1);
+                break;;
 
             case 'u':
                 ub_file = HDstrdup(opt_arg);
-				if (ub_file)
-				    h5tools_set_output_file(ub_file, 1);
-				else 
-				    rawoutstream = stdout;			
+                if (ub_file)
+                    h5tools_set_output_file(ub_file, 1);
+                else
+                    rawoutstream = stdout;
                 break;
 
             case 'd':
@@ -180,7 +173,7 @@ parse_command_line(int argc, const char *argv[])
     }
 
     return EXIT_SUCCESS;
-    
+
 done:
     if(input_file)
         HDfree(input_file);
@@ -199,11 +192,6 @@ done:
  *
  * Return:      Success:    0
  *              Failure:    1
- *
- * Programmer:
- *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 int
@@ -235,12 +223,12 @@ main(int argc, const char *argv[])
 
     if (input_file == NULL) {
         /* no user block  */
-        error_msg("missing arguemnt for HDF5 file input.\n");
+        error_msg("missing argument for HDF5 file input.\n");
         help_ref_msg(stderr);
         h5tools_setstatus(EXIT_FAILURE);
         goto done;
     }
-  
+
     testval = H5Fis_hdf5(input_file);
 
     if (testval <= 0) {
@@ -272,10 +260,8 @@ main(int argc, const char *argv[])
         goto done;
     }
 
-    status = H5Pclose(plist);
-    HDassert(status >= 0);
-    status = H5Fclose(ifile);
-    HDassert(status >= 0);
+    H5Pclose(plist);
+    H5Fclose(ifile);
 
     if (usize == 0) {
   /* no user block to remove: message? */
@@ -303,7 +289,7 @@ main(int argc, const char *argv[])
             error_msg("unable to open output HDF5 file \"%s\"\n", input_file);
             h5tools_setstatus(EXIT_FAILURE);
             goto done;
-    } 
+    }
 
     /* copy from 0 to 'usize - 1' into ufid  */
     if (!do_delete) {
@@ -321,28 +307,29 @@ main(int argc, const char *argv[])
         h5tools_setstatus(EXIT_FAILURE);
         goto done;
     }
- 
+
 done:
     if(input_file)
         HDfree(input_file);
-		
+
     if(output_file)
         HDfree(output_file);
-		
+
     if(ub_file) {
         HDfree(ub_file);
     }
-	   
+
     h5tools_close();
 
     return h5tools_getstatus();
 }
 
-/*
+/*-------------------------------------------------------------------------
  *  Copy 'how_much' bytes from the input file to the output file,
  *  starting at byte 'where' in the input file.
  *
  *  Returns 0 on success, -1 on failure.
+ *-------------------------------------------------------------------------
  */
 herr_t
 copy_to_file( FILE *infid, FILE *ofid, ssize_t _where, ssize_t show_much )
@@ -374,7 +361,7 @@ copy_to_file( FILE *infid, FILE *ofid, ssize_t _where, ssize_t show_much )
         else
             bytes_in = how_much;
 
-			/* Seek to correct position in input file */
+            /* Seek to correct position in input file */
         HDfseek(infid, from, SEEK_SET);
 
         /* Read data to buffer */
@@ -396,11 +383,11 @@ copy_to_file( FILE *infid, FILE *ofid, ssize_t _where, ssize_t show_much )
         to += (off_t)bytes_read;
 
        /* Write nchars bytes to output file */
-		bytes_wrote = HDfwrite(buf, (size_t)1, bytes_read, ofid);
-		if(bytes_wrote != bytes_read || (0 == bytes_wrote && HDferror(ofid))) { /* error */
-			ret_value = -1;
-			goto done;
-		} /* end if */
+        bytes_wrote = HDfwrite(buf, (size_t)1, bytes_read, ofid);
+        if(bytes_wrote != bytes_read || (0 == bytes_wrote && HDferror(ofid))) { /* error */
+            ret_value = -1;
+            goto done;
+        } /* end if */
     } /* end while */
 
 done:

@@ -24,7 +24,7 @@ AC_PREREQ([2.69])
 ## NOTE: Do not forget to change the version number here when we do a
 ## release!!!
 ##
-AC_INIT([HDF5], [1.10.1], [help@hdfgroup.org])
+AC_INIT([HDF5], [1.10.5], [help@hdfgroup.org])
 
 AC_CONFIG_SRCDIR([src/H5.c])
 AC_CONFIG_HEADERS([src/H5config.h])
@@ -99,6 +99,7 @@ AC_CONFIG_COMMANDS([pubconf], [
 AC_CANONICAL_HOST
 AC_SUBST([CPPFLAGS])
 AC_SUBST([JNIFLAGS])
+AC_SUBST([AR_FLAGS])
 
 ## H5_CFLAGS (and company) are for CFLAGS that should be used on HDF5, but
 ## not exported to h5cc (or h5fc, etc.)
@@ -139,6 +140,7 @@ JNIFLAGS="${JNIFLAGS}"
 JAVACFLAGS="${JAVACFLAGS}"
 JAVAFLAGS="${JAVAFLAGS}"
 LDFLAGS="${LDFLAGS}"
+AR_FLAGS="${AR_FLAGS}"
 
 ## Configure may need to alter any of the *FLAGS variables in order for
 ## various checks to work correctly. Save the user's value here so it
@@ -409,7 +411,7 @@ AC_CHECK_SIZEOF([double])
 AC_CHECK_SIZEOF([long double])
 
 ## ----------------------------------------------------------------------
-## Check for non-standard extenstion __FLOAT128
+## Check for non-standard extension __FLOAT128
 ##
 HAVE_FLOAT128=0
 HAVE_QUADMATH=0
@@ -585,11 +587,11 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
     AC_DEFINE([FORTRAN_HAVE_STORAGE_SIZE], [1], [Define if we have Fortran intrinsic STORAGE_SIZE])
   fi
 
-  if  test "X$HAVE_C_SIZEOF_FORTRAN" = "Xyes"; then
+  if test "X$HAVE_C_SIZEOF_FORTRAN" = "Xyes"; then
     AC_DEFINE([FORTRAN_HAVE_C_SIZEOF], [1], [Define if we have Fortran intrinsic C_SIZEOF])
   fi
 
-  if  test "X$HAVE_SIZEOF_FORTRAN" = "Xyes"; then
+  if test "X$HAVE_SIZEOF_FORTRAN" = "Xyes"; then
     AC_DEFINE([FORTRAN_HAVE_SIZEOF], [1], [Define if we have Fortran intrinsic SIZEOF])
   fi
 
@@ -604,7 +606,7 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
 
   ## Is C_LONG_DOUBLE different from C_DOUBLE
   FORTRAN_C_LONG_DOUBLE_IS_UNIQUE="0"
-  if test "X$FORTRAN_HAVE_C_LONG_DOUBLE"; then
+  if test "$FORTRAN_HAVE_C_LONG_DOUBLE" = "1"; then
     PAC_PROG_FC_C_LONG_DOUBLE_EQ_C_DOUBLE
     if test "X$C_LONG_DOUBLE_IS_UNIQUE_FORTRAN" = "Xyes"; then
       FORTRAN_C_LONG_DOUBLE_IS_UNIQUE="1"
@@ -757,11 +759,16 @@ fi
 ## Check which archiving tool to use. This needs to be done before
 ## the AM_PROG_LIBTOOL macro.
 ##
-
 if test -z "$AR"; then
   AC_CHECK_PROGS([AR], [ar xar], [:], [$PATH])
 fi
 AC_SUBST([AR])
+
+# Set the default ar flags to cr
+# The Automake default is to use cru and the 'u' causes ar
+# to emit warnings on some platforms.
+AR_FLAGS=cr
+
 
 ## Export the AR macro so that it will be placed in the libtool file
 ## correctly.
@@ -841,19 +848,6 @@ AC_SUBST([RUNPARALLEL])
 AC_SUBST([TESTPARALLEL])
 
 ## ----------------------------------------------------------------------
-## Disable shared libraries on CYGWIN. (LK - 04/16/15)
-## A number of tests run by "make check" fail on CYGWIN, so for HDF5 v1.8.15
-## we will change the default for shared libraries to disabled.
-
-
-case "`uname`" in
-  CYGWIN*)
-    enable_shared="no"
-    CHECK_WARN="Shared libraries are not currently supported on CYGWIN."
-    ;;
-esac
-
-## ----------------------------------------------------------------------
 ## Check if they would like the Java native interface (JNI) compiled
 ##
 
@@ -918,14 +912,13 @@ H5_FORTRAN_SHARED="no"
 if test "X${HDF_FORTRAN}" = "Xyes" && test "X${enable_shared}" != "Xno"; then
   AC_MSG_CHECKING([if shared Fortran libraries are supported])
   H5_FORTRAN_SHARED="yes"
-
-  ## Disable fortran shared libraries on Mac. (MAM - 03/30/11)
-
+  ## tell libtool to do the right thing with COMMON symbols, this fixes
+  ## corrupt values with COMMON and EQUIVALENCE when building shared
+  ## Fortran libraries on OSX with gnu and Intel compilers (HDFFV-2772).
   case "`uname`" in
     Darwin*)
-    H5_FORTRAN_SHARED="no"
-    CHECK_WARN="Shared Fortran libraries not currently supported on Mac."
-      ;;
+    H5_LDFLAGS="$H5_LDFLAGS -Wl,-commons,use_dylibs"
+    ;;
   esac
 
   ## Report results of check(s)
@@ -1063,6 +1056,7 @@ esac
 case "`uname`" in
   CYGWIN*)
     AC_CHECK_HEADERS([io.h sys/timeb.h])
+    UNAME_CYGWIN="yes"
     ;;
   MINGW*)
     AC_CHECK_HEADERS([io.h winsock2.h sys/timeb.h])
@@ -1137,11 +1131,12 @@ case "$host_cpu-$host_vendor-$host_os" in
     ## functionality so clock_gettime and CLOCK_MONOTONIC are defined
     ## correctly. This was later updated to 200112L so that
     ## posix_memalign() is visible for the direct VFD code on Linux
-    ## systems.
+    ## systems. Even later, this was changed to 200809L to support
+    ## pread/pwrite in VFDs.
     ##
     ## POSIX feature information can be found in the gcc manual at:
     ## http://www.gnu.org/s/libc/manual/html_node/Feature-Test-Macros.html
-    H5_CPPFLAGS="-D_POSIX_C_SOURCE=200112L $H5_CPPFLAGS"
+    H5_CPPFLAGS="-D_POSIX_C_SOURCE=200809L $H5_CPPFLAGS"
 
     ## Need to add this so that O_DIRECT is visible for the direct
     ## VFD on Linux systems.
@@ -1217,6 +1212,15 @@ EOF
 AC_CHECK_SIZEOF([bool])
 fi
 
+AC_CHECK_SIZEOF(time_t, [], [
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_TIME_H
+#include <time.h>
+#endif
+])
+
 ## Checkpoint the cache
 AC_CACHE_SAVE
 
@@ -1252,10 +1256,11 @@ AC_ARG_WITH([fnord],
   ])
 
 ## ----------------------------------------------------------------------
-## Is the dmalloc present? It has a header file `dmalloc.h' and a library
-## `-ldmalloc' and their locations might be specified with the `--with-dmalloc'
-## command-line switch. The value is an include path and/or a library path.
-## If the library path is specified then it must be preceded by a comma.
+## Is dmalloc (debug malloc library) requested? It has a header file
+## `dmalloc.h' and a library `-ldmalloc' and their locations might be
+## specified with the `--with-dmalloc' command-line switch. The value
+## is an include path and/or a library path. If the library path is
+## specified then it must be preceded by a comma.
 ##
 AC_SUBST([HAVE_DMALLOC])
 
@@ -1267,8 +1272,8 @@ AC_ARG_WITH([dmalloc],
                             [Use dmalloc memory debugging aid [default=no]])],,
             [withval=no])
 
-case $withval in
-  yes)
+case "X-$withval" in
+  X-yes)
     HAVE_DMALLOC="yes"
     AC_CHECK_HEADERS([dmalloc.h],, [unset HAVE_DMALLOC])
     if test "x$HAVE_DMALLOC" = "xyes"; then
@@ -1278,7 +1283,7 @@ case $withval in
       AC_MSG_ERROR([couldn't find dmalloc library])
     fi
     ;;
-  no)
+  X-|X-no|X-none)
     HAVE_DMALLOC="no"
     AC_MSG_CHECKING([for dmalloc library])
     AC_MSG_RESULT([suppressed])
@@ -1346,8 +1351,8 @@ AC_ARG_WITH([zlib],
                              filter [default=yes]])],,
             [withval=yes])
 
-case $withval in
-  yes)
+case "X-$withval" in
+  X-yes)
     HAVE_ZLIB="yes"
     AC_CHECK_HEADERS([zlib.h], [HAVE_ZLIB_H="yes"], [unset HAVE_ZLIB])
     if test "x$HAVE_ZLIB" = "xyes" -a "x$HAVE_ZLIB_H" = "xyes"; then
@@ -1361,7 +1366,7 @@ case $withval in
       AC_CHECK_FUNC([compress2], [HAVE_COMPRESS2="yes"])
     fi
     ;;
-  no)
+  X-|X-no|X-none)
     HAVE_ZLIB="no"
     AC_MSG_CHECKING([for zlib])
     AC_MSG_RESULT([suppressed])
@@ -1440,8 +1445,8 @@ AC_ARG_WITH([szlib],
                              filter [default=no]])],,
             [withval=no])
 
-case $withval in
-  yes)
+case "X-$withval" in
+  X-yes)
     HAVE_SZLIB="yes"
     AC_CHECK_HEADERS([szlib.h], [HAVE_SZLIB_H="yes"], [unset HAVE_SZLIB])
     if test "x$HAVE_SZLIB" = "xyes" -a "x$HAVE_SZLIB_H" = "xyes"; then
@@ -1451,7 +1456,7 @@ case $withval in
       AC_MSG_ERROR([couldn't find szlib library])
     fi
     ;;
-  no)
+  X-|X-no|X-none)
     HAVE_SZLIB="no"
     AC_MSG_CHECKING([for szlib])
     AC_MSG_RESULT([suppressed])
@@ -1941,26 +1946,17 @@ AC_DEFINE_UNQUOTED([PRINTF_LL_WIDTH], ["$hdf5_cv_printf_ll"],
                    [Width for printf() for type `long long' or `__int64', use `ll'])
 
 ## ----------------------------------------------------------------------
-## Deprecate old ways of determining debug/production build
-## These can probably be removed in the future (1.10.1?)
+## Remove old ways of determining debug/production build.
+## These were used in 1.8.x and earlier. We should probably keep these checks
+## around to help people migrate to 1.10.x and newer versions.
 ##
 AC_ARG_ENABLE([debug],
-              [AS_HELP_STRING([--enable-debug],
-               [DEPRECATED: use --enable-build-mode=debug])],
-              [DEPRECATED_DEBUG=$enableval])
-
-if test "X-$DEPRECATED_DEBUG" != "X-" ; then
-    AC_MSG_ERROR([--enable-debug is deprecated, use --enable-build-mode=debug instead.])
-fi
+              [AS_HELP_STRING([--enable-debug], [OPTION CHANGE: use --enable-build-mode=debug])],
+              [AC_MSG_ERROR([--enable-debug is no longer supported, use --enable-build-mode=debug instead.])])
 
 AC_ARG_ENABLE([production],
-              [AS_HELP_STRING([--enable-production],
-               [DEPRECATED: use --enable-build-mode=production])],
-              [DEPRECATED_PRODUCTION=$enableval])
-
-if test "X-$DEPRECATED_PRODUCTION" != "X-" ; then
-    AC_MSG_ERROR([--enable-production is deprecated, use --enable-build-mode=production instead.])
-fi
+              [AS_HELP_STRING([--enable-production], [OPTION CHANGE: use --enable-build-mode=production])],
+              [AC_MSG_ERROR([--enable-production is no longer supported, use --enable-build-mode=production instead.])])
 
 
 ## ----------------------------------------------------------------------
@@ -2244,7 +2240,7 @@ AC_SUBST([INTERNAL_DEBUG_OUTPUT])
 ## are not listed in the "all" packages list.
 ##
 ## all_packages="AC,B,B2,D,F,FA,FL,FS,HL,I,O,S,ST,T,Z"
-all_packages="AC,B2,D,F,HL,I,O,S,ST,T,Z"
+all_packages="AC,B2,CX,D,F,HL,I,O,S,ST,T,Z"
 
 case "X-$INTERNAL_DEBUG_OUTPUT" in
   X-yes|X-all)
@@ -2300,40 +2296,6 @@ case "X-$CODESTACK" in
     ;;
   *)
       AC_MSG_ERROR([Unrecognized value: $CODESTACK])
-    ;;
-esac
-
-## ----------------------------------------------------------------------
-## Check if they would like the metadata trace file code compiled in
-##
-AC_MSG_CHECKING([whether metadata trace file code is enabled])
-AC_ARG_ENABLE([metadata-trace-file],
-              [AS_HELP_STRING([--enable-metadata-trace-file],
-                              [Enable metadata trace file collection.
-                               [default=no]
-                              ])],
-              [METADATATRACEFILE=$enableval])
-
-## Set the default level.
-if test "X-$METADATATRACEFILE" = X- ; then
-  METADATATRACEFILE=no
-fi
-
-## Allow this variable to be substituted in
-## other files (src/libhdf5.settings.in, etc.)
-AC_SUBST([METADATATRACEFILE])
-
-case "X-$METADATATRACEFILE" in
-  X-yes)
-      AC_MSG_RESULT([yes])
-      AC_DEFINE([METADATA_TRACE_FILE], [1],
-                [Define if the metadata trace file code is to be compiled in])
-    ;;
-  X-no)
-      AC_MSG_RESULT([no])
-    ;;
-  *)
-      AC_MSG_ERROR([Unrecognized value: $METADATATRACEFILE])
     ;;
 esac
 
@@ -2546,6 +2508,8 @@ esac
 AC_SUBST([ADD_PARALLEL_FILES]) ADD_PARALLEL_FILES="no"
 AC_SUBST([MPE]) MPE=no
 AC_SUBST([INSTRUMENT_LIBRARY]) INSTRUMENT_LIBRARY=no
+AC_SUBST([PARALLEL_FILTERED_WRITES])
+AC_SUBST([LARGE_PARALLEL_IO])
 
 if test -n "$PARALLEL"; then
   ## The 'testpar' directory should participate in the build
@@ -2701,6 +2665,61 @@ if test -n "$PARALLEL"; then
   if test "X-$MPE" = "X-yes"; then
     AC_DEFINE([HAVE_MPE], [1], [Define if we have MPE support])
   fi
+
+  ## ----------------------------------------------------------------------
+  ## Check for the MPI-3 functions necessary for the Parallel Compression
+  ## feature. If these are not present, issue a warning that Parallel
+  ## Compression will be disabled.
+  ##
+  AC_MSG_CHECKING([for MPI_Mprobe and MPI_Imrecv functions])
+
+  AC_LINK_IFELSE(
+      [AC_LANG_PROGRAM(
+          [[
+              #include <mpi.h>
+          ]],
+          [[
+              MPI_Message message;
+              MPI_Init(0, (void *) 0);
+              MPI_Mprobe(0, 0, 0, &message, (void *) 0);
+              MPI_Imrecv((void *) 0, 0, 0, (void *) 0, (void *) 0);
+          ]]
+      )],
+      [AC_MSG_RESULT([yes])
+       PARALLEL_FILTERED_WRITES=yes],
+      [AC_MSG_RESULT([no])
+       AC_MSG_WARN([A simple MPI program using the MPI_Mprobe and MPI_Imrecv functions could not be compiled and linked.
+                    Parallel writes of filtered data will be disabled.])
+       PARALLEL_FILTERED_WRITES=no]
+  )
+
+  ## ----------------------------------------------------------------------
+  ## Check for the MPI-3 functions necessary for the big I/O feature.
+  ## If these are not present, issue a warning that the big I/O feature
+  ## will be disabled.
+  ##
+  AC_MSG_CHECKING([for MPI_Get_elements_x and MPI_Type_size_x functions])
+
+  AC_LINK_IFELSE(
+      [AC_LANG_PROGRAM(
+          [[
+              #include <mpi.h>
+          ]],
+          [[
+              MPI_Count count;
+              MPI_Init(0, (void *) 0);
+              MPI_Get_elements_x(0, 0, &count);
+              MPI_Type_size_x(0, &count);
+          ]]
+      )],
+      [AC_MSG_RESULT([yes])
+       LARGE_PARALLEL_IO=yes],
+      [AC_MSG_RESULT([no])
+       AC_MSG_WARN([A simple MPI program using the MPI_Get_elements_x and MPI_Type_size_x functions could not be compiled and linked.
+                    Reading/Writing >2GB of data in a single parallel I/O operation will be disabled.])
+       LARGE_PARALLEL_IO=no]
+  )
+
 fi
 
 ## ----------------------------------------------------------------------
@@ -2952,6 +2971,30 @@ else
 fi
 
 ## ----------------------------------------------------------------------
+## Set the flag to indicate that the machine is IBM ppc64le and cannot
+## accurately convert some long double values.
+##
+AC_MSG_CHECKING([if the system is IBM ppc64le and cannot correctly convert some long double values])
+
+TEST_SRC="`(echo \"#define H5_DISABLE_SOME_LDOUBLE_CONV_TEST 1\"; cat $srcdir/config/cmake/ConversionTests.c)`"
+
+if test ${ac_cv_sizeof_long_double} = 0; then
+   hdf5_cv_disable_some_ldouble_conv=${hdf5_cv_disable_some_ldouble_conv=no}
+else
+   AC_CACHE_VAL([hdf5_cv_disable_some_ldouble_conv],
+        [AC_RUN_IFELSE([AC_LANG_SOURCE([$TEST_SRC])],
+        [hdf5_cv_disable_some_ldouble_conv=yes], [hdf5_cv_disable_some_ldouble_conv=no],[])])
+fi
+
+if test ${hdf5_cv_disable_some_ldouble_conv} = "yes"; then
+  AC_DEFINE([DISABLE_SOME_LDOUBLE_CONV], [1],
+            [Define if your system is IBM ppc64le and cannot convert some long double values correctly.])
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no])
+fi
+
+## ----------------------------------------------------------------------
 ## Set some variables for general configuration information to be saved
 ## and installed with the libraries (used to generate libhdf5.settings).
 ##
@@ -2990,6 +3033,12 @@ AC_SUBST([WORDS_BIGENDIAN])
 
 ## Parallel support? (set above except empty if none)
 PARALLEL=${PARALLEL:-no}
+
+## Parallel writes to filtered datasets support?
+PARALLEL_FILTERED_WRITES=${PARALLEL_FILTERED_WRITES:-no}
+
+## >2GB writes in parallel support?
+LARGE_PARALLEL_IO=${LARGE_PARALLEL_IO:-no}
 
 ## Compiler with version information. This consists of the full path
 ## name of the compiler and the reported version number.
@@ -3161,6 +3210,8 @@ elif test "X$withval" = "Xv18"; then
 elif test "X$withval" = "Xv110"; then
     AC_MSG_RESULT([v110])
     DEFAULT_API_VERSION=v110
+    AC_DEFINE([USE_110_API_DEFAULT], [1],
+              [Define using v1.10 public API symbols by default])
 else
     AC_MSG_ERROR([invalid version of public symbols given])
 fi
@@ -3207,6 +3258,47 @@ case "X-$STRICT_FORMAT_CHECKS" in
     ;;
   *)
     AC_MSG_ERROR([Unrecognized value: $STRICT_FORMAT_CHECKS])
+    ;;
+esac
+
+
+## ----------------------------------------------------------------------
+## Enable use of pread/pwrite instead of read/write in certain VFDs.
+##
+AC_SUBST([PREADWRITE])
+
+## Check these first to avoid interspersed output in the AC_ARG_ENABLE line
+## below. (Probably overkill to check for both, but we'll be extra careful)
+PREADWRITE_HAVE_BOTH=yes
+AC_CHECK_FUNC([pread], [], [PREADWRITE_HAVE_BOTH=no])
+AC_CHECK_FUNC([pwrite], [], [PREADWRITE_HAVE_BOTH=no])
+
+AC_MSG_CHECKING([whether to use pread/pwrite instead of read/write in certain VFDs])
+AC_ARG_ENABLE([preadwrite],
+              [AS_HELP_STRING([--enable-preadwrite],
+                              [Enable using pread/pwrite instead of read/write in sec2/log/core VFDs.
+                              [default=yes if pread/pwrite are present]])],
+              [PREADWRITE=$enableval])
+
+## Set the default level.
+if test "X-$PREADWRITE" = X- ; then
+  PREADWRITE=yes
+fi
+
+case "X-$PREADWRITE" in
+  X-yes)
+      if test "X-$PREADWRITE_HAVE_BOTH" = "X-yes"; then
+        AC_DEFINE([HAVE_PREADWRITE], [1], [Define if both pread and pwrite exist.])
+        AC_MSG_RESULT([yes])
+      else
+        AC_MSG_RESULT([no])
+      fi
+    ;;
+  X-no)
+      AC_MSG_RESULT([no])
+    ;;
+  *)
+      AC_MSG_ERROR([Unrecognized value: $PREADWRITE])
     ;;
 esac
 
@@ -3347,6 +3439,27 @@ else
   STATIC_SHARED="none"
 fi
 
+if test "X$HDF_FORTRAN" = "Xyes"; then
+
+  ### libtool does not pass the correct argument linking (-Wl,-Wl,,) for the NAG Fortran compiler
+  ### on Linux (other OSs have not been tested).
+  ### Therefore, detect if we are using the NAG Fortran compiler, and replace the wl="-Wl," for Fortran to
+  ### wl="-Wl,-Wl,," in the libtool file. (HDFFV-10037)
+  case "`uname`" in
+    Linux*)
+
+    fortran_linux_linker_option="-Wl,"
+    if test "X$FC_BASENAME" = "Xnagfor"; then
+       fortran_linux_linker_option="-Wl,-Wl,,"
+    fi
+
+    ## Set the correct linker option for use in h5fc.in markup
+    AC_SUBST([fortran_linux_linker_option])
+    ;;
+  esac
+
+fi
+
 ## ----------------------------------------------------------------------
 ## Set a macro if shared library is enabled.
 ##
@@ -3356,17 +3469,19 @@ AC_CONFIG_FILES([src/libhdf5.settings
                  Makefile
                  src/Makefile
                  test/Makefile
+                 test/H5srcdir_str.h
+                 test/testabort_fail.sh
                  test/testcheck_version.sh
                  test/testerror.sh
                  test/testflushrefresh.sh
-                 test/H5srcdir_str.h
                  test/testlibinfo.sh
                  test/testlinks_env.sh
                  test/testswmr.sh
-                 test/test_plugin.sh
-                 test/test_usecases.sh
                  test/testvdsswmr.sh
+                 test/test_filter_plugin.sh
+                 test/test_usecases.sh
                  testpar/Makefile
+                 testpar/testpflush.sh
                  tools/Makefile
                  tools/lib/Makefile
                  tools/src/Makefile
@@ -3442,13 +3557,13 @@ AC_CONFIG_FILES([src/libhdf5.settings
                  java/test/junit.sh
                  java/examples/Makefile
                  java/examples/intro/Makefile
-                 java/examples/intro/runExample.sh
+                 java/examples/intro/JavaIntroExample.sh
                  java/examples/datasets/Makefile
-                 java/examples/datasets/runExample.sh
+                 java/examples/datasets/JavaDatasetExample.sh
                  java/examples/datatypes/Makefile
-                 java/examples/datatypes/runExample.sh
+                 java/examples/datatypes/JavaDatatypeExample.sh
                  java/examples/groups/Makefile
-                 java/examples/groups/runExample.sh
+                 java/examples/groups/JavaGroupExample.sh
                  hl/Makefile
                  hl/src/Makefile
                  hl/test/Makefile
@@ -3481,13 +3596,33 @@ AC_CONFIG_COMMANDS([.classes], [], [$MKDIR_P java/src/.classes;
 AC_OUTPUT
 
 chmod 755 tools/src/misc/h5cc
+if test "X$HDF_CXX" = "Xyes"; then
+  chmod 755 c++/src/h5c++
+fi
+
 
 if test "X$HDF_FORTRAN" = "Xyes"; then
   chmod 755 fortran/src/h5fc
-fi
+  ## libtool does not pass the correct argument linker (wl=) for the Intel Fortran compiler
+  ## on OS X, which is needed when building shared libraries on OS X.  This script
+  ## replaces the 3rd occurrence, which is for Fortran, of wl="" with wl="-Wl," (HDFFV-2772)
+  case "`uname`" in
+    Darwin*)
+      cat libtool | awk '/wl=\"/{c++;if(c==3){sub("wl=\"\"","wl=\"-Wl,\"");c=0}}1' > libtool.tmp && mv -f libtool.tmp libtool && chmod 755 libtool
+      ;;
+  esac
 
-if test "X$HDF_CXX" = "Xyes"; then
-  chmod 755 c++/src/h5c++
+  ### libtool does not pass the correct argument linking (-Wl,-Wl,,) for the NAG Fortran compiler
+  ### on Linux (other OSs have not been tested).
+  ### Therefore, detect if we are using the NAG Fortran compiler, and replace the wl="-Wl," for Fortran to
+  ### wl="-Wl,-Wl,," in the libtool file. (HDFFV-10037)
+  case "`uname`" in
+    Linux*)
+      if test "X$FC_BASENAME" = "Xnagfor"; then
+         cat libtool | awk '/BEGIN LIBTOOL TAG CONFIG: FC/{flag=1}flag&&/wl=/{$NF="wl=\"-Wl,-Wl,,\"";flag=0}1' > libtool.tmp && mv -f libtool.tmp libtool && chmod 755 libtool
+      fi
+      ;;
+  esac
 fi
 
 ## HDF5 configure code created by autotools with gcc 4.9.2 is adding problematic

@@ -94,7 +94,7 @@ PropList::PropList() : IdComponent(), id(H5P_DEFAULT) {}
 
 //--------------------------------------------------------------------------
 // Function:    PropList copy constructor
-///\brief       Copy constructor
+///\brief       Copy constructor: same HDF5 object as \a original
 ///\param       original - IN: The original property list to copy
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
@@ -138,6 +138,24 @@ PropList::PropList(const hid_t plist_id) : IdComponent()
               throw PropListIException("PropList constructor", "H5Pcopy failed");
           }
           break;
+        /* These should really be error cases, but changing that breaks
+         * the stated behavior and causes test failures.
+         * (DER, July 2017)
+         */
+        case H5I_BADID:
+        case H5I_FILE:
+        case H5I_GROUP:
+        case H5I_DATATYPE:
+        case H5I_DATASPACE:
+        case H5I_DATASET:
+        case H5I_ATTR:
+        case H5I_REFERENCE:
+        case H5I_VFL:
+        case H5I_ERROR_CLASS:
+        case H5I_ERROR_MSG:
+        case H5I_ERROR_STACK:
+        case H5I_NTYPES:
+        case H5I_UNINIT:
         default:
           id = H5P_DEFAULT;
           break;
@@ -450,7 +468,7 @@ H5std_string PropList::getProperty(const char* name) const
         throw PropListIException(inMemFunc("getProperty"), "H5Pget failed");
     }
 
-    // Return propety value as a string after deleting temp C-string
+    // Return property value as a string after deleting temp C-string
     H5std_string prop_strg(prop_strg_C);
     delete []prop_strg_C;
     return (prop_strg);

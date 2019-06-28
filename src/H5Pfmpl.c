@@ -72,11 +72,7 @@ static herr_t H5P_fmnt_reg_prop(H5P_genclass_t *pclass);
 /*********************/
 
 /* File mount property list class library initialization object */
-/*const*/ __thread H5P_libclass_t H5P_CLS_FMNT[1];
-
-void H5Pfmpl_init(void)
-{
-    H5P_CLS_FMNT[0] = (H5P_libclass_t) {
+const H5P_libclass_t H5P_CLS_FMNT[1] = {{
     "file mount",		/* Class name for debugging     */
     H5P_TYPE_FILE_MOUNT,        /* Class type                   */
 
@@ -92,8 +88,7 @@ void H5Pfmpl_init(void)
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-};
-}
+}};
 
 
 /*****************************/

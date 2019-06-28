@@ -104,11 +104,7 @@ static herr_t H5P__ocpy_merge_comm_dt_list_close(const char* name, size_t size, 
 /*********************/
 
 /* Object copy property list class library initialization object */
-/*const*/ __thread H5P_libclass_t H5P_CLS_OCPY[1];
-
-void H5Pocpypl_init(void)
-{
-    H5P_CLS_OCPY[0] = (H5P_libclass_t) {
+const H5P_libclass_t H5P_CLS_OCPY[1] = {{
     "object copy",		/* Class name for debugging     */
     H5P_TYPE_OBJECT_COPY,       /* Class type                   */
 
@@ -124,8 +120,8 @@ void H5Pocpypl_init(void)
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-};
-}
+}};
+
 
 /*****************************/
 /* Library Private Variables */

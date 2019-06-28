@@ -22,19 +22,19 @@
 #endif  /* !PATH_MAX */
 
 /* global variables */
-__thread int dim0;
-__thread int dim1;
-__thread int chunkdim0;
-__thread int chunkdim1;
-__thread int nerrors = 0;			/* errors count */
-__thread int ndatasets = 300;			/* number of datasets to create*/
-__thread int ngroups = 512;                      /* number of groups to create in root
+int dim0;
+int dim1;
+int chunkdim0;
+int chunkdim1;
+int nerrors = 0;			/* errors count */
+int ndatasets = 300;			/* number of datasets to create*/
+int ngroups = 512;                      /* number of groups to create in root
                                          * group. */
-__thread int facc_type = FACC_MPIO;		/*Test file access type */
-__thread int dxfer_coll_type = DXFER_COLLECTIVE_IO;
+int facc_type = FACC_MPIO;		/*Test file access type */
+int dxfer_coll_type = DXFER_COLLECTIVE_IO;
 
-__thread H5E_auto2_t old_func;		        /* previous error handler */
-__thread void *old_client_data;			/* previous error handler arg.*/
+H5E_auto2_t old_func;		        /* previous error handler */
+void *old_client_data;			/* previous error handler arg.*/
 
 /* other option flags */
 
@@ -48,8 +48,8 @@ __thread void *old_client_data;			/* previous error handler arg.*/
 const char *FILENAME[NFILENAME]={
 	    "ParaTest",
 	    NULL};
-__thread char	filenames[NFILENAME][PATH_MAX];
-__thread hid_t	fapl;				/* file access property list */
+char	filenames[NFILENAME][PATH_MAX];
+hid_t	fapl;				/* file access property list */
 
 #ifdef USE_PAUSE
 /* pause the process for a moment to allow debugger to attach if desired. */
@@ -547,6 +547,12 @@ int main(int argc, char **argv)
     AddTest("denseattr", test_dense_attr, NULL,
 	    "Store Dense Attributes", PARATESTFILE);
 
+    AddTest("noselcollmdread", test_partial_no_selection_coll_md_read, NULL,
+            "Collective Metadata read with some ranks having no selection", PARATESTFILE);
+    AddTest("MC coll MD read", test_multi_chunk_io_addrmap_issue, NULL,
+            "Collective MD read with multi chunk I/O (H5D__chunk_addrmap)", PARATESTFILE);
+    AddTest("LC coll MD read", test_link_chunk_io_sort_chunk_issue, NULL,
+            "Collective MD read with link chunk I/O (H5D__sort_chunk)", PARATESTFILE);
 
     /* Display testing information */
     TestInfo(argv[0]);

@@ -62,7 +62,7 @@
 /********************************/
 
 /* Package initialization variable */
-__thread hbool_t H5_PKG_INIT_VAR = FALSE;
+hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /********************/

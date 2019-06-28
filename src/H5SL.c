@@ -574,7 +574,7 @@ static herr_t H5SL_release_common(H5SL_t *slist, H5SL_operator_t op, void *op_da
 static herr_t H5SL_close_common(H5SL_t *slist, H5SL_operator_t op, void *op_data);
 
 /* Package initialization variable */
-__thread hbool_t H5_PKG_INIT_VAR = FALSE;
+hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Declare a free list to manage the H5SL_t struct */
 H5FL_DEFINE_STATIC(H5SL_t);
@@ -583,9 +583,9 @@ H5FL_DEFINE_STATIC(H5SL_t);
 H5FL_DEFINE_STATIC(H5SL_node_t);
 
 /* Global variables */
-static __thread H5FL_fac_head_t **H5SL_fac_g;
-static __thread size_t H5SL_fac_nused_g;
-static __thread size_t H5SL_fac_nalloc_g;
+static H5FL_fac_head_t **H5SL_fac_g;
+static size_t H5SL_fac_nused_g;
+static size_t H5SL_fac_nalloc_g;
 
 
 /*--------------------------------------------------------------------------

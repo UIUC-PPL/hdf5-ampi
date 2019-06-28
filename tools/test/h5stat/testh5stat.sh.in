@@ -14,8 +14,8 @@
 # Tests for the h5stat tool
 #
 # Modifcations:
-# 	Vailin Choi; July 2013
-# 	Add tests for -l, -m, -a options
+#     Vailin Choi; July 2013
+#     Add tests for -l, -m, -a options
 #
 
 srcdir=@srcdir@
@@ -69,6 +69,9 @@ test -d $TESTDIR || mkdir $TESTDIR
 #       Comment '#' without space can be used.
 # --------------------------------------------------------------------
 LIST_HDF5_TEST_FILES="
+$SRC_H5STAT_TESTFILES/h5stat_err_refcount.h5
+$SRC_H5STAT_TESTFILES/h5stat_err_old_layout.h5
+$SRC_H5STAT_TESTFILES/h5stat_err_old_fill.h5
 $SRC_H5STAT_TESTFILES/h5stat_filters.h5
 $SRC_H5STAT_TESTFILES/h5stat_tsohm.h5
 $SRC_H5STAT_TESTFILES/h5stat_newgrat.h5
@@ -76,7 +79,22 @@ $SRC_H5STAT_TESTFILES/h5stat_idx.h5
 $SRC_H5STAT_TESTFILES/h5stat_threshold.h5
 "
 
+LIST_ERR_TEST_FILES="
+$SRC_H5STAT_TESTFILES/h5stat_err_refcount.err
+$SRC_H5STAT_TESTFILES/h5stat_err_old_layout.err
+$SRC_H5STAT_TESTFILES/h5stat_err_old_fill.err
+$SRC_H5STAT_TESTFILES/h5stat_err1_links.err
+$SRC_H5STAT_TESTFILES/h5stat_err1_dims.err
+$SRC_H5STAT_TESTFILES/h5stat_err1_numattrs.err
+$SRC_H5STAT_TESTFILES/h5stat_err2_numattrs.err
+$SRC_H5STAT_TESTFILES/h5stat_notexist.err
+$SRC_H5STAT_TESTFILES/h5stat_nofile.err
+"
+
 LIST_OTHER_TEST_FILES="
+$SRC_H5STAT_TESTFILES/h5stat_err_refcount.ddl
+$SRC_H5STAT_TESTFILES/h5stat_err_old_layout.ddl
+$SRC_H5STAT_TESTFILES/h5stat_err_old_fill.ddl
 $SRC_H5STAT_TESTFILES/h5stat_help1.ddl
 $SRC_H5STAT_TESTFILES/h5stat_help2.ddl
 $SRC_H5STAT_TESTFILES/h5stat_notexist.ddl
@@ -94,17 +112,13 @@ $SRC_H5STAT_TESTFILES/h5stat_newgrat.ddl
 $SRC_H5STAT_TESTFILES/h5stat_newgrat-UG.ddl
 $SRC_H5STAT_TESTFILES/h5stat_newgrat-UA.ddl
 $SRC_H5STAT_TESTFILES/h5stat_idx.ddl
-$SRC_H5STAT_TESTFILES/h5stat_err1_links.ddl
 $SRC_H5STAT_TESTFILES/h5stat_links1.ddl
 $SRC_H5STAT_TESTFILES/h5stat_links2.ddl
 $SRC_H5STAT_TESTFILES/h5stat_links3.ddl
 $SRC_H5STAT_TESTFILES/h5stat_links4.ddl
 $SRC_H5STAT_TESTFILES/h5stat_links5.ddl
-$SRC_H5STAT_TESTFILES/h5stat_err1_dims.ddl
 $SRC_H5STAT_TESTFILES/h5stat_dims1.ddl
 $SRC_H5STAT_TESTFILES/h5stat_dims2.ddl
-$SRC_H5STAT_TESTFILES/h5stat_err1_numattrs.ddl
-$SRC_H5STAT_TESTFILES/h5stat_err2_numattrs.ddl
 $SRC_H5STAT_TESTFILES/h5stat_numattrs1.ddl
 $SRC_H5STAT_TESTFILES/h5stat_numattrs2.ddl
 $SRC_H5STAT_TESTFILES/h5stat_numattrs3.ddl
@@ -114,7 +128,7 @@ $SRC_H5STAT_TESTFILES/h5stat_numattrs4.ddl
 #
 # copy test files and expected output files from source dirs to test dir
 #
-COPY_TESTFILES="$LIST_HDF5_TEST_FILES $LIST_OTHER_TEST_FILES"
+COPY_TESTFILES="$LIST_HDF5_TEST_FILES $LIST_ERR_TEST_FILES $LIST_OTHER_TEST_FILES"
 
 COPY_TESTFILES_TO_TESTDIR()
 {
@@ -132,10 +146,10 @@ COPY_TESTFILES_TO_TESTDIR()
             INODE_SDIR=`$LS -i -d $SDIR | $AWK -F' ' '{print $1}'`
             INODE_DDIR=`$LS -i -d $TESTDIR | $AWK -F' ' '{print $1}'`
             if [ "$INODE_SDIR" != "$INODE_DDIR" ]; then
-    	        $CP -f $tstfile $TESTDIR
+                $CP -f $tstfile $TESTDIR
                 if [ $? -ne 0 ]; then
                     echo "Error: FAILED to copy $tstfile ."
-                
+
                     # Comment out this to CREATE expected file
                     exit $EXIT_FAILURE
                 fi
@@ -178,8 +192,9 @@ TESTING() {
 #
 TOOLTEST() {
    expect="$TESTDIR/$1"
+   expect_err="$TESTDIR/`basename $1 .ddl`.err"
    actual="$TESTDIR/`basename $1 .ddl`.out"
-   actual_err="$TESTDIR/`basename $1 .ddl`.err"
+   actual_err="$TESTDIR/`basename $1 .ddl`.out.err"
    actual_sav=${actual}-sav
    actual_err_sav=${actual_err}-sav
    shift
@@ -196,12 +211,17 @@ TOOLTEST() {
    STDOUT_FILTER $actual
    cp $actual_err $actual_err_sav
    STDERR_FILTER $actual_err
-   cat $actual_err >> $actual
 
    if [ ! -f $expect ]; then
-    # Create the expect file if it doesn't yet exist.
-    echo " CREATED"
-    cp $actual $expect
+      # Compare error files if the expect file doesn't exist.
+      if $CMP $expect_err $actual_err; then
+         echo " PASSED"
+      else
+         echo "*FAILED*"
+         echo "    Expected result (*.err) differs from actual result (*.out.err)"
+         nerrors="`expr $nerrors + 1`"
+         test yes = "$verbose" && $DIFF $expect_err $actual_err |sed 's/^/    /'
+      fi
    elif $CMP $expect $actual; then
       echo " PASSED"
    else
@@ -220,15 +240,15 @@ TOOLTEST() {
 
 # Print a "SKIP" message
 SKIP() {
-	 TESTING $STAT $@
-	  echo  " -SKIP-"
+    TESTING $STAT $@
+    echo  " -SKIP-"
 }
-  
+
 
 
 ##############################################################################
 ##############################################################################
-###			  T H E   T E S T S                                ###
+###              T H E   T E S T S                                ###
 ##############################################################################
 ##############################################################################
 # prepare for test
@@ -252,7 +272,7 @@ TOOLTEST h5stat_filters-dT.ddl -dT  h5stat_filters.h5
 TOOLTEST h5stat_filters-UD.ddl -D h5stat_filters.h5
 TOOLTEST h5stat_filters-UT.ddl -T h5stat_filters.h5
 #
-# h5stat_tsohm.h5 is a copy of ../../../test/tsohm.h5 generated by tsohm.c 
+# h5stat_tsohm.h5 is a copy of ../../../test/tsohm.h5 generated by tsohm.c
 # as of release 1.8.7-snap0 (on a 64-bit machine)
 TOOLTEST h5stat_tsohm.ddl h5stat_tsohm.h5
 # h5stat_newgrat.h5 is generated by h5stat_gentest.c
@@ -262,36 +282,36 @@ TOOLTEST h5stat_newgrat-UA.ddl -A h5stat_newgrat.h5
 # h5stat_idx.h5 is generated by h5stat_gentest.c
 TOOLTEST h5stat_idx.ddl h5stat_idx.h5
 #
-# Tests for -l (--links) option on h5stat_threshold.h5: 
-# 	-l 0 (incorrect threshold value)
-# 	-g -l 8
-# 	--links=8
-# 	--links=20 -g
+# Tests for -l (--links) option on h5stat_threshold.h5:
+#     -l 0 (incorrect threshold value)
+#     -g -l 8
+#     --links=8
+#     --links=20 -g
 TOOLTEST h5stat_err1_links.ddl -l 0 h5stat_threshold.h5
 TOOLTEST h5stat_links1.ddl -g -l 8 h5stat_threshold.h5
 TOOLTEST h5stat_links2.ddl --links=8 h5stat_threshold.h5
 TOOLTEST h5stat_links3.ddl --links=20 -g h5stat_threshold.h5
 #
-# Tests for -l (--links) option on h5stat_newgrat.h5: 
-# 	-g
-# 	-g -l 40000
+# Tests for -l (--links) option on h5stat_newgrat.h5:
+#     -g
+#     -g -l 40000
 TOOLTEST h5stat_links4.ddl -g h5stat_newgrat.h5
 TOOLTEST h5stat_links5.ddl -g -l 40000 h5stat_newgrat.h5
 #
 # Tests for -m (--dims) option on h5stat_threshold.h5
-# 	-d --dims=-1 (incorrect threshold value)
-# 	-gd -m 5
-# 	-d --di=15
+#     -d --dims=-1 (incorrect threshold value)
+#     -gd -m 5
+#     -d --di=15
 TOOLTEST h5stat_err1_dims.ddl -d --dims=-1 h5stat_threshold.h5
 TOOLTEST h5stat_dims1.ddl -gd -m 5 h5stat_threshold.h5
 TOOLTEST h5stat_dims2.ddl -d --di=15 h5stat_threshold.h5
 #
 # Tests for -a option on h5stat_threshold.h5
-# 	-a -2 (incorrect threshold value)
-#	--numattrs (without threshold value)
-#	-AS -a 10
-#	-a 1
-#	-A --numattrs=25
+#     -a -2 (incorrect threshold value)
+#    --numattrs (without threshold value)
+#    -AS -a 10
+#    -a 1
+#    -A --numattrs=25
 TOOLTEST h5stat_err1_numattrs.ddl -a -2 h5stat_threshold.h5
 TOOLTEST h5stat_err2_numattrs.ddl --numattrs h5stat_threshold.h5
 TOOLTEST h5stat_numattrs1.ddl -AS -a 10 h5stat_threshold.h5
@@ -299,10 +319,18 @@ TOOLTEST h5stat_numattrs2.ddl -a 1 h5stat_threshold.h5
 TOOLTEST h5stat_numattrs3.ddl -A --numattrs=25 h5stat_threshold.h5
 #
 # Tests for -a option on h5stat_newgrat.h5
-#	-A -a 100
+#    -A -a 100
 TOOLTEST h5stat_numattrs4.ddl -A -a 100 h5stat_newgrat.h5
 #
-
+#
+# Tests to verify HDFFV-10333
+#   h5stat_err_refcount.h5 is generated by h5stat_gentest.c
+#   h5stat_err_old_layout.h5 and h5stat_err_old_fill.h5: see explanation in h5stat_gentest.c
+TOOLTEST h5stat_err_refcount.ddl h5stat_err_refcount.h5
+TOOLTEST h5stat_err_old_layout.ddl h5stat_err_old_layout.h5
+TOOLTEST h5stat_err_old_fill.ddl h5stat_err_old_fill.h5
+#
+#
 # Clean up temporary files/directories
 CLEAN_TESTFILES_AND_TESTDIR
 

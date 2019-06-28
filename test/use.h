@@ -49,7 +49,7 @@ typedef struct options_t {
 } options_t;
 
 /* global variables declarations */
-extern __thread options_t UC_opts;	/* Use Case Options */
+extern options_t UC_opts;	/* Use Case Options */
 extern const char *progname_g;	/* Program name */
 
 /* prototype declarations */
@@ -58,6 +58,6 @@ int setup_parameters(int argc, char * const argv[]);
 void show_parameters(void);
 void usage(const char *prog);
 int create_uc_file(void);
-int write_uc_file(hbool_t tosend);
+int write_uc_file(hbool_t tosend, hid_t fid);
 int read_uc_file(hbool_t towait);
 

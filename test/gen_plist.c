@@ -125,6 +125,9 @@ main(void)
     if((ret = H5Pset_fill_value(dcpl1, H5T_STD_I32BE, &fill)) < 0)
         assert(ret > 0);
 
+    if((ret = H5Pset_dset_no_attrs_hint(dcpl1, FALSE)) < 0)
+        assert(ret > 0);
+
     max_size[0] = 100;
     if((ret = H5Pset_external(dcpl1, "ext1.data", (off_t)0, 
                          (hsize_t)(max_size[0] * sizeof(int)/4))) < 0)
@@ -463,23 +466,23 @@ encode_plist(hid_t plist_id, int little_endian, int word_length, const char *fil
 
     /* Generate filename */
     if((ret = HDsnprintf(filename, sizeof(filename), "%s%d%s", filename_prefix, word_length, little_endian ? "le" : "be")) < 0)
-        assert(ret > 0);
+        HDassert(ret > 0);
 
     /* first call to encode returns only the size of the buffer needed */
     if((ret = H5Pencode(plist_id, NULL, &temp_size)) < 0)
-        assert(ret > 0);
+        HDassert(ret > 0);
 
     temp_buf = (void *)HDmalloc(temp_size);
-    assert(temp_buf);
+    HDassert(temp_buf);
 
     if((ret = H5Pencode(plist_id, temp_buf, &temp_size)) < 0)
-        assert(ret > 0);
+        HDassert(ret > 0);
 
-    fd = HDopen(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
-    assert(fd > 0);
+    fd = HDopen(filename, O_RDWR | O_CREAT | O_TRUNC, H5_POSIX_CREATE_MODE_RW);
+    HDassert(fd > 0);
 
     write_size = HDwrite(fd, temp_buf, temp_size);
-    assert(write_size == (ssize_t)temp_size);
+    HDassert(write_size == (ssize_t)temp_size);
 
     HDclose(fd);
     

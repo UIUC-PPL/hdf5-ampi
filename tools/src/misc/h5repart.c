@@ -25,45 +25,16 @@
 /* See H5private.h for how to include system headers */
 #include "hdf5.h"
 #include "H5private.h"
-#ifdef H5_STDC_HEADERS
-#   include <ctype.h>
-#   include <errno.h>
-#   include <fcntl.h>
-#   include <stdio.h>
-#   include <stdlib.h>
-#   include <string.h>
-#endif
 
-#ifdef H5_HAVE_UNISTD_H
-#   include <sys/types.h>
-#   include <unistd.h>
-#endif
-
-#ifdef H5_HAVE_SYS_STAT_H
-#   include <sys/stat.h>
-#endif
-
-#ifndef FALSE
-#   define FALSE	0
-#endif
-#ifndef TRUE
-#   define TRUE 	1
-#endif
-#   define NAMELEN	4096
+#define NAMELEN	4096
 #define GB	*1024*1024*1024
 
-#ifndef MIN
-#   define MIN(X,Y)	((X)<(Y)?(X):(Y))
-#endif
-#ifndef MIN3
-#   define MIN3(X,Y,Z)	MIN(MIN(X,Y),Z)
-#endif
-
-/*Make these 2 private properties(defined in H5Fprivate.h) available to h5repart.
- *The first one updates the member file size in the superblock.  The second one
- *change file driver from family to sec2. */
+/* Make these 2 private properties(defined in H5Fprivate.h) available to h5repart.
+ * The first one updates the member file size in the superblock.  The second one
+ * change file driver from family to a single file driver.
+ */
 #define H5F_ACS_FAMILY_NEWSIZE_NAME            "family_newsize"
-#define H5F_ACS_FAMILY_TO_SEC2_NAME            "family_to_sec2"
+#define H5F_ACS_FAMILY_TO_SINGLE_NAME          "family_to_single"
 
 
 /*-------------------------------------------------------------------------
@@ -83,13 +54,14 @@
 static void
 usage (const char *progname)
 {
-    fprintf(stderr, "usage: %s [-v] [-V] [-[b|m] N[g|m|k]] [-family_to_sec2] SRC DST\n",
+    fprintf(stderr, "usage: %s [-v] [-V] [-[b|m] N[g|m|k]] [-family_to_sec2|-family_to_single] SRC DST\n",
 	    progname);
     fprintf(stderr, "   -v     Produce verbose output\n");
     fprintf(stderr, "   -V     Print a version number and exit\n");
     fprintf(stderr, "   -b N   The I/O block size, defaults to 1kB\n");
     fprintf(stderr, "   -m N   The destination member size or 1GB\n");
-    fprintf(stderr, "   -family_to_sec2   Change file driver from family to sec2\n");
+    fprintf(stderr, "   -family_to_sec2   Deprecated version of -family_to_single (below)\n");
+    fprintf(stderr, "   -family_to_single   Change file driver from family to the default single-file VFD (windows or sec2)\n");
     fprintf(stderr, "   SRC    The name of the source file\n");
     fprintf(stderr, "   DST	The name of the destination files\n");
     fprintf(stderr, "Sizes may be suffixed with `g' for GB, `m' for MB or "
@@ -216,7 +188,7 @@ main (int argc, char *argv[])
     hid_t       fapl;                   /*file access property list     */
     hid_t       file;
     hsize_t     hdsize;                 /*destination logical memb size */
-    hbool_t     family_to_sec2=FALSE;   /*change family to sec2 driver? */
+    hbool_t     family_to_single = FALSE;   /*change family to single file driver? */
 
     /*
      * Get the program name from argv[0]. Use only the last component.
@@ -236,7 +208,10 @@ main (int argc, char *argv[])
                 prog_name, H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE);
             exit(EXIT_SUCCESS);
         } else if (!strcmp (argv[argno], "-family_to_sec2")) {
-            family_to_sec2 = TRUE;
+            family_to_single = TRUE;
+            argno++;
+        } else if (!strcmp (argv[argno], "-family_to_single")) {
+            family_to_single = TRUE;
             argno++;
         } else if ('b'==argv[argno][1]) {
             blk_size = (size_t)get_size (prog_name, &argno, argc, argv);
@@ -262,9 +237,9 @@ main (int argc, char *argv[])
     sprintf (src_name, src_gen_name, src_membno);
     src_is_family = strcmp (src_name, src_gen_name);
 
-    if ((src=HDopen(src_name, O_RDONLY,0))<0) {
-        perror (src_name);
-        exit (EXIT_FAILURE);
+    if ((src = HDopen(src_name, O_RDONLY)) < 0) {
+        HDperror(src_name);
+        HDexit(EXIT_FAILURE);
     }
 
     if (HDfstat(src, &sb)<0) {
@@ -282,9 +257,9 @@ main (int argc, char *argv[])
     sprintf (dst_name, dst_gen_name, dst_membno);
     dst_is_family = strcmp (dst_name, dst_gen_name);
 
-    if ((dst=HDopen (dst_name, O_RDWR|O_CREAT|O_TRUNC, 0666))<0) {
-	perror (dst_name);
-	exit (EXIT_FAILURE);
+    if ((dst = HDopen(dst_name, O_RDWR|O_CREAT|O_TRUNC, H5_POSIX_CREATE_MODE_RW)) < 0) {
+        HDperror(dst_name);
+        HDexit(EXIT_FAILURE);
     }
     if (verbose) fprintf (stderr, "> %s\n", dst_name);
 
@@ -363,9 +338,9 @@ main (int argc, char *argv[])
 		break;
 	    }
 	    sprintf (src_name, src_gen_name, ++src_membno);
-	    if ((src=HDopen (src_name, O_RDONLY,0))<0 && ENOENT==errno) {
-                dst_offset = dst_offset + (off_t)n;
-		break;
+	    if ((src = HDopen(src_name, O_RDONLY)) < 0 && ENOENT == errno) {
+            dst_offset = dst_offset + (off_t)n;
+            break;
 	    } else if (src<0) {
 		perror (src_name);
 		exit (EXIT_FAILURE);
@@ -410,9 +385,9 @@ main (int argc, char *argv[])
 	    }
 	    HDclose (dst);
 	    sprintf (dst_name, dst_gen_name, ++dst_membno);
-	    if ((dst=HDopen (dst_name, O_RDWR|O_CREAT|O_TRUNC, 0666))<0) {
-		perror (dst_name);
-		exit (EXIT_FAILURE);
+	    if ((dst = HDopen(dst_name, O_RDWR|O_CREAT|O_TRUNC, H5_POSIX_CREATE_MODE_RW)) < 0) {
+            HDperror(dst_name);
+            HDexit(EXIT_FAILURE);
 	    }
 	    dst_offset = 0;
 	    need_seek = FALSE;
@@ -452,11 +427,12 @@ main (int argc, char *argv[])
         exit (EXIT_FAILURE);
     }
 
-    if(family_to_sec2) {
-        /* The user wants to change file driver from family to sec2. Open the file
-         * with sec2 driver.  This property signals the library to ignore the family
-         * driver information saved in the superblock. */
-        if(H5Pset(fapl, H5F_ACS_FAMILY_TO_SEC2_NAME, &family_to_sec2) < 0) {
+    if(family_to_single) {
+        /* The user wants to change file driver from family to a single-file VFD.
+         * Open the file with the sec2, windows, etc. driver. This property signals
+         * the library to ignore the family driver information saved in the superblock.
+         */
+        if(H5Pset(fapl, H5F_ACS_FAMILY_TO_SINGLE_NAME, &family_to_single) < 0) {
             perror ("H5Pset");
             exit (EXIT_FAILURE);
         }
@@ -479,13 +455,14 @@ main (int argc, char *argv[])
 
     /* If the new file is a family file, try to open file for "read and write" to
      * flush metadata. Flushing metadata will update the superblock to the new
-     * member size.  If the original file is a family file and the new file is a sec2
-     * file, the property FAMILY_TO_SEC2 will signal the library to switch to sec2
-     * driver when the new file is opened.  If the original file is a sec2 file and the
-     * new file can only be a sec2 file, reopen the new file should fail.  There's
-     * nothing to do in this case. */
+     * member size.  If the original file is a family file and the new file is a single
+     * file, the property FAMILY_TO_SINGLE will signal the library to switch to default
+     * single-file driver when the new file is opened.  If the original file is a single
+     * file and the new file can only be a single file, reopen the new file should fail.
+     * There's nothing to do in this case.
+     */
     H5E_BEGIN_TRY {
-        file=H5Fopen(dst_gen_name, H5F_ACC_RDWR, fapl);
+        file = H5Fopen(dst_gen_name, H5F_ACC_RDWR, fapl);
     } H5E_END_TRY;
 
     if(file>=0) {

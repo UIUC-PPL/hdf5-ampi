@@ -20,7 +20,7 @@ namespace H5 {
 /*! \class DataSet
     \brief Class DataSet operates on HDF5 datasets.
 
-    A dataset has many characteristics similar to an attribute, thus both
+    An datasets has many characteristics similar to an attribute, thus both
     Attribute and DataSet are derivatives of AbstractDs.  DataSet also
     inherits from H5Object because a dataset is an HDF5 object.
 */
@@ -44,6 +44,9 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
 
         // Gets the creation property list of this dataset.
         DSetCreatPropList getCreatePlist() const;
+
+        // Gets the access property list of this dataset.
+        DSetAccPropList getAccessPlist() const;
 
         // Returns the address of this dataset in the file.
         haddr_t getOffset() const;
@@ -93,7 +96,7 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
         // Default constructor.
         DataSet();
 
-        // Copy constructor.
+        // Copy constructor - same as the original DataSet.
         DataSet(const DataSet& original);
 
         // Creates a copy of an existing DataSet using its id.
