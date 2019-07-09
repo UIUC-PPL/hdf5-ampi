@@ -8,5 +8,5 @@ matrix:
     dist: xenial
     script:
     - cd .. && git clone https://github.com/UIUC-PPL/charm && cd charm && ./build AMPI netlrts-linux-x86_64 -j3 --with-production -g
-    - make -f Makefile.ampi
+    - cd hdf5-ampi && make -f Makefile.ampi
     - make test
