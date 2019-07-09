@@ -7,6 +7,6 @@ matrix:
   - os: linux
     dist: xenial
     script:
-    - cd .. && git clone https://github.com/UIUC-PPL/charm && ./build AMPI netlrts-linux-x86_64 -j3 --with-production -g
+    - cd .. && git clone https://github.com/UIUC-PPL/charm && cd charm && ./build AMPI netlrts-linux-x86_64 -j3 --with-production -g
     - make -f Makefile.ampi
     - make test
