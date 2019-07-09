@@ -49,7 +49,7 @@
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Declare extern the free list to manage blocks of VL data */
 H5FL_BLK_EXTERN(vlen_vl_buf);

@@ -106,7 +106,7 @@ static herr_t H5MF__sects_cb(H5FS_section_info_t *_sect, void *_udata);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/

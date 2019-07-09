@@ -90,7 +90,7 @@ static haddr_t H5HG__create(H5F_t *f, size_t size);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Declare a free list to manage the H5HG_heap_t struct */
 H5FL_DEFINE(H5HG_heap_t);

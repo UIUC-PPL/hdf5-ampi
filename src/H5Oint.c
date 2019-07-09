@@ -89,7 +89,7 @@ static const H5O_obj_class_t *H5O__obj_class_real(const H5O_t *oh);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Header message ID to class mapping
  *

@@ -84,13 +84,13 @@ static herr_t H5PL__expand_cache(void);
 /*******************/
 
 /* Cache for storing opened plugin libraries */
-static H5PL_plugin_t   *H5PL_cache_g = NULL;
+static __thread H5PL_plugin_t   *H5PL_cache_g = NULL;
 
 /* The number of stored plugins */
-static unsigned int     H5PL_num_plugins_g = 0;
+static __thread unsigned int     H5PL_num_plugins_g = 0;
 
 /* The capacity of the plugin cache */
-static unsigned int     H5PL_cache_capacity_g = 0;
+static __thread unsigned int     H5PL_cache_capacity_g = 0;
 
 
 

@@ -54,7 +54,7 @@ static htri_t H5S_is_simple(const H5S_t *sdim);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Format version bounds for dataspace */
 const unsigned H5O_sdspace_ver_bounds[] = {
@@ -91,7 +91,7 @@ static const H5I_class_t H5I_DATASPACE_CLS[1] = {{
 
 
 /* Flag indicating "top" of interface has been initialized */
-static hbool_t H5S_top_package_initialize_s = FALSE;
+static __thread hbool_t H5S_top_package_initialize_s = FALSE;
 
 
 

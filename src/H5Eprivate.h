@@ -116,8 +116,8 @@ typedef struct H5E_t H5E_t;
  * MPI error handling macros.
  */
 
-extern	char	H5E_mpi_error_str[MPI_MAX_ERROR_STRING];
-extern	int	H5E_mpi_error_str_len;
+extern  __thread	char	H5E_mpi_error_str[MPI_MAX_ERROR_STRING];
+extern	__thread  int	 H5E_mpi_error_str_len;
 
 #define	HMPI_ERROR(mpierr){						      \
     MPI_Error_string(mpierr, H5E_mpi_error_str, &H5E_mpi_error_str_len);      \

@@ -122,24 +122,24 @@ typedef struct H5P_libclass_t {
 /*****************************/
 
 /* Predefined property list classes. */
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ROOT_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATASET_XFER_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_FILE_MOUNT_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_GROUP_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_OBJECT_COPY_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_LINK_CREATE_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
-H5_DLLVAR H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ROOT_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_OBJECT_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATASET_XFER_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_FILE_MOUNT_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_GROUP_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_GROUP_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATATYPE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_DATATYPE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_ATTRIBUTE_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_OBJECT_COPY_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_LINK_CREATE_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
+H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
 
 /* Internal property list classes */
 H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LCRT[1];  /* Link creation */

@@ -72,10 +72,10 @@
 /*******************/
 
 /* Table of CRCs of all 8-bit messages. */
-static uint32_t H5_crc_table[256];
+static __thread uint32_t H5_crc_table[256];
 
 /* Flag: has the table been computed? */
-static hbool_t H5_crc_table_computed = FALSE;
+static __thread hbool_t H5_crc_table_computed = FALSE;
 
 
 

@@ -94,7 +94,7 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /*-------------------- Locally scoped variables -----------------------------*/
 
 /* Array of pointers to atomic types */
-static H5I_id_type_t *H5I_id_type_list_g[H5I_MAX_NUM_TYPES];
+static __thread H5I_id_type_t *H5I_id_type_list_g[H5I_MAX_NUM_TYPES];
 
 /* Variable to keep track of the number of types allocated.  Its value is the */
 /* next type ID to be handed out, so it is always one greater than the number */
@@ -102,7 +102,7 @@ static H5I_id_type_t *H5I_id_type_list_g[H5I_MAX_NUM_TYPES];
 /* Starts at 1 instead of 0 because it makes trace output look nicer.  If more */
 /* types (or IDs within a type) are needed, adjust TYPE_BITS in H5Ipkg.h       */
 /* and/or increase size of hid_t */
-static H5I_type_t H5I_next_type = (H5I_type_t) H5I_NTYPES;
+static __thread H5I_type_t H5I_next_type = (H5I_type_t) H5I_NTYPES;
 
 /* Declare a free list to manage the H5I_id_info_t struct */
 H5FL_DEFINE_STATIC(H5I_id_info_t);

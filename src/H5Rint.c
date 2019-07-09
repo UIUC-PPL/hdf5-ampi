@@ -52,7 +52,7 @@
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /*****************************/
 /* Library Private Variables */
@@ -75,7 +75,7 @@ static const H5I_class_t H5I_REFERENCE_CLS[1] = {{
 }};
 
 /* Flag indicating "top" of interface has been initialized */
-static hbool_t H5R_top_package_initialize_s = FALSE;
+static __thread hbool_t H5R_top_package_initialize_s = FALSE;
 
 
 /*--------------------------------------------------------------------------

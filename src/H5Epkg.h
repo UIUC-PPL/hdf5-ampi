@@ -123,7 +123,7 @@ struct H5E_t {
 /*
  * The current error stack.
  */
-H5_DLLVAR H5E_t	H5E_stack_g[1];
+__thread H5_DLLVAR H5E_t	H5E_stack_g[1];
 #endif /* H5_HAVE_THREADSAFE */
 
 

@@ -78,7 +78,7 @@ static herr_t H5AC__verify_tag(const H5AC_class_t * type);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /*****************************/
 /* Library Private Variables */
@@ -86,7 +86,7 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 
 #ifdef H5_HAVE_PARALLEL
 /* Environment variable for collective API sanity checks */
-hbool_t H5_coll_api_sanity_check_g = false;
+__thread hbool_t H5_coll_api_sanity_check_g = false;
 #endif /* H5_HAVE_PARALLEL */
 
 

@@ -98,7 +98,7 @@ static herr_t H5G_node_debug_key(FILE *stream, int indent, int fwidth,
 /*********************/
 
 /* H5G inherits B-tree like properties from H5B */
-H5B_class_t H5B_SNODE[1] = {{
+__thread H5B_class_t H5B_SNODE[1] = {{
     H5B_SNODE_ID,               /*id            */
     sizeof(H5G_node_key_t),     /*sizeof_nkey   */
     H5G_node_get_shared,        /*get_shared    */

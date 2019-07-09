@@ -84,7 +84,7 @@ static H5EA_t *H5EA__new(H5F_t *f, haddr_t ea_addr, hbool_t from_open,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /* Extensible array client ID to class mapping */
 

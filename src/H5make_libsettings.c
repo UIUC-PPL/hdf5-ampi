@@ -38,7 +38,7 @@ static const char *FileHeader = "\n\
 
 #define LIBSETTINGSFNAME "libhdf5.settings"
 
-FILE       *rawoutstream = NULL;
+__thread FILE       *rawoutstream = NULL;
 
 
 /*-------------------------------------------------------------------------

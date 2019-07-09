@@ -71,7 +71,7 @@
 /*******************/
 
 /* Track whether tzset routine was called */
-static hbool_t H5_ntzset = FALSE;
+static __thread hbool_t H5_ntzset = FALSE;
 
 
 /*-------------------------------------------------------------------------

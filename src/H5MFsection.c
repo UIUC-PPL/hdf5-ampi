@@ -97,7 +97,7 @@ static herr_t H5MF__sect_large_shrink(H5FS_section_info_t **_sect,
 /*********************/
 
 /* Class info for "simple" free space sections */
-H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SIMPLE[1] = {{
+__thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SIMPLE[1] = {{
     /* Class variables */
     H5MF_FSPACE_SECT_SIMPLE,		/* Section type                 */
     0,					/* Extra serialized size        */
@@ -123,7 +123,7 @@ H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SIMPLE[1] = {{
 }};
 
 /* Class info for "small" free space sections */
-H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SMALL[1] = {{
+__thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SMALL[1] = {{
     /* Class variables */
     H5MF_FSPACE_SECT_SMALL,     /* Section type                 */
     0,                          /* Extra serialized size        */
@@ -149,7 +149,7 @@ H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SMALL[1] = {{
 }};
 
 /* Class info for "large" free space sections */
-H5FS_section_class_t H5MF_FSPACE_SECT_CLS_LARGE[1] = {{
+__thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_LARGE[1] = {{
     /* Class variables */
     H5MF_FSPACE_SECT_LARGE,		/* Section type                 */
     0,					/* Extra serialized size        */

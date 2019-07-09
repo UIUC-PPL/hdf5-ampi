@@ -28,14 +28,14 @@ typedef struct H5TS_cancel_struct {
 
 /* Global variable definitions */
 #ifdef H5_HAVE_WIN_THREADS
-H5TS_once_t H5TS_first_init_g;
+__thread H5TS_once_t H5TS_first_init_g;
 #else /* H5_HAVE_WIN_THREADS */
-H5TS_once_t H5TS_first_init_g = PTHREAD_ONCE_INIT;
+__thread H5TS_once_t H5TS_first_init_g = PTHREAD_ONCE_INIT;
 #endif /* H5_HAVE_WIN_THREADS */
-H5TS_key_t H5TS_errstk_key_g;
-H5TS_key_t H5TS_funcstk_key_g;
-H5TS_key_t H5TS_apictx_key_g;
-H5TS_key_t H5TS_cancel_key_g;
+__thread H5TS_key_t H5TS_errstk_key_g;
+__thread H5TS_key_t H5TS_funcstk_key_g;
+__thread H5TS_key_t H5TS_apictx_key_g;
+__thread H5TS_key_t H5TS_cancel_key_g;
 
 
 /*--------------------------------------------------------------------------

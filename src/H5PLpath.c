@@ -83,13 +83,13 @@ static herr_t H5PL__find_plugin_in_path(const H5PL_search_params_t *search_param
 /*******************/
 
 /* Stored plugin paths to search */
-static char       **H5PL_paths_g = NULL;
+static __thread char       **H5PL_paths_g = NULL;
 
 /* The number of stored paths */
-static unsigned     H5PL_num_paths_g = 0;
+static __thread unsigned     H5PL_num_paths_g = 0;
 
 /* The capacity of the path table */
-static unsigned     H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
+static __thread unsigned     H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
 
 
 

@@ -66,7 +66,7 @@ static int H5FD_query(const H5FD_t *f, unsigned long *flags/*out*/);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -90,7 +90,7 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
  * object and the file is closed and re-opened, the 'fileno' value will
  * be different.
  */
-static unsigned long H5FD_file_serial_no_g;
+static __thread unsigned long H5FD_file_serial_no_g;
 
 /* File driver ID class */
 static const H5I_class_t H5I_VFL_CLS[1] = {{

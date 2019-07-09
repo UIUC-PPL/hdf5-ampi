@@ -106,10 +106,10 @@ typedef pthread_once_t H5TS_once_t;
 #endif /* H5_HAVE_WIN_THREADS */
 
 /* External global variables */
-extern H5TS_once_t H5TS_first_init_g;
-extern H5TS_key_t H5TS_errstk_key_g;
-extern H5TS_key_t H5TS_funcstk_key_g;
-extern H5TS_key_t H5TS_apictx_key_g;
+extern __thread H5TS_once_t H5TS_first_init_g;
+extern __thread H5TS_key_t H5TS_errstk_key_g;
+extern __thread H5TS_key_t H5TS_funcstk_key_g;
+extern __thread H5TS_key_t H5TS_apictx_key_g;
 
 #if defined c_plusplus || defined __cplusplus
 extern      "C"

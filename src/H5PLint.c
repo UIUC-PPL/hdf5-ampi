@@ -53,7 +53,7 @@
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -68,13 +68,13 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /* Bitmask that controls whether classes of plugins
  * (e.g.: filters) can be loaded.
  */
-static unsigned int     H5PL_plugin_control_mask_g = H5PL_ALL_PLUGIN;
+static __thread unsigned int     H5PL_plugin_control_mask_g = H5PL_ALL_PLUGIN;
 
 /* This flag will be set to FALSE if the HDF5_PLUGIN_PRELOAD
  * environment variable was set to H5PL_NO_PLUGIN at
  * package initialization.
  */
-static hbool_t          H5PL_allow_plugins_g = TRUE;
+static __thread hbool_t          H5PL_allow_plugins_g = TRUE;
 
 
 

@@ -333,7 +333,7 @@ static H5CX_node_t *H5CX__pop_common(void);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*******************/
@@ -341,14 +341,14 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /*******************/
 
 #ifndef H5_HAVE_THREADSAFE
-static H5CX_node_t *H5CX_head_g = NULL;         /* Pointer to head of context stack */
+static __thread H5CX_node_t *H5CX_head_g = NULL;         /* Pointer to head of context stack */
 #endif /* H5_HAVE_THREADSAFE */
 
 /* Define a "default" dataset transfer property list cache structure to use for default DXPLs */
-static H5CX_dxpl_cache_t H5CX_def_dxpl_cache;
+static __thread H5CX_dxpl_cache_t H5CX_def_dxpl_cache;
 
 /* Define a "default" link access property list cache structure to use for default LAPLs */
-static H5CX_lapl_cache_t H5CX_def_lapl_cache;
+static __thread H5CX_lapl_cache_t H5CX_def_lapl_cache;
 
 /* Declare a static free list to manage H5CX_node_t structs */
 H5FL_DEFINE_STATIC(H5CX_node_t);

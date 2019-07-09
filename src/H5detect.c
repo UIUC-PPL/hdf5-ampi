@@ -109,14 +109,14 @@ typedef struct malign_t {
     unsigned int         comp_align;    /* alignment for structure          */
 } malign_t;
 
-FILE       *rawoutstream = NULL;
+__thread FILE       *rawoutstream = NULL;
 
 /* global variables types detection code */
 H5_GCC_DIAG_OFF(larger-than=)
-static detected_t d_g[MAXDETECT];
+static __thread detected_t d_g[MAXDETECT];
 H5_GCC_DIAG_ON(larger-than=)
-static malign_t m_g[MAXDETECT];
-static volatile int nd_g = 0, na_g = 0;
+static __thread malign_t m_g[MAXDETECT];
+static __thread volatile int nd_g = 0, na_g = 0;
 
 static void print_results(int nd, detected_t *d, int na, malign_t *m);
 static void iprint(detected_t *);

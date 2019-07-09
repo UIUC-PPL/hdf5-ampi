@@ -157,7 +157,7 @@ static herr_t H5L__iterate(hid_t grp_id, const char *group_name,
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/
@@ -170,9 +170,9 @@ hbool_t H5_PKG_INIT_VAR = FALSE;
 /*******************/
 
 /* Information about user-defined links */
-static size_t           H5L_table_alloc_g = 0;
-static size_t           H5L_table_used_g = 0;
-static H5L_class_t      *H5L_table_g = NULL;
+static __thread size_t           H5L_table_alloc_g = 0;
+static __thread size_t           H5L_table_used_g = 0;
+static __thread H5L_class_t      *H5L_table_g = NULL;
 
 
 /*-------------------------------------------------------------------------

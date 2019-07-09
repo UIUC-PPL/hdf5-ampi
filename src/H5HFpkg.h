@@ -558,28 +558,28 @@ typedef struct H5HF_dblock_cache_ud_t {
 /*****************************/
 
 /* The v2 B-tree class for tracking indirectly accessed 'huge' objects */
-H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_INDIR[1];
+H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_INDIR[1];
 
 /* The v2 B-tree class for tracking indirectly accessed filtered 'huge' objects */
-H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_FILT_INDIR[1];
+H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_FILT_INDIR[1];
 
 /* The v2 B-tree class for tracking directly accessed 'huge' objects */
-H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_DIR[1];
+H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_DIR[1];
 
 /* The v2 B-tree class for tracking directly accessed filtered 'huge' objects */
-H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_FILT_DIR[1];
+H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_FILT_DIR[1];
 
 /* H5HF single section inherits serializable properties from H5FS_section_class_t */
-H5_DLLVAR H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1];
+H5_DLLVAR __thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1];
 
 /* H5HF 'first' row section inherits serializable properties from H5FS_section_class_t */
-H5_DLLVAR H5FS_section_class_t H5HF_FSPACE_SECT_CLS_FIRST_ROW[1];
+H5_DLLVAR __thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_FIRST_ROW[1];
 
 /* H5HF 'normal' row section inherits serializable properties from H5FS_section_class_t */
-H5_DLLVAR H5FS_section_class_t H5HF_FSPACE_SECT_CLS_NORMAL_ROW[1];
+H5_DLLVAR __thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_NORMAL_ROW[1];
 
 /* H5HF indirect section inherits serializable properties from H5FS_section_class_t */
-H5_DLLVAR H5FS_section_class_t H5HF_FSPACE_SECT_CLS_INDIRECT[1];
+H5_DLLVAR __thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_INDIRECT[1];
 
 /* Declare a free list to manage the H5HF_indirect_t struct */
 H5FL_EXTERN(H5HF_indirect_t);

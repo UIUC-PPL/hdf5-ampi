@@ -66,7 +66,7 @@ static herr_t H5S_mpio_create_large_type (hsize_t, MPI_Aint, MPI_Datatype , MPI_
 #define H5S_MAX_MPI_COUNT               536870911  /* (2^29)-1  */
 #endif
 
-static hsize_t bigio_count = H5S_MAX_MPI_COUNT;
+static __thread hsize_t bigio_count = H5S_MAX_MPI_COUNT;
 
 /*-------------------------------------------------------------------------
  * Function:  H5S_mpio_set_bigio_count

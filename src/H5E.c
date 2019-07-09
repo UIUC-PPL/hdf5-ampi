@@ -97,7 +97,7 @@ static ssize_t H5E_get_num(const H5E_t *err_stack);
 /*********************/
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 
 /*****************************/

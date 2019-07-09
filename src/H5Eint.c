@@ -80,7 +80,7 @@ static herr_t  H5E_clear_entries(H5E_t *estack, size_t nentries);
 /*
  * The current error stack.
  */
-H5E_t H5E_stack_g[1];
+__thread H5E_t H5E_stack_g[1];
 #endif /* H5_HAVE_THREADSAFE */
 
 
@@ -89,7 +89,7 @@ H5E_t H5E_stack_g[1];
 /*****************************/
 
 /* HDF5 error class ID */
-hid_t H5E_ERR_CLS_g = FAIL;
+__thread hid_t H5E_ERR_CLS_g = FAIL;
 
 /*
  * Predefined errors. These are initialized at runtime in H5E_init_interface()
@@ -107,8 +107,8 @@ hid_t H5E_ERR_CLS_g = FAIL;
 /*
  * variables used for MPI error reporting
  */
-char	H5E_mpi_error_str[MPI_MAX_ERROR_STRING];
-int	H5E_mpi_error_str_len;
+__thread char	H5E_mpi_error_str[MPI_MAX_ERROR_STRING];
+__thread int	H5E_mpi_error_str_len;
 #endif /* H5_HAVE_PARALLEL */
 
 

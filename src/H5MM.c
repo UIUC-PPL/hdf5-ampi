@@ -101,19 +101,19 @@ static const char H5MM_block_head_guard_s[H5MM_HEAD_GUARD_SIZE] = {'D', 'E', 'A'
 static const char H5MM_block_tail_guard_s[H5MM_TAIL_GUARD_SIZE] = {'B', 'E', 'E', 'F', 'D', 'E', 'A', 'D'};
 
 /* Flag to indicate the the interface has been initialized */
-static hbool_t H5MM_init_s = FALSE;
+static __thread hbool_t H5MM_init_s = FALSE;
 
 /* Head of the list of allocated blocks */
-static H5MM_block_t H5MM_block_head_s;
+static __thread H5MM_block_t H5MM_block_head_s;
 
 /* Statistics about block allocations */
-static unsigned long long H5MM_total_alloc_bytes_s = 0;
-static unsigned long long H5MM_curr_alloc_bytes_s = 0;
-static unsigned long long H5MM_peak_alloc_bytes_s = 0;
-static size_t H5MM_max_block_size_s = 0;
-static size_t H5MM_total_alloc_blocks_count_s = 0;
-static size_t H5MM_curr_alloc_blocks_count_s = 0;
-static size_t H5MM_peak_alloc_blocks_count_s = 0;
+static __thread unsigned long long H5MM_total_alloc_bytes_s = 0;
+static __thread unsigned long long H5MM_curr_alloc_bytes_s = 0;
+static __thread unsigned long long H5MM_peak_alloc_bytes_s = 0;
+static __thread size_t H5MM_max_block_size_s = 0;
+static __thread size_t H5MM_total_alloc_blocks_count_s = 0;
+static __thread size_t H5MM_curr_alloc_blocks_count_s = 0;
+static __thread size_t H5MM_peak_alloc_blocks_count_s = 0;
 #endif /* H5_MEMORY_ALLOC_SANITY_CHECK */
 
 
