@@ -108,7 +108,10 @@ static herr_t H5P__set_filter(H5P_genplist_t *plist, H5Z_filter_t filter,
 /*********************/
 
 /* Object creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_OCRT[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_OCRT[1];
+void H5P_CLS_OCRT_init(void)
+{
+    H5P_CLS_OCRT[0] = (H5P_libclass_t) {
     "object create",                /* Class name for debugging     */
     H5P_TYPE_OBJECT_CREATE,         /* Class type                   */
 
@@ -124,7 +127,8 @@ const H5P_libclass_t H5P_CLS_OCRT[1] = {{
     NULL,                           /* Class copy callback info     */
     NULL,                           /* Class close callback         */
     NULL                            /* Class close callback info    */
-}};
+    };
+}
 
 
 

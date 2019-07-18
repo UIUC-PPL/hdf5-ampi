@@ -80,7 +80,10 @@ static herr_t H5P__gcrt_link_info_dec(const void **_pp, void *value);
 /*********************/
 
 /* Group creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_GCRT[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_GCRT[1];
+void H5P_CLS_GCRT_init(void)
+{
+    H5P_CLS_GCRT[0] = (H5P_libclass_t) {
     "group create",		/* Class name for debugging     */
     H5P_TYPE_GROUP_CREATE,      /* Class type                   */
 
@@ -96,7 +99,8 @@ const H5P_libclass_t H5P_CLS_GCRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+    };
+}
 
 
 /*****************************/

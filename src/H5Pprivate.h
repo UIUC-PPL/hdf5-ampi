@@ -104,8 +104,8 @@ typedef struct H5P_libclass_t {
 
     H5P_genclass_t * * par_pclass;      /* Pointer to global parent class property list class */
     H5P_genclass_t * * pclass;          /* Pointer to global property list class */
-    hid_t * const class_id;             /* Pointer to global property list class ID */
-    hid_t * const def_plist_id;         /* Pointer to global default property list ID */
+    hid_t * /*const*/ class_id;             /* Pointer to global property list class ID */
+    hid_t * /*const*/ def_plist_id;         /* Pointer to global default property list ID */
     H5P_reg_prop_func_t reg_prop_func;  /* Register class's properties */
 
     /* Class callback function pointers & info */
@@ -142,14 +142,14 @@ H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_LINK_ACCESS_g;
 H5_DLLVAR __thread H5P_genclass_t *H5P_CLS_STRING_CREATE_g;
 
 /* Internal property list classes */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LCRT[1];  /* Link creation */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_LACC[1];  /* Link access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_AACC[1];  /* Attribute access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_DACC[1];  /* Dataset access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_GACC[1];  /* Group access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_TACC[1];  /* Named datatype access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_FACC[1];  /* File access */
-H5_DLLVAR const struct H5P_libclass_t H5P_CLS_OCPY[1];  /* Object copy */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_LCRT[1];  /* Link creation */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_LACC[1];  /* Link access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_AACC[1];  /* Attribute access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_DACC[1];  /* Dataset access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_GACC[1];  /* Group access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_TACC[1];  /* Named datatype access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_FACC[1];  /* File access */
+H5_DLLVAR __thread /*const*/ struct H5P_libclass_t H5P_CLS_OCPY[1];  /* Object copy */
 
 /******************************/
 /* Library Private Prototypes */

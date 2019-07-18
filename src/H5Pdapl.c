@@ -148,7 +148,10 @@ static herr_t H5P__dapl_efile_pref_close(const char* name, size_t size, void* va
 /*********************/
 
 /* Dataset access property list class library initialization object */
-const H5P_libclass_t H5P_CLS_DACC[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_DACC[1];
+void H5P_CLS_DACC_init(void)
+{
+    H5P_CLS_DACC[0] = (H5P_libclass_t) {
     "dataset access",           /* Class name for debugging     */
     H5P_TYPE_DATASET_ACCESS,    /* Class type                   */
 
@@ -164,7 +167,8 @@ const H5P_libclass_t H5P_CLS_DACC[1] = {{
     NULL,                /* Class copy callback info     */
     NULL,                /* Class close callback         */
     NULL                 /* Class close callback info    */
-}};
+    };
+}
 
 
 /*****************************/

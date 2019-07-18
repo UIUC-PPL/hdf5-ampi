@@ -199,7 +199,10 @@ static herr_t H5P__dxfr_xform_close(const char* name, size_t size, void* value);
 /*********************/
 
 /* Data transfer property list class library initialization object */
-const H5P_libclass_t H5P_CLS_DXFR[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_DXFR[1];
+void H5P_CLS_DXFR_init(void)
+{
+    H5P_CLS_DXFR[0] = (H5P_libclass_t) {
     "data transfer",		/* Class name for debugging     */
     H5P_TYPE_DATASET_XFER,      /* Class type                   */
 
@@ -215,7 +218,8 @@ const H5P_libclass_t H5P_CLS_DXFR[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+    };
+}
 
 
 /*****************************/

@@ -180,7 +180,10 @@ static herr_t H5P__dcrt_ext_file_list_close(const char *name, size_t size, void 
 /*********************/
 
 /* Dataset creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_DCRT[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_DCRT[1];
+void H5P_CLS_DCRT_init(void)
+{
+    H5P_CLS_DCRT[0] = (H5P_libclass_t) {
     "dataset create",		/* Class name for debugging     */
     H5P_TYPE_DATASET_CREATE,    /* Class type                   */
 
@@ -196,7 +199,8 @@ const H5P_libclass_t H5P_CLS_DCRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,                       /* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+    };
+}
 
 
 /*****************************/

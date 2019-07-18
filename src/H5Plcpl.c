@@ -73,7 +73,10 @@ static herr_t H5P_lcrt_reg_prop(H5P_genclass_t *pclass);
 /*********************/
 
 /* Link creation property list class library initialization object */
-const H5P_libclass_t H5P_CLS_LCRT[1] = {{
+__thread /*const*/ H5P_libclass_t H5P_CLS_LCRT[1];
+void H5P_CLS_LCRT_init(void)
+{
+    H5P_CLS_LCRT[0] = (H5P_libclass_t) {
     "link create",		/* Class name for debugging     */
     H5P_TYPE_LINK_CREATE,       /* Class type                   */
 
@@ -89,7 +92,8 @@ const H5P_libclass_t H5P_CLS_LCRT[1] = {{
     NULL,		        /* Class copy callback info     */
     NULL,			/* Class close callback         */
     NULL 		        /* Class close callback info    */
-}};
+    };
+}
 
 
 /*****************************/
