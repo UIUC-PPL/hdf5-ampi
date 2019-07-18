@@ -558,16 +558,16 @@ typedef struct H5HF_dblock_cache_ud_t {
 /*****************************/
 
 /* The v2 B-tree class for tracking indirectly accessed 'huge' objects */
-H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_INDIR[1];
+H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_INDIR[1];
 
 /* The v2 B-tree class for tracking indirectly accessed filtered 'huge' objects */
-H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_FILT_INDIR[1];
+H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_FILT_INDIR[1];
 
 /* The v2 B-tree class for tracking directly accessed 'huge' objects */
-H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_DIR[1];
+H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_DIR[1];
 
 /* The v2 B-tree class for tracking directly accessed filtered 'huge' objects */
-H5_DLLVAR __thread const H5B2_class_t H5HF_HUGE_BT2_FILT_DIR[1];
+H5_DLLVAR const H5B2_class_t H5HF_HUGE_BT2_FILT_DIR[1];
 
 /* H5HF single section inherits serializable properties from H5FS_section_class_t */
 H5_DLLVAR __thread H5FS_section_class_t H5HF_FSPACE_SECT_CLS_SINGLE[1];

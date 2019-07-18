@@ -41,18 +41,18 @@ typedef struct TestStruct {
 /*
  * Variables used by testing framework.
  */
-static int num_errs = 0;        /* Total number of errors during testing */
-int TestVerbosity = VERBO_DEF;       /* Default Verbosity is Low */
-static int Summary = 0;		/* Show test summary. Default is no. */
-static int CleanUp = 1;		/* Do cleanup or not. Default is yes. */
-static int TestExpress = -1;	/* Do TestExpress or not. -1 means not set yet. */
-static TestStruct *Test = NULL; /* Array of tests */
-static unsigned TestAlloc = 0;  /* Size of the Test array */
-static unsigned Index = 0;
-static const void *Test_parameters = NULL;
-static const char *TestProgName = NULL;
-static void (*TestPrivateUsage)(void) = NULL;
-static int (*TestPrivateParser)(int ac, char *av[]) = NULL;
+static __thread int num_errs = 0;        /* Total number of errors during testing */
+__thread int TestVerbosity = VERBO_DEF;       /* Default Verbosity is Low */
+static __thread int Summary = 0;		/* Show test summary. Default is no. */
+static __thread int CleanUp = 1;		/* Do cleanup or not. Default is yes. */
+static __thread int TestExpress = -1;	/* Do TestExpress or not. -1 means not set yet. */
+static __thread TestStruct *Test = NULL; /* Array of tests */
+static __thread unsigned TestAlloc = 0;  /* Size of the Test array */
+static __thread unsigned Index = 0;
+static __thread const void *Test_parameters = NULL;
+static __thread const char *TestProgName = NULL;
+static __thread void (*TestPrivateUsage)(void) = NULL;
+static __thread int (*TestPrivateParser)(int ac, char *av[]) = NULL;
 
 
 /*

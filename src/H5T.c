@@ -507,10 +507,10 @@ __thread size_t H5T_NATIVE_UINT_FAST64_ALIGN_g       = 0;
 
 /* Useful floating-point values for conversion routines */
 /* (+/- Inf for all floating-point types) */
-float H5T_NATIVE_FLOAT_POS_INF_g            = 0.0f;
-float H5T_NATIVE_FLOAT_NEG_INF_g            = 0.0f;
-double H5T_NATIVE_DOUBLE_POS_INF_g          = (double)0.0f;
-double H5T_NATIVE_DOUBLE_NEG_INF_g          = (double)0.0f;
+__thread float H5T_NATIVE_FLOAT_POS_INF_g            = 0.0f;
+__thread float H5T_NATIVE_FLOAT_NEG_INF_g            = 0.0f;
+__thread double H5T_NATIVE_DOUBLE_POS_INF_g          = 0.0;
+__thread double H5T_NATIVE_DOUBLE_NEG_INF_g          = 0.0;
 
 /* Declare the free list for H5T_t's and H5T_shared_t's */
 H5FL_DEFINE(H5T_t);
@@ -531,7 +531,7 @@ const unsigned H5O_dtype_ver_bounds[] = {
  * The path database. Each path has a source and destination data type pair
  * which is used as the key by which the `entries' array is sorted.
  */
-static struct {
+static __thread struct {
     int            npaths;        /*number of paths defined               */
     size_t         apaths;        /*number of paths allocated             */
     H5T_path_t   **path;          /*sorted array of path pointers         */

@@ -81,9 +81,9 @@
  * This contains the filename prefix specificied as command line option for
  * the parallel test files.
  */
-H5TEST_DLLVAR char *paraprefix;
+H5TEST_DLLVAR __thread char *paraprefix;
 #ifdef H5_HAVE_PARALLEL
-H5TEST_DLLVAR MPI_Info h5_io_info_g;         /* MPI INFO object for IO */
+H5TEST_DLLVAR __thread MPI_Info h5_io_info_g;         /* MPI INFO object for IO */
 #endif
 
 /*
@@ -199,7 +199,7 @@ H5TEST_DLL char* getenv_all(MPI_Comm comm, int root, const char* name);
 #endif
 
 /* Extern global variables */
-H5TEST_DLLVAR int TestVerbosity;
+H5TEST_DLLVAR __thread int TestVerbosity;
 
 H5TEST_DLL void h5_send_message(const char *file, const char *arg1, const char *arg2);
 H5TEST_DLL herr_t h5_wait_message(const char *file);

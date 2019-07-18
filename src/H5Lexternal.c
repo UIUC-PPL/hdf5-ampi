@@ -78,7 +78,7 @@ static ssize_t H5L__extern_query(const char *link_name, const void *udata,
 /*******************/
 
 /* Default External Link link class */
-static __thread const H5L_class_t H5L_EXTERN_LINK_CLASS[1] = {{
+static const H5L_class_t H5L_EXTERN_LINK_CLASS[1] = {{
     H5L_LINK_CLASS_T_VERS,      /* H5L_class_t version            */
     H5L_TYPE_EXTERNAL,        /* Link type id number            */
     "external",                 /* Link name for debugging        */

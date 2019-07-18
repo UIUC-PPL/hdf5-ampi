@@ -25,7 +25,7 @@
 
 #include "testphdf5.h"
 
-int nerrors = 0;			/* errors count */
+__thread int nerrors = 0;			/* errors count */
 
 const char *FILENAME[] = {
     "shutdown",

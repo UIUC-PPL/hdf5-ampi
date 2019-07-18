@@ -38,7 +38,7 @@
 #include "H5Pprivate.h"     /* Property lists       */
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_LOG_g = 0;
+static __thread hid_t H5FD_LOG_g = 0;
 
 /* Driver-specific file access properties */
 typedef struct H5FD_log_fapl_t {

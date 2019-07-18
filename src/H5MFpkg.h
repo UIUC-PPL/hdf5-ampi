@@ -170,9 +170,9 @@ typedef struct H5MF_fs_t {
 /*****************************/
 
 /* H5MF single section inherits serializable properties from H5FS_section_class_t */
-H5_DLLVAR H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SIMPLE[1];
-H5_DLLVAR H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SMALL[1];
-H5_DLLVAR H5FS_section_class_t H5MF_FSPACE_SECT_CLS_LARGE[1];
+H5_DLLVAR __thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SIMPLE[1];
+H5_DLLVAR __thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_SMALL[1];
+H5_DLLVAR __thread H5FS_section_class_t H5MF_FSPACE_SECT_CLS_LARGE[1];
 
 
 /******************************/

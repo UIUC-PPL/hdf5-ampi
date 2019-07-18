@@ -225,11 +225,11 @@ static const H5O_layout_t H5D_def_layout_contig_g = H5D_DEF_LAYOUT_CONTIG;
 static const H5O_layout_t H5D_def_layout_chunk_g = H5D_DEF_LAYOUT_CHUNK;
 static const H5O_layout_t H5D_def_layout_virtual_g = H5D_DEF_LAYOUT_VIRTUAL;
 #else /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
-static H5O_layout_t H5D_def_layout_compact_g = H5D_DEF_LAYOUT_COMPACT;
-static H5O_layout_t H5D_def_layout_contig_g = H5D_DEF_LAYOUT_CONTIG;
-static H5O_layout_t H5D_def_layout_chunk_g = H5D_DEF_LAYOUT_CHUNK;
-static H5O_layout_t H5D_def_layout_virtual_g = H5D_DEF_LAYOUT_VIRTUAL;
-static hbool_t H5P_dcrt_def_layout_init_g = FALSE;
+static __thread H5O_layout_t H5D_def_layout_compact_g = H5D_DEF_LAYOUT_COMPACT;
+static __thread H5O_layout_t H5D_def_layout_contig_g = H5D_DEF_LAYOUT_CONTIG;
+static __thread H5O_layout_t H5D_def_layout_chunk_g = H5D_DEF_LAYOUT_CHUNK;
+static __thread H5O_layout_t H5D_def_layout_virtual_g = H5D_DEF_LAYOUT_VIRTUAL;
+static __thread hbool_t H5P_dcrt_def_layout_init_g = FALSE;
 #endif /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
 
 

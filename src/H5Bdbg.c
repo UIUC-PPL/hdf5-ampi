@@ -179,7 +179,7 @@ H5B__assert(H5F_t *f, haddr_t addr, const H5B_class_t *type, void *udata)
     H5B_shared_t *shared;               /* Pointer to shared B-tree info */
     H5B_cache_ud_t cache_udata;         /* User-data for metadata cache callback */
     int	        ncell, cmp;
-    static int	ncalls = 0;
+    static __thread int	ncalls = 0;
     herr_t	status;
     herr_t      ret_value = SUCCEED;    /* Return value */
 

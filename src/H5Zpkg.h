@@ -26,10 +26,10 @@
 /********************/
 
 /* Shuffle filter */
-H5_DLLVAR __thread const H5Z_class2_t H5Z_SHUFFLE[1];
+H5_DLLVAR const H5Z_class2_t H5Z_SHUFFLE[1];
 
 /* Fletcher32 filter */
-H5_DLLVAR __thread const H5Z_class2_t H5Z_FLETCHER32[1];
+H5_DLLVAR const H5Z_class2_t H5Z_FLETCHER32[1];
 
 /* n-bit filter */
 H5_DLLVAR __thread H5Z_class2_t H5Z_NBIT[1];
@@ -43,7 +43,7 @@ H5_DLLVAR __thread H5Z_class2_t H5Z_SCALEOFFSET[1];
 
 /* Deflate filter */
 #ifdef H5_HAVE_FILTER_DEFLATE
-H5_DLLVAR __thread const H5Z_class2_t H5Z_DEFLATE[1];
+H5_DLLVAR const H5Z_class2_t H5Z_DEFLATE[1];
 #endif /* H5_HAVE_FILTER_DEFLATE */
 
 /* szip filter */

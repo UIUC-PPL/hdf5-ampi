@@ -67,7 +67,7 @@ insert_libhdf5_settings(FILE *flibinfo)
 
     /* print variable definition and the string */
     /* Do not use const else AIX strings does not show it. */
-    fprintf(flibinfo, "char H5libhdf5_settings[]=\n");
+    fprintf(flibinfo, "__thread char H5libhdf5_settings[]=\n");
     bol++;
     while(EOF != (inchar = HDgetc(fsettings))) {
         if(bol) {
@@ -101,7 +101,7 @@ insert_libhdf5_settings(FILE *flibinfo)
 #else
     /* print variable definition and an empty string */
     /* Do not use const else AIX strings does not show it. */
-    fprintf(flibinfo, "char H5libhdf5_settings[]=\"\";\n");
+    fprintf(flibinfo, "__thread char H5libhdf5_settings[]=\"\";\n");
 #endif
 } /* insert_libhdf5_settings() */
 

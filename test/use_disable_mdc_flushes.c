@@ -39,14 +39,14 @@ const char *progname_g="use_disable_mdc_flushes";	/* program name */
 #define Hgoto_error(val)        {ret_value=val; goto done;}
 
 
-char *filename_g;
-hsize_t nplanes_g;
-int use_swmr_g;
-int chunkplanes_g;
-int chunksize_g;
-hsize_t dims_g[UC_RANK];
-hsize_t max_dims_g[UC_RANK];
-hsize_t chunkdims_g[UC_RANK];
+__thread char *filename_g;
+__thread hsize_t nplanes_g;
+__thread int use_swmr_g;
+__thread int chunkplanes_g;
+__thread int chunksize_g;
+__thread hsize_t dims_g[UC_RANK];
+__thread hsize_t max_dims_g[UC_RANK];
+__thread hsize_t chunkdims_g[UC_RANK];
 
 static void usage(const char *prog);
 static int parse_option(int argc, char * const argv[]);

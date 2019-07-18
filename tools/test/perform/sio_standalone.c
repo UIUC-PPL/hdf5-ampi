@@ -167,7 +167,7 @@ print_version(const char *progname)
 /** From h5test.c **/
 
 #ifdef H5_HAVE_PARALLEL
-MPI_Info    h5_io_info_g=MPI_INFO_NULL;/* MPI INFO object for IO */
+__thread MPI_Info    h5_io_info_g=MPI_INFO_NULL;/* MPI INFO object for IO */
 #endif
 
 #if 0

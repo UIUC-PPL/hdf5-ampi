@@ -158,13 +158,13 @@ typedef struct fheap_heap_ids_t {
 } fheap_heap_ids_t;
 
 /* Local variables */
-unsigned char *shared_wobj_g;   /* Pointer to shared write buffer for objects */
-unsigned char *shared_robj_g;   /* Pointer to shared read buffer for objects */
-size_t shared_obj_size_g;       /* Size of shared objects */
-unsigned char *shared_ids_g = NULL;     /* Array of shared object heap IDs */
-size_t *shared_lens_g = NULL;   /* Array of shared object lengths */
-size_t *shared_offs_g = NULL;   /* Array of shared object offsets */
-size_t shared_alloc_ids_g = 0;  /* # of shared heap IDs allocated in array */
+__thread unsigned char *shared_wobj_g;   /* Pointer to shared write buffer for objects */
+__thread unsigned char *shared_robj_g;   /* Pointer to shared read buffer for objects */
+__thread size_t shared_obj_size_g;       /* Size of shared objects */
+__thread unsigned char *shared_ids_g = NULL;     /* Array of shared object heap IDs */
+__thread size_t *shared_lens_g = NULL;   /* Array of shared object lengths */
+__thread size_t *shared_offs_g = NULL;   /* Array of shared object offsets */
+__thread size_t shared_alloc_ids_g = 0;  /* # of shared heap IDs allocated in array */
 
 /* Local routines */
 static int init_small_cparam(H5HF_create_t *cparam);

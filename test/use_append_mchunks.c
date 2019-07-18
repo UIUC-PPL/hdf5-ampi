@@ -62,7 +62,7 @@
 #include "use.h"
 
 /* Global Variable definitions */
-options_t UC_opts;	/* Use Case Options */
+__thread options_t UC_opts;	/* Use Case Options */
 const char *progname_g="use_append_mchunks";	/* program name */
 
 /* Setup parameters for the use case.

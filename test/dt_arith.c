@@ -70,7 +70,7 @@ typedef enum dtype_t {
 } dtype_t;
 
 /* Skip overflow tests if non-zero */
-static int skip_overflow_tests_g = 0;
+static __thread int skip_overflow_tests_g = 0;
 
 /*
  * Although we check whether a floating point overflow generates a SIGFPE and

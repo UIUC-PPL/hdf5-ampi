@@ -30,7 +30,7 @@ const char *FILENAME[] = {
     NULL
 };
 
-static int  data_g[100][100];
+static __thread int  data_g[100][100];
 
 #define N_GROUPS    100
 

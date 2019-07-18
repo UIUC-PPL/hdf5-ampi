@@ -280,10 +280,10 @@ const char *FILENAME[] = {
 /* Shared global arrays */
 #define DSET_DIM1       100
 #define DSET_DIM2       200
-int     points[DSET_DIM1][DSET_DIM2], check[DSET_DIM1][DSET_DIM2];
-double  points_dbl[DSET_DIM1][DSET_DIM2], check_dbl[DSET_DIM1][DSET_DIM2];
-size_t  count_nbytes_read = 0;
-size_t  count_nbytes_written = 0;
+__thread int     points[DSET_DIM1][DSET_DIM2], check[DSET_DIM1][DSET_DIM2];
+__thread double  points_dbl[DSET_DIM1][DSET_DIM2], check_dbl[DSET_DIM1][DSET_DIM2];
+__thread size_t  count_nbytes_read = 0;
+__thread size_t  count_nbytes_written = 0;
 
 /* Temporary buffer dimensions */
 #define DSET_TMP_DIM1   50

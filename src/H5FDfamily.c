@@ -49,7 +49,7 @@
 #define H5FD_FAM_MEMB_NAME_BUF_SIZE 4096
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_FAMILY_g = 0;
+static __thread hid_t H5FD_FAMILY_g = 0;
 
 /* The description of a file belonging to this driver. */
 typedef struct H5FD_family_t {

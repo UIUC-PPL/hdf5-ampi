@@ -89,7 +89,7 @@ typedef struct {
 } H5I_clear_type_ud_t;
 
 /* Package initialization variable */
-hbool_t H5_PKG_INIT_VAR = FALSE;
+__thread hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /*-------------------- Locally scoped variables -----------------------------*/
 

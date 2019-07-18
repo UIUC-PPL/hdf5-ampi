@@ -477,7 +477,7 @@ extern char *strdup(const char *s);
 /** From h5test.h **/
 
 #ifdef H5_HAVE_PARALLEL
-extern MPI_Info h5_io_info_g;         /* MPI INFO object for IO */
+extern __thread MPI_Info h5_io_info_g;         /* MPI INFO object for IO */
 #endif
 
 #ifdef H5_HAVE_PARALLEL

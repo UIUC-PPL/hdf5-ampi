@@ -232,7 +232,7 @@
 #define MPE_LOG_VARS                                                    \
     static __thread int eventa(FUNC) = -1;                                       \
     static __thread int eventb(FUNC) = -1;                                       \
-    char __thread p_event_start[128];
+    __thread char p_event_start[128];
 
 /* Hardwire the color to "red", since that's what all the routines are using
  * now.  In the future, if we want to change that color for a given routine,
@@ -2369,9 +2369,9 @@ H5_DLL herr_t H5CX_pop(void);
 
 /* Declare package initialization symbols (if in a package) */
 #ifdef H5_PKG_SINGLE_SOURCE
-#define H5_PKG_DECLARE_VAR(pkg)         static hbool_t H5_PACKAGE_INIT_VAR(pkg);
+#define H5_PKG_DECLARE_VAR(pkg)         static __thread hbool_t H5_PACKAGE_INIT_VAR(pkg);
 #else  /* H5_PKG_SINGLE_SOURCE */
-#define H5_PKG_DECLARE_VAR(pkg)         extern hbool_t H5_PACKAGE_INIT_VAR(pkg);
+#define H5_PKG_DECLARE_VAR(pkg)         extern __thread hbool_t H5_PACKAGE_INIT_VAR(pkg);
 #endif  /* H5_PKG_SINGLE_SOURCE */
 #define H5_PKG_DECLARE_FUNC(pkg_init, pkg) H5_GLUE3(H5_PKG_DECLARE_, pkg_init, _FUNC)(pkg)
 #ifdef H5_MY_PKG

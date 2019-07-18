@@ -110,7 +110,7 @@ static const H5I_class_t H5I_DATASET_CLS[1] = {{
 }};
 
 /* Flag indicating "top" of interface has been initialized */
-static hbool_t H5D_top_package_initialize_s = FALSE;
+static __thread hbool_t H5D_top_package_initialize_s = FALSE;
 
 
 

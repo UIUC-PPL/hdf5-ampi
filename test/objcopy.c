@@ -158,9 +158,9 @@ const char *FILENAME[] = {
 #define NUM_WIDE_LOOP_GROUPS  10
 #define NUM_DATASETS  10
 
-char src_obj_full_name[215];  /* the full path + name of the object to be copied */
+__thread char src_obj_full_name[215];  /* the full path + name of the object to be copied */
 
-unsigned num_attributes_g;         /* Number of attributes created */
+__thread unsigned num_attributes_g;         /* Number of attributes created */
 
 /* Table containing object id and object name */
 /* (Used for detecting duplicate objects when comparing groups */

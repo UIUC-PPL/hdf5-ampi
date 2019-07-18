@@ -4696,19 +4696,19 @@ ckrbrd_hs_dr_pio_test(ShapeSameTestMethods sstest_type)
 #endif  /* !PATH_MAX */
 
 /* global variables */
-int dim0;
-int dim1;
-int chunkdim0;
-int chunkdim1;
-int nerrors = 0;            /* errors count */
-int ndatasets = 300;            /* number of datasets to create*/
-int ngroups = 512;                      /* number of groups to create in root
+__thread int dim0;
+__thread int dim1;
+__thread int chunkdim0;
+__thread int chunkdim1;
+__thread int nerrors = 0;            /* errors count */
+__thread int ndatasets = 300;            /* number of datasets to create*/
+__thread int ngroups = 512;                      /* number of groups to create in root
                                          * group. */
-int facc_type = FACC_MPIO;        /*Test file access type */
-int dxfer_coll_type = DXFER_COLLECTIVE_IO;
+__thread int facc_type = FACC_MPIO;        /*Test file access type */
+__thread int dxfer_coll_type = DXFER_COLLECTIVE_IO;
 
-H5E_auto2_t old_func;                /* previous error handler */
-void *old_client_data;            /* previous error handler arg.*/
+__thread H5E_auto2_t old_func;                /* previous error handler */
+__thread void *old_client_data;            /* previous error handler arg.*/
 
 /* other option flags */
 
@@ -4722,8 +4722,8 @@ void *old_client_data;            /* previous error handler arg.*/
 const char *FILENAME[NFILENAME]={
         "ShapeSameTest",
         NULL};
-char    filenames[NFILENAME][PATH_MAX];
-hid_t    fapl;                /* file access property list */
+__thread char    filenames[NFILENAME][PATH_MAX];
+__thread hid_t    fapl;                /* file access property list */
 
 #ifdef USE_PAUSE
 /* pause the process for a moment to allow debugger to attach if desired. */

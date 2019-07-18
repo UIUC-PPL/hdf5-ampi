@@ -38,14 +38,14 @@ const char *FILENAME[2]={ "bigio_test.h5",
 /* Dataset data type.  Int's can be easily octo dumped. */
 typedef hsize_t B_DATATYPE;
 
-int facc_type = FACC_MPIO;		/*Test file access type */
-int dxfer_coll_type = DXFER_COLLECTIVE_IO;
-size_t bigcount = DXFER_BIGCOUNT;
-int nerrors = 0;
-int mpi_size, mpi_rank;
+__thread int facc_type = FACC_MPIO;		/*Test file access type */
+__thread int dxfer_coll_type = DXFER_COLLECTIVE_IO;
+__thread size_t bigcount = DXFER_BIGCOUNT;
+__thread int nerrors = 0;
+__thread int mpi_size, mpi_rank;
 
-hsize_t space_dim1 = SPACE_DIM1 * 256; // 4096
-hsize_t space_dim2 = SPACE_DIM2;
+__thread hsize_t space_dim1 = SPACE_DIM1 * 256; // 4096
+__thread hsize_t space_dim2 = SPACE_DIM2;
 
 static void coll_chunktest(const char* filename, int chunk_factor, int select_factor,
                            int api_option, int file_selection, int mem_selection, int mode);

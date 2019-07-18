@@ -130,7 +130,7 @@ __thread hbool_t H5_PKG_INIT_VAR = FALSE;
 /*******************/
 
 /* Group ID class */
-static __thread const H5I_class_t H5I_GROUP_CLS[1] = {{
+static const H5I_class_t H5I_GROUP_CLS[1] = {{
     H5I_GROUP,			/* ID class value */
     0,				/* Class flags */
     0,				/* # of reserved IDs for class */
