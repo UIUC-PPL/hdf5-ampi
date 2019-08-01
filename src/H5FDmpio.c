@@ -97,7 +97,7 @@ static MPI_Comm H5FD_mpio_communicator(const H5FD_t *_file);
 static herr_t  H5FD_mpio_get_info(H5FD_t *_file, void** mpi_info);
 
 /* The MPIO file driver information */
-static __thread const H5FD_class_mpi_t H5FD_mpio_g = {
+static const H5FD_class_mpi_t H5FD_mpio_g = {
     {   /* Start of superclass information */
     "mpio",					/*name			*/
     HADDR_MAX,					/*maxaddr		*/
