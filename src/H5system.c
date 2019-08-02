@@ -571,7 +571,7 @@ HDstrtoll(const char *s, const char **rest, int base)
  */
 #ifdef H5_HAVE_RAND_R
 
-static unsigned int g_seed = 42;
+static __thread unsigned int g_seed = 42;
 
 int HDrand(void)
 {
@@ -761,7 +761,7 @@ Wgettimeofday(struct timeval *tv, struct timezone *tz)
     FILETIME ft;
   }  _now;
 
-    static int tzsetflag;
+    static __thread int tzsetflag;
 
     if(tv) {
       GetSystemTimeAsFileTime (&_now.ft);

@@ -50,10 +50,10 @@
 #endif /* H5_HAVE_WIN32_API */
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_STDIO_g = 0;
+static __thread hid_t H5FD_STDIO_g = 0;
 
 /* The maximum number of bytes which can be written in a single I/O operation */
-static size_t H5_STDIO_MAX_IO_BYTES_g = (size_t)-1;
+static __thread size_t H5_STDIO_MAX_IO_BYTES_g = (size_t)-1;
 
 /* File operations */
 typedef enum {

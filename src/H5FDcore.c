@@ -34,7 +34,7 @@
 #include "H5SLprivate.h"    /* Skip lists                   */
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_CORE_g = 0;
+static __thread hid_t H5FD_CORE_g = 0;
 
 /* The skip list node type.  Represents a region in the file. */
 typedef struct H5FD_core_region_t {

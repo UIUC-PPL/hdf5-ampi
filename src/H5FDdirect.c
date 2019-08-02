@@ -36,7 +36,7 @@
 #ifdef H5_HAVE_DIRECT
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_DIRECT_g = 0;
+static __thread hid_t H5FD_DIRECT_g = 0;
 
 /* File operations */
 #define OP_UNKNOWN  0

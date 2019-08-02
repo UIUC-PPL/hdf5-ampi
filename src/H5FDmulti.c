@@ -69,7 +69,7 @@
 #define H5FD_MULT_MAX_FILE_NAME_LEN     1024
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_MULTI_g = 0;
+static __thread hid_t H5FD_MULTI_g = 0;
 
 /* Driver-specific file access properties */
 typedef struct H5FD_multi_fapl_t {

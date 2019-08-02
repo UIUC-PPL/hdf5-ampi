@@ -37,7 +37,7 @@
 #include "H5Pprivate.h"     /* Property lists           */
 
 /* The driver identification number, initialized at runtime */
-static hid_t H5FD_SEC2_g = 0;
+static __thread hid_t H5FD_SEC2_g = 0;
 
 /* The description of a file belonging to this driver. The 'eoa' and 'eof'
  * determine the amount of hdf5 address space in use and the high-water mark
