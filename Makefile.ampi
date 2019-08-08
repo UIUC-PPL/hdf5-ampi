@@ -19,8 +19,8 @@ all: $(AMPICC)
 	@sleep 2
 
 	./configure \
-		CFLAGS=-w \
-		LDFLAGS=-w \
+		CFLAGS='-w -tlsglobals' \
+		LDFLAGS='-w -tlsglobals' \
 		CC='$(AMPICC)' \
 		RUNSERIAL='./charmrun ++quiet' \
 		RUNPARALLEL='./charmrun ++quiet +p $$$${NPROCS:=6}' \
